@@ -1,17 +1,34 @@
+import "./App.css";
 import { useEffect, useState } from "react";
 import MapCmp from "./components/MapCmp";
 import NavBarMap from "./components/NavBars/NavBarMap";
 import { DBManager as db } from "./utils/DBManager";
+import NavBarHome from "./components/NavBars/NavBarHome";
+import HomePhoto from "./HomePhoto";
 
 function App() {
     const [bounds, setBounds] = useState({});
+    const [showHome, setShowHome] = useState(false);
 
     return (
-        <div className="w-full h-screen pb-24">
+        <div className="w-full h-screen pb-5">
             <MapCmp setBounds={setBounds} />
-            <div className="absolute bottom-0 left-0 h-24 w-full">
-                {" "}
-                <NavBarMap />
+            <div
+                className={
+                    "absolute bottom-0 left-0 w-full bg-stone-50 rounded-3xl shadow-top " +
+                    (showHome ? " h-[90vh] " : "  h-[10vh] ")
+                }
+            >
+                {showHome ? (
+                    <HomePhoto
+                        close={() => setShowHome(() => !showHome)}
+                        bounds={bounds}
+                    />
+                ) : (
+                    <NavBarMap
+                        searchArea={() => setShowHome(() => !showHome)}
+                    />
+                )}
             </div>
         </div>
     );
