@@ -3,7 +3,10 @@ import React from "react";
 export default function Image({ image }) {
     return (
         <>
-            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 w-full h-full group-hover:opacity-100 transition-all ease-in-out duration-150 p-4 flex flex-col justify-between items-start ">
+            <div
+                className="absolute inset-0 bg-black bg-opacity-50 opacity-0 w-full h-full group-hover:opacity-100 group-focus:opacity-100 transition-all ease-in-out duration-150 p-4 flex flex-col justify-between items-start "
+                onClick={() => console.log(image.id)}
+            >
                 <div className="w-full h-fit flex gap-2 items-center">
                     <img
                         src={`https://api.dicebear.com/5.x/lorelei-neutral/svg?seed=${image.authorName}`}

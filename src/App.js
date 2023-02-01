@@ -1,9 +1,7 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MapCmp from "./components/MapCmp";
 import NavBarMap from "./components/NavBars/NavBarMap";
-import { DBManager as db } from "./utils/DBManager";
-import NavBarHome from "./components/NavBars/NavBarHome";
 import HomePhoto from "./HomePhoto";
 
 function App() {

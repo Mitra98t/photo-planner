@@ -9,7 +9,7 @@ export default function HomePhoto({ close, bounds }) {
 
     useEffect(() => {
         db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => setPhotos(v));
-    }, []);
+    }, [bounds]);
 
     return (
         <div
