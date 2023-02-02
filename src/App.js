@@ -3,6 +3,7 @@ import { useState } from "react";
 import MapCmp from "./components/MapCmp";
 import NavBarMap from "./components/NavBars/NavBarMap";
 import HomePhoto from "./HomePhoto";
+import classNames from "classnames";
 
 function App() {
     const [bounds, setBounds] = useState({});
@@ -14,7 +15,8 @@ function App() {
             <div
                 className={
                     "absolute bottom-0 left-0 w-full bg-stone-50 rounded-3xl shadow-top " +
-                    (showHome ? " h-[90vh] " : "  h-[10vh] ")
+                    classNames({ "h-[90vh]": showHome, "h-[10vh]": !showHome })
+                    // (showHome ? " h-[90vh] " : "  h-[10vh] ")
                 }
             >
                 {showHome ? (

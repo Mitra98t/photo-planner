@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function NavBarMap({ searchArea }) {
     return (
@@ -12,3 +13,7 @@ export default function NavBarMap({ searchArea }) {
         </div>
     );
 }
+
+NavBarMap.propTypes = {
+    searchArea: PropTypes.func.isRequired,
+};

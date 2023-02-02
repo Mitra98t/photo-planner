@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { Map, ZoomControl } from "pigeon-maps";
 
 export default function MapCmp({ setBounds }) {
@@ -15,3 +17,7 @@ export default function MapCmp({ setBounds }) {
         </Map>
     );
 }
+
+MapCmp.propTypes = {
+    setBounds: PropTypes.object,
+};

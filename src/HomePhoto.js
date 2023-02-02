@@ -11,6 +11,7 @@ export default function HomePhoto({ close, bounds }) {
         db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => setPhotos(v));
     }, [bounds]);
 
+    // https://api.openweathermap.org/data/2.5/weather?lat=43.7&lon=10.3&lang=en&appid=c9395a8704049591bd87605063374a71
     return (
         <div
             className={
