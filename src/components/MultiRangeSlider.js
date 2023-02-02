@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import classnames from "classnames";
-import PropTypes from "prop-types";
 import "../multiRangeSlider.css";
 import { formatMinutesToTime } from "../utils/utils";
 
@@ -91,9 +90,3 @@ export default function MultiRangeSlider({ min, max, onChange }) {
         </div>
     );
 }
-
-MultiRangeSlider.propTypes = {
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
-};
