@@ -21,7 +21,7 @@ function App() {
             <MapCmp setBounds={setBounds} />
             <div
                 className={
-                    "absolute bottom-0 left-0 w-full bg-stone-50 rounded-3xl shadow-top overflow-hidden " +
+                    "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden " +
                     classNames({
                         "h-[90vh]": page !== "map",
                         "h-[10vh]": page === "map",
