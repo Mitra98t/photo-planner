@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./test.css";
 import NavBarHome from "./components/NavBars/NavBarHome";
 import { DBManager as db } from "./utils/DBManager";
-import Image from "./components/Image";
+import PhotoGallery from "./components/PhotoGallery";
+import { filterPhoto } from "./utils/utils";
 
-export default function HomePhoto({ close, bounds }) {
+export default function HomePhoto({ close, bounds, selectPhoto }) {
     const [photos, setPhotos] = useState(null);
     const [photoToShow, setPhotoToShow] = useState(null);
     const [options, setOptions] = useState({
@@ -32,28 +33,9 @@ export default function HomePhoto({ close, bounds }) {
         if (photos != null) {
             let pht = [...photos];
 
-            pht = pht.filter((p) => {
-                let weatherCheck =
-                    options.weather === "" ||
-                    p.weather.toLowerCase() === options.weather.toLowerCase();
-                let timeCheck =
-                    options.time === "" ||
-                    (timeTags[options.time][0] > timeTags[options.time][1] &&
-                        (p.hour > timeTags[options.time][0] ||
-                            p.hour <= timeTags[options.time][1])) ||
-                    (p.hour > timeTags[options.time][0] &&
-                        p.hour <= timeTags[options.time][1]);
-                let periodCheck =
-                    options.period === "" ||
-                    (periodTags[options.period][0] >
-                        periodTags[options.period][1] &&
-                        (p.date > periodTags[options.period][0] ||
-                            p.date <= periodTags[options.period][1])) ||
-                    (p.date > periodTags[options.period][0] &&
-                        p.date <= periodTags[options.period][1]);
-
-                return weatherCheck && timeCheck && periodCheck;
-            });
+            pht = pht.filter((p) =>
+                filterPhoto(p, options, timeTags, periodTags, weatherTags)
+            );
             setPhotoToShow(pht);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +44,7 @@ export default function HomePhoto({ close, bounds }) {
     return (
         <div
             className={
-                "w-full h-full relative bg-stone-50 rounded-t-3xl overflow-hidden pt-[10vh]"
+                "w-full h-full relative bg-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] pb-4 "
             }
         >
             <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
@@ -75,20 +57,9 @@ export default function HomePhoto({ close, bounds }) {
                     periodTags={periodTags}
                 />
             </div>
-            <ul className="w-full h-full overflow-y-scroll flex justify-center flex-wrap gap-2 px-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300">
-                {photoToShow &&
-                    photoToShow
-                        .sort((a, b) => b.votes - a.votes)
-                        .map((p) => (
-                            <li
-                                key={p.id}
-                                className="h-[40vh] flex-grow overflow-hidden group relative rounded-2xl"
-                            >
-                                <Image image={p} />
-                            </li>
-                        ))}
-                <li className="flex-grow-[10]"></li>
-            </ul>
+            <div className="w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 px-8 ">
+                <PhotoGallery photoToShow={photoToShow} photoClick={selectPhoto} />
+            </div>
         </div>
     );
 }

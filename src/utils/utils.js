@@ -132,3 +132,25 @@ export function formatDateToIndex(dateString) {
 
     return Math.floor((targetDate.getTime() - startDate.getTime()) / oneDay);
 }
+
+export function filterPhoto(photo, options, timeTags, periodTags, weatherTags) {
+    let weatherCheck =
+        options.weather === "" ||
+        photo.weather.toLowerCase() === options.weather.toLowerCase();
+    let timeCheck =
+        options.time === "" ||
+        (timeTags[options.time][0] > timeTags[options.time][1] &&
+            (photo.hour > timeTags[options.time][0] ||
+                photo.hour <= timeTags[options.time][1])) ||
+        (photo.hour > timeTags[options.time][0] &&
+            photo.hour <= timeTags[options.time][1]);
+    let periodCheck =
+        options.period === "" ||
+        (periodTags[options.period][0] > periodTags[options.period][1] &&
+            (photo.date > periodTags[options.period][0] ||
+                photo.date <= periodTags[options.period][1])) ||
+        (photo.date > periodTags[options.period][0] &&
+            photo.date <= periodTags[options.period][1]);
+
+    return weatherCheck && timeCheck && periodCheck;
+}

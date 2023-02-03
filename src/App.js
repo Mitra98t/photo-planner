@@ -6,18 +6,31 @@ import HomePhoto from "./HomePhoto";
 import classNames from "classnames";
 import { DBManager as db } from "./utils/DBManager";
 import Profile from "./Profile";
+import PictureView from "./components/PictureView";
 
 function App() {
     const [bounds, setBounds] = useState({});
     const [page, setPage] = useState("map");
     const [user, setUser] = useState(null);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     useEffect(() => {
         db.getUserInformation().then((v) => setUser(v));
     }, []);
+    useEffect(() => {
+        console.log(user);
+    }, [user]);
 
     return (
         <div className="w-full h-screen pb-5">
+            {selectedPhoto !== null ? (
+                <PictureView
+                    picture={selectedPhoto}
+                    close={() => setSelectedPhoto(null)}
+                />
+            ) : (
+                <></>
+            )}
             <MapCmp setBounds={setBounds} />
             <div
                 className={
@@ -30,9 +43,17 @@ function App() {
                 }
             >
                 {page === "home" ? (
-                    <HomePhoto close={() => setPage("map")} bounds={bounds} />
+                    <HomePhoto
+                        close={() => setPage("map")}
+                        bounds={bounds}
+                        selectPhoto={setSelectedPhoto}
+                    />
                 ) : page === "profile" ? (
-                    <Profile user={user} close={() => setPage("map")} />
+                    <Profile
+                        user={user}
+                        close={() => setPage("map")}
+                        selectPhoto={setSelectedPhoto}
+                    />
                 ) : (
                     <NavBarMap
                         user={user}

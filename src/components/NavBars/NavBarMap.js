@@ -1,4 +1,5 @@
 import React from "react";
+import ProfilePic from "../ProfilePic";
 
 export default function NavBarMap({ profileArea, searchArea, user }) {
     return (
@@ -10,14 +11,13 @@ export default function NavBarMap({ profileArea, searchArea, user }) {
             >
                 Search Area
             </button>
-            <img
-                onClick={profileArea}
-                src={`https://api.dicebear.com/5.x/shapes/svg?seed=${
-                    user && user.userName
-                }`}
-                alt="avatar"
-                className=" w-auto h-3/5 rounded-full outline outline-3 outline-stone-900 cursor-pointer"
-            />
+            <div className="h-3/5 cursor-pointer " onClick={profileArea}>
+                <ProfilePic
+                    seed={user && user.userName}
+                    heightBased
+                    border=" border-2 border-stone-900 "
+                />
+            </div>
         </div>
     );
 }

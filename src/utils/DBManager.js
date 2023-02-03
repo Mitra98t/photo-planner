@@ -117,6 +117,53 @@ export class DBManager {
         return Promise.resolve(data);
     }
 
+    static async getImagesByUid(uid) {
+        await delay(500);
+        let data = [];
+        let length = Math.floor(Math.random() * (40 - 10 + 1)) + 10;
+        // let length = 5;
+        const startTimestamp = new Date(2023, 0, 1).getTime();
+        const endTimestamp = new Date(2023, 11, 31).getTime();
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        for (let i = 0; i < length; i++) {
+            let id =
+                Math.random().toString(36).substring(2, 15) +
+                Math.random().toString(36).substring(2, 15);
+            let img = "https://source.unsplash.com/random?sig=" + i;
+            const randomTimestamp =
+                startTimestamp +
+                Math.random() * (endTimestamp - startTimestamp);
+            const randomDate = new Date(randomTimestamp);
+            const hour = randomDate.getHours() * 60 + randomDate.getMinutes();
+            const date = Math.floor(
+                (randomTimestamp - startTimestamp) / oneDay
+            );
+            let lat = Math.random() * 180 - 90;
+            let lng = Math.random() * 360 - 180;
+
+            let position = [
+                (lat + "").substring(0, 6),
+                (lng + "").substring(0, 6),
+            ];
+            let authorName = randomName();
+            let weather = generateWeather();
+            let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
+
+            data.push({
+                id,
+                img,
+                date,
+                hour,
+                weather,
+                position,
+                authorName,
+                votes,
+            });
+        }
+        return Promise.resolve(data);
+    }
+
     static async getUserInformation() {
         await delay(300);
         const names = ["John", "Emily", "Michael", "Sarah", "David"];
