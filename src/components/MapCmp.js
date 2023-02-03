@@ -2,7 +2,7 @@ import React from "react";
 
 import { Map, ZoomControl } from "pigeon-maps";
 
-export default function MapCmp({ setBounds }) {
+export default function MapCmp({ setBounds, blocked }) {
     return (
         <Map
             defaultCenter={[43.72073, 10.4076]}
@@ -11,6 +11,8 @@ export default function MapCmp({ setBounds }) {
             onClick={(e) => console.log(e.latLng)}
             onBoundsChanged={(e) => setBounds(e.bounds)}
             zoomSnap={false}
+            mouseEvents={!blocked}
+            touchEvents={!blocked}
         >
             <ZoomControl />
         </Map>

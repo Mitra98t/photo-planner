@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NavBarHome from "./components/NavBars/NavBarHome";
-import NavBarProfile from "./components/NavBars/NavBarProfile";
 import PhotoGallery from "./components/PhotoGallery";
 import ProfilePic from "./components/ProfilePic";
 import { DBManager as db } from "./utils/DBManager";
@@ -45,7 +44,6 @@ export default function Profile({ user, close, selectPhoto }) {
     return (
         <div className="w-full h-full pt-[10vh] flex flex-col items-center justify-start gap-4 overflow-y-scroll pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300">
             <div className="w-full h-[10vh] absolute z-50 inset-0 bg-transparent">
-                {/* <NavBarProfile close={close} /> */}
                 <NavBarHome
                     close={close}
                     options={options}

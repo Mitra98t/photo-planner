@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Hashtag from "../Hashtag";
 import PopupMenu from "../PopupMenu";
 import TimeTagSelector from "../Selectors/TimeTagSelector";
@@ -73,7 +73,7 @@ export default function NavBarHome({
                     />
                 </div>
             </div>
-            <PopupMenu hidden={wichMenu === ""}>
+            <PopupMenu hidden={wichMenu === ""} close={() => setWichMenu("")}>
                 {wichMenu === "weather" ? (
                     <WeatherTagsSelector
                         options={options}

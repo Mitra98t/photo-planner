@@ -17,6 +17,7 @@ function App() {
     useEffect(() => {
         db.getUserInformation().then((v) => setUser(v));
     }, []);
+
     useEffect(() => {
         console.log(user);
     }, [user]);
@@ -31,7 +32,7 @@ function App() {
             ) : (
                 <></>
             )}
-            <MapCmp setBounds={setBounds} />
+            <MapCmp setBounds={setBounds} blocked={page !== "map"} />
             <div
                 className={
                     "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden " +
