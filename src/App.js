@@ -13,6 +13,7 @@ function App() {
     const [page, setPage] = useState("map");
     const [user, setUser] = useState(null);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+    // const [startPos, setStartPos] = useState([43.72073, 10.4076]);
 
     useEffect(() => {
         db.getUserInformation().then((v) => setUser(v));
@@ -32,7 +33,10 @@ function App() {
             ) : (
                 <></>
             )}
-            <MapCmp setBounds={setBounds} blocked={page !== "map"} />
+            <MapCmp
+                setBounds={setBounds}
+                blocked={page !== "map"}
+            />
             <div
                 className={
                     "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden " +

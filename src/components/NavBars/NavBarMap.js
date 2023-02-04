@@ -13,7 +13,7 @@ export default function NavBarMap({ profileArea, searchArea, user }) {
             </button>
             <div className="h-3/5 cursor-pointer " onClick={profileArea}>
                 <ProfilePic
-                    seed={user && user.userName}
+                    seed={user ? user.userName : ""}
                     heightBased
                     border=" border-2 border-stone-900 "
                 />

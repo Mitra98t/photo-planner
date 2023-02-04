@@ -4,6 +4,7 @@ import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
 
 export default function PictureView({ picture, close }) {
+    console.log(picture);
     const main = useRef(null);
 
     const handleClickOutside = (e) => {
@@ -13,11 +14,11 @@ export default function PictureView({ picture, close }) {
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[50] flex flex-row items-center justify-center text-stone-900">
+        <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-stone-900">
             <div
                 ref={main}
                 className="w-[80vw] h-[80vh] z-[51] bg-stone-50 rounded-3xl flex flex-row items-center justify-evenly overflow-hidden shadow-area"

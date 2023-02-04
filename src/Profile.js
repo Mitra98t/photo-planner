@@ -54,6 +54,11 @@ export default function Profile({ user, close, selectPhoto }) {
                 />
             </div>
             <div className="w-full h-1/3 flex items-center justify-center gap-8">
+                <ProfilePic
+                    seed={user ? user.username : ""}
+                    heightBased
+                    border={" border-2 border-stone-900 "}
+                />
                 <div className="flex flex-col items-end justify-evenlty">
                     <p className="text-4xl font-semibold text-stone-900 ">
                         {user && user.userName}
@@ -62,11 +67,6 @@ export default function Profile({ user, close, selectPhoto }) {
                         {user && user.userEmail}
                     </p>
                 </div>
-                <ProfilePic
-                    seed={user && user.username}
-                    heightBased
-                    border={" border-2 border-stone-900 "}
-                />
             </div>
             <div className="w-full h-fit px-8">
                 <PhotoGallery

@@ -23,7 +23,7 @@ export default function Image({ image, personal, clickCallback }) {
                             <div className="w-12">
                                 <ProfilePic
                                     seed={image.authorName}
-                                    border=" border-2 border-stone-50 "
+                                    border="  "
                                 />
                             </div>
                             <p className="text-xl text-center text-stone-50 whitespace-nowrap">
