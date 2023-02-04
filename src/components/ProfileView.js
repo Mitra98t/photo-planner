@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { DBManager as db } from "../utils/DBManager";
@@ -55,13 +54,28 @@ export default function ProfileView({ user, selectPhoto }) {
                     heightBased
                     border={" border-2 border-stone-900 "}
                 />
-                <div className="flex flex-col items-end justify-evenlty">
+                <div className="flex flex-col items-start justify-evenlty gap-2">
                     <p className="text-4xl font-semibold text-stone-900 ">
-                        {userInfo && userInfo.userName}
+                        {userInfo ? userInfo.userName : userName}
                     </p>
                     <p className="text-xl text-stone-700 ">
                         {userInfo && userInfo.userEmail}
                     </p>
+                    {personal ? (
+                        <div className="flex items-center justify-evenly w-full h-fit gap-2 text-stone-900">
+                            <button
+                                onClick={() => navigate("/addContent")}
+                                className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 "
+                            >
+                                Add Content
+                            </button>
+                            <button className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 ">
+                                Modify Profile
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
             <div className="w-full h-fit px-8">

@@ -36,7 +36,7 @@ export default function PictureView({ picture, close }) {
                         />
                     </div>
                 </div>
-                <div className="flex-grow h-full whitespace-nowrap py-8 flex flex-col items-start justify-start gap-4">
+                <div className="flex-grow h-full whitespace-nowrap py-8 pr-8 flex flex-col items-start justify-start gap-8">
                     <div className="w-full h-[10%] flex items-center justify-start gap-4">
                         <Voting
                             dark
@@ -61,7 +61,7 @@ export default function PictureView({ picture, close }) {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600">
+                    <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
                         <p>Date: {formatDayIndexToDate(picture.date)}</p>
                         <p>Hour: {formatMinutesToTime(picture.hour)}</p>
                         <p>Weather: {picture.weather}</p>
@@ -69,6 +69,17 @@ export default function PictureView({ picture, close }) {
                             Position: {picture.position[0]},{" "}
                             {picture.position[1]}
                         </p>
+                    </div>
+                    <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+                        <p>Model: {picture.camera}</p>
+                        <p>ISO: {picture.cameraSettings.ISO}</p>
+                        <p>Shutter Speed: {picture.cameraSettings.shutter} s</p>
+                        <p>Aperture: f/{picture.cameraSettings.aperture}</p>
+                        <p>zoom: {picture.cameraSettings.zoom}mm</p>
+                    </div>
+                    <div className=" w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+                        <p className="text-xl">Caption:</p>
+                        <p className="text-lg">{picture.description}</p>
                     </div>
                 </div>
             </div>

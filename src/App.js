@@ -10,6 +10,7 @@ import PictureView from "./components/PictureView";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import ProfileView from "./components/ProfileView";
+import AddContent from "./AddContent";
 
 function App() {
     const navigate = useNavigate();
@@ -36,25 +37,26 @@ function App() {
             <MapCmp setBounds={setBounds} blocked={location.pathname !== "/"} />
             <div
                 className={
-                    "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden " +
+                    "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden transition-all ease-in-out duration-300 " +
                     classNames({
                         "h-[90vh]": location.pathname !== "/",
                         "h-[10vh]": location.pathname === "/",
                     })
-                    // (showHome ? " h-[90vh] " : "  h-[10vh] ")
                 }
             >
                 <Routes>
                     <Route
                         path="/"
                         element={
-                            <NavBarMap
-                                user={user}
-                                searchArea={() => navigate("home")}
-                                profileArea={() =>
-                                    navigate(`profile/${user.userName}`)
-                                }
-                            />
+                            <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
+                                <NavBarMap
+                                    user={user}
+                                    searchArea={() => navigate("home")}
+                                    profileArea={() =>
+                                        navigate(`profile/${user.userName}`)
+                                    }
+                                />
+                            </div>
                         }
                     />
                     <Route
@@ -81,6 +83,7 @@ function App() {
                             }
                         />
                     </Route>
+                    <Route path="addContent" element={<AddContent />} />
                     <Route path="*" element={<ErrorPage />} />
                 </Routes>
                 {/* {page === "home" ? (

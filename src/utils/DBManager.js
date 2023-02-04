@@ -57,6 +57,97 @@ function generateWeather() {
     return titleCase(weatherCodes[randomKey][weatherKey]);
 }
 
+function randomCameraModel() {
+    const cameraModels = [
+        "Canon EOS R5",
+        "Canon EOS R6",
+        "Canon EOS RP",
+        "Canon EOS 1DX Mark III",
+        "Canon EOS M50 Mark II",
+        "Nikon Z7 II",
+        "Nikon Z6 II",
+        "Nikon D6",
+        "Nikon D850",
+        "Nikon D780",
+        "Sony A7 III",
+        "Sony A7R IV",
+        "Sony A9 II",
+        "Sony A6600",
+        "Sony A6400",
+        "Fujifilm X-T4",
+        "Fujifilm X-T3",
+        "Fujifilm X-Pro3",
+        "Fujifilm GFX 100",
+        "Fujifilm X100V",
+        "Olympus OM-D E-M1 Mark III",
+        "Olympus PEN E-PL9",
+        "Olympus PEN E-PL10",
+        "Olympus Tough TG-6",
+        "Olympus Tough TG-Tracker",
+        "Panasonic Lumix S5",
+        "Panasonic Lumix S1R",
+        "Panasonic Lumix GH5",
+        "Panasonic Lumix GH5S",
+        "Panasonic Lumix G100",
+        "Leica Q2",
+        "Leica M10",
+        "Leica SL2",
+        "Leica CL",
+        "Leica T",
+        "Hasselblad X1D II 50C",
+        "Hasselblad H6D-400c",
+        "Hasselblad H5D-50c",
+        "Hasselblad 907X 50C",
+        "Hasselblad HV",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * cameraModels.length);
+    return cameraModels[randomIndex];
+}
+
+function randomCameraSettings() {
+    const ISO = 100 * Math.floor(Math.random() * (256 - 1) + 1);
+    let aperture = (Math.random() * (0.9 - 22) + 22).toFixed(1);
+    let shutterSpeed = Math.random() * (3000 - 1) + 3000;
+    let zoom = Math.floor(Math.random() * (101 - 1) + 1);
+
+    if (shutterSpeed < 100) {
+        shutterSpeed /= 100;
+        const fraction = shutterSpeed.split(".");
+        const denominator = Math.pow(10, fraction[1].length);
+        shutterSpeed = `1/${denominator}`;
+    } else {
+        shutterSpeed /= 100;
+        shutterSpeed = Math.floor(shutterSpeed);
+    }
+
+    if (aperture > 10) {
+        aperture = Math.floor(aperture);
+    }
+
+    return {
+        ISO,
+        aperture,
+        shutter: shutterSpeed,
+        zoom,
+    };
+}
+function generatePhotoDescription() {
+    const photoDescriptions = [
+        "Immagine suggestiva di un tramonto sulla spiaggia.",
+        "Paesaggio montano con neve e alberi.",
+        "Vista aerea della città al crepuscolo.",
+        "Ritratto di un sorridente bambino al parco.",
+        "Foto artistica di una farfalla su un fiore.",
+        "Scatto notturno di un grattacielo illuminato.",
+        "Paesaggio marino con barche e onde.",
+    ];
+
+    let description =
+        photoDescriptions[Math.floor(Math.random() * photoDescriptions.length)];
+    return description;
+}
+
 export class DBManager {
     static async getWeatherCodes() {
         await delay(700);
@@ -103,6 +194,9 @@ export class DBManager {
             let weather = generateWeather();
             let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
 
+            let camera = randomCameraModel();
+            let cameraSettings = randomCameraSettings();
+            let description = generatePhotoDescription();
             data.push({
                 id,
                 img,
@@ -112,6 +206,9 @@ export class DBManager {
                 position,
                 authorName,
                 votes,
+                camera,
+                cameraSettings,
+                description,
             });
         }
         return Promise.resolve(data);
@@ -149,7 +246,9 @@ export class DBManager {
             let authorName = userName;
             let weather = generateWeather();
             let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
-
+            let camera = randomCameraModel();
+            let cameraSettings = randomCameraSettings();
+            let description = generatePhotoDescription();
             data.push({
                 id,
                 img,
@@ -159,6 +258,9 @@ export class DBManager {
                 position,
                 authorName,
                 votes,
+                camera,
+                cameraSettings,
+                description,
             });
         }
         return Promise.resolve(data);
