@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatDayIndexToDate, formatMinutesToTime } from "../utils/utils";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
 
 export default function PictureView({ picture, close }) {
-    console.log(picture);
     const main = useRef(null);
+    const navigate = useNavigate();
 
     const handleClickOutside = (e) => {
         e.preventDefault();
@@ -45,11 +46,10 @@ export default function PictureView({ picture, close }) {
                         />
                         <div
                             className="flex items-center justify-start gap-2 h-full cursor-pointer"
-                            onClick={() =>
-                                console.log(
-                                    "navigate to profile " + picture.authorName
-                                )
-                            }
+                            onClick={() => {
+                                close();
+                                navigate(`/profile/${picture.authorName}`);
+                            }}
                         >
                             <ProfilePic
                                 seed={picture.authorName}

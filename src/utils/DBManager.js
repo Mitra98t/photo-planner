@@ -14,7 +14,7 @@ function titleCase(str) {
         .join(" ");
 }
 
-function randomName() {
+export function randomName() {
     const prefixes = [
         "happy",
         "friendly",
@@ -43,7 +43,7 @@ function randomName() {
     const prefixIndex = Math.floor(Math.random() * prefixes.length);
     const suffixIndex = Math.floor(Math.random() * suffixes.length);
 
-    return titleCase(prefixes[prefixIndex] + " " + suffixes[suffixIndex]);
+    return titleCase(prefixes[prefixIndex] + "" + suffixes[suffixIndex]);
 }
 
 function generateWeather() {
@@ -117,7 +117,7 @@ export class DBManager {
         return Promise.resolve(data);
     }
 
-    static async getImagesByUid(uid) {
+    static async getImagesByUserName(userName) {
         await delay(500);
         let data = [];
         let length = Math.floor(Math.random() * (40 - 10 + 1)) + 10;
@@ -146,7 +146,7 @@ export class DBManager {
                 (lat + "").substring(0, 6),
                 (lng + "").substring(0, 6),
             ];
-            let authorName = randomName();
+            let authorName = userName;
             let weather = generateWeather();
             let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
 
@@ -164,10 +164,8 @@ export class DBManager {
         return Promise.resolve(data);
     }
 
-    static async getUserInformation() {
+    static async getUserInformationByUserName(userName) {
         await delay(300);
-        const names = ["John", "Emily", "Michael", "Sarah", "David"];
-        const lastNames = ["Doe", "Johnson", "Smith", "Williams", "Brown"];
         const domains = [
             "gmail.com",
             "yahoo.com",
@@ -175,16 +173,12 @@ export class DBManager {
             "outlook.com",
             "live.com",
         ];
-
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomLastName =
-            lastNames[Math.floor(Math.random() * lastNames.length)];
         const randomDomain =
             domains[Math.floor(Math.random() * domains.length)];
 
         return Promise.resolve({
-            userName: `${randomName} ${randomLastName}`,
-            userEmail: `${randomName.toLowerCase()}.${randomLastName.toLowerCase()}@${randomDomain}`,
+            userName: `${userName}`,
+            userEmail: `${userName.toLowerCase()}@${randomDomain}`,
         });
     }
 }

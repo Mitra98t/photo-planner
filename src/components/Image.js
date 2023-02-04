@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { formatDayIndexToDate, formatMinutesToTime } from "../utils/utils";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
 
-export default function Image({ image, personal, clickCallback }) {
+export default function Image({ image, hideAuthor, clickCallback }) {
     return (
         <>
             <div
@@ -16,7 +16,7 @@ export default function Image({ image, personal, clickCallback }) {
                         upVote={() => {}}
                         downVote={() => {}}
                     />
-                    {personal ? (
+                    {hideAuthor ? (
                         <></>
                     ) : (
                         <div className="w-fit h-fit flex gap-2 items-center justify-start">

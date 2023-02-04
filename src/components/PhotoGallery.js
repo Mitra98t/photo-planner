@@ -3,7 +3,7 @@ import Image from "./Image";
 
 export default function PhotoGallery({
     photoToShow,
-    personal = false,
+    hideAuthor = false,
     photoClick,
 }) {
     return (
@@ -19,7 +19,7 @@ export default function PhotoGallery({
                             <Image
                                 clickCallback={photoClick}
                                 image={p}
-                                personal={personal}
+                                hideAuthor={hideAuthor}
                             />
                         </li>
                     ))}

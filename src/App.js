@@ -4,28 +4,24 @@ import MapCmp from "./components/MapCmp";
 import NavBarMap from "./components/NavBars/NavBarMap";
 import HomePhoto from "./HomePhoto";
 import classNames from "classnames";
-import { DBManager as db } from "./utils/DBManager";
+import { DBManager as db, randomName } from "./utils/DBManager";
 import Profile from "./Profile";
 import PictureView from "./components/PictureView";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
+import ProfileView from "./components/ProfileView";
 
 function App() {
     const navigate = useNavigate();
     const location = useLocation();
     const [bounds, setBounds] = useState({});
-    const [page, setPage] = useState("map");
     const [user, setUser] = useState(null);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     // const [startPos, setStartPos] = useState([43.72073, 10.4076]);
 
     useEffect(() => {
-        db.getUserInformation().then((v) => setUser(v));
+        db.getUserInformationByUserName(randomName()).then((v) => setUser(v));
     }, []);
-
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
 
     return (
         <div className="w-full h-screen pb-5">
@@ -55,7 +51,9 @@ function App() {
                             <NavBarMap
                                 user={user}
                                 searchArea={() => navigate("home")}
-                                profileArea={() => navigate("profile")}
+                                profileArea={() =>
+                                    navigate(`profile/${user.userName}`)
+                                }
                             />
                         }
                     />
@@ -71,14 +69,18 @@ function App() {
                     />
                     <Route
                         path="profile"
-                        element={
-                            <Profile
-                                user={user}
-                                close={() => navigate("/")}
-                                selectPhoto={setSelectedPhoto}
-                            />
-                        }
-                    />
+                        element={<Profile close={() => navigate("/")} />}
+                    >
+                        <Route
+                            path=":userName"
+                            element={
+                                <ProfileView
+                                    user={user}
+                                    selectPhoto={setSelectedPhoto}
+                                />
+                            }
+                        />
+                    </Route>
                     <Route path="*" element={<ErrorPage />} />
                 </Routes>
                 {/* {page === "home" ? (
