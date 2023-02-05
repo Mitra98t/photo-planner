@@ -80,6 +80,23 @@ export default function Icons({
                         d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
                     />
                 );
+            case "next":
+                return (
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    />
+                );
+            case "previous":
+                return (
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 19.5L8.25 12l7.5-7.5"
+                    />
+                );
+
             default:
                 return (
                     <path
@@ -91,18 +108,24 @@ export default function Icons({
         }
     };
     return (
-        <svg
+        <div
             style={{
                 width: styling.w,
                 height: styling.h,
-                strokeWidth: styling.strokeWidth,
             }}
-            className={"  fill-transparent " + color}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
+            className="flex flex-row items-center justify-center"
         >
-            {getIcon(icon)}
-        </svg>
+            <svg
+                style={{
+                    strokeWidth: styling.strokeWidth,
+                }}
+                className={" w-full h-full fill-transparent " + color}
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+            >
+                {getIcon(icon)}
+            </svg>
+        </div>
     );
 }
