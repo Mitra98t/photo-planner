@@ -19,95 +19,109 @@ export default function AddContent() {
                 >
                     <input
                         type={"file"}
+                        accept=".jpg, .png, .heif, .heic"
                         onChange={(e) => {
                             let oldPhotos = { ...photos };
-                            oldPhotos[URL.createObjectURL(e.target.files[0])] =
-                                { file: e.target.files[0], visible: true };
+                            oldPhotos[e.target.files[0].name] = {
+                                URL: URL.createObjectURL(e.target.files[0]),
+                                file: e.target.files[0],
+                                visible: true,
+                            };
                             setPhotos(oldPhotos);
                         }}
                     ></input>
                 </form>
-                {Object.keys(photos).map((pk, i) => (
-                    <div className="w-full h-fit grid grid-cols-2 relative pt-[5vh]">
-                        <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[100] flex items-center justify-start">
-                            <button
-                                onClick={() => {
-                                    let oldPhotos = { ...photos };
-                                    oldPhotos[pk].visible =
-                                        !oldPhotos[pk].visible;
-                                    setPhotos(oldPhotos);
-                                }}
-                                className="w-fit h-full"
-                            >
-                                <Icons
-                                    icon={
-                                        photos[pk].visible
-                                            ? "menuOpen"
-                                            : "menuClose"
-                                    }
-                                    styling={{
-                                        w: "auto",
-                                        h: "100%",
-                                        strokeWidth: "2px",
+                {Object.keys(photos).map((pk, i) => {
+                    return (
+                        <div
+                            key={pk}
+                            className="w-full h-fit grid grid-cols-2 relative pt-[5vh]"
+                        >
+                            <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[100] flex items-center justify-start">
+                                <button
+                                    onClick={() => {
+                                        let oldPhotos = { ...photos };
+                                        oldPhotos[pk].visible =
+                                            !oldPhotos[pk].visible;
+                                        setPhotos(oldPhotos);
                                     }}
-                                />
-                            </button>
-                            <p>{photos[pk].file.name}</p>
+                                    className="w-fit h-full"
+                                >
+                                    <Icons
+                                        icon={
+                                            photos[pk].visible
+                                                ? "menuOpen"
+                                                : "menuClose"
+                                        }
+                                        styling={{
+                                            w: "auto",
+                                            h: "100%",
+                                            strokeWidth: "2px",
+                                        }}
+                                    />
+                                </button>
+                                <p>{photos[pk].file.name}</p>
+                            </div>
+                            {photos[pk].visible ? (
+                                <>
+                                    <div className="w-full h-full flex items-center justify-center">
+                                        <img
+                                            src={photos[pk].URL}
+                                            alt={"added" + i}
+                                            className={
+                                                "h-[40vh] w-auto object-fit"
+                                            }
+                                        />
+                                    </div>
+                                    <div className="w-full h-full flex flex-row items-center justify-start flex-wrap gap-8">
+                                        <Hashtag
+                                            onClick={() => {
+                                                let oldPhotos = { ...photos };
+                                                oldPhotos[pk]["weather"] =
+                                                    "weather good";
+                                                setPhotos(oldPhotos);
+                                            }}
+                                            label={"weather"}
+                                        />
+                                        <Hashtag
+                                            onClick={() => {
+                                                let oldPhotos = { ...photos };
+                                                oldPhotos[pk]["time"] =
+                                                    "time good";
+                                                setPhotos(oldPhotos);
+                                            }}
+                                            label={"time"}
+                                        />
+                                        <Hashtag
+                                            onClick={() => {
+                                                let oldPhotos = { ...photos };
+                                                oldPhotos[pk]["date"] =
+                                                    "date good";
+                                                setPhotos(oldPhotos);
+                                            }}
+                                            label={"date"}
+                                        />
+                                        {Object.keys(photos[pk]).map((d, i) =>
+                                            ![
+                                                "file",
+                                                "visible",
+                                                "URL",
+                                            ].includes(d) ? (
+                                                <p key={i}>
+                                                    {d}: {photos[pk][d]}
+                                                </p>
+                                            ) : (
+                                                <></>
+                                            )
+                                        )}{" "}
+                                    </div>
+                                </>
+                            ) : (
+                                <></>
+                            )}
                         </div>
-                        {photos[pk].visible ? (
-                            <>
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <img
-                                        src={pk}
-                                        alt={"added" + i}
-                                        className={"h-[40vh] w-auto object-fit"}
-                                    />
-                                </div>
-                                <div className="w-full h-full flex flex-row items-center justify-start flex-wrap gap-8">
-                                    <Hashtag
-                                        onClick={() => {
-                                            let oldPhotos = { ...photos };
-                                            oldPhotos[pk]["weather"] =
-                                                "weather good";
-                                            setPhotos(oldPhotos);
-                                            console.log(photos);
-                                        }}
-                                        label={"weather"}
-                                    />
-                                    <Hashtag
-                                        onClick={() => {
-                                            let oldPhotos = { ...photos };
-                                            oldPhotos[pk]["time"] = "time good";
-                                            setPhotos(oldPhotos);
-                                            console.log(photos);
-                                        }}
-                                        label={"time"}
-                                    />
-                                    <Hashtag
-                                        onClick={() => {
-                                            let oldPhotos = { ...photos };
-                                            oldPhotos[pk]["date"] = "date good";
-                                            setPhotos(oldPhotos);
-                                            console.log(photos);
-                                        }}
-                                        label={"date"}
-                                    />
-                                    {Object.keys(photos[pk]).map((d) =>
-                                        !["file", "visible"].includes(d) ? (
-                                            <p>
-                                                {d}: {photos[pk][d]}
-                                            </p>
-                                        ) : (
-                                            <></>
-                                        )
-                                    )}{" "}
-                                </div>
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
