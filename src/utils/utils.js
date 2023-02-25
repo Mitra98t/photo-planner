@@ -1,5 +1,7 @@
-import EXIF from "exif-js";
 
+/**
+ * Raccolta dei weather codes usati da openweather
+ */
 export const weatherCodes = {
     Thunderstorm: {
         200: "thunderstorm with light rain",
@@ -72,6 +74,9 @@ export const weatherCodes = {
     },
 };
 
+/**
+ * divisione dei momenti della giornata espressi in range di minuti
+ */
 export const times = {
     night: [1260, 360],
     dawn: [360, 480],
@@ -80,6 +85,10 @@ export const times = {
     afternoon: [780, 1140],
     sunset: [1140, 1260],
 };
+
+/**
+ * divisione dei momenti dell'anno espressi in range di date mm/gg
+ */
 export const periods = {
     winter: [formatDateToIndex("12/21"), formatDateToIndex("3/20")],
     spring: [formatDateToIndex("3/21"), formatDateToIndex("6/20")],
@@ -87,6 +96,11 @@ export const periods = {
     autumn: [formatDateToIndex("9/24"), formatDateToIndex("12/20")],
 };
 
+/**
+ * Partendo da dei Minuti trasforma in hh:mm
+ * @param {*} minutes minuti nella giornata
+ * @returns time of day => hh:mm
+ */
 export function formatMinutesToTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -95,6 +109,11 @@ export function formatMinutesToTime(minutes) {
         .padStart(2, "0")}`;
 }
 
+/**
+ * A partire dall'indice del giorno nell'anno restituisce la data `${month} ${dayOfWeek} ${dayOfMonth}`
+ * @param {*} dayIndex indice del giorno
+ * @returns `${month} ${dayOfWeek} ${dayOfMonth}` relativo
+ */
 export function formatDayIndexToDate(dayIndex) {
     const startDate = new Date(2023, 0, 1);
     const oneDay = 24 * 60 * 60 * 1000;
@@ -125,6 +144,11 @@ export function formatDayIndexToDate(dayIndex) {
     return `${month} ${dayOfWeek} ${dayOfMonth}`;
 }
 
+/**
+ * A partire dalla data come stringa restituisce la data come indice
+ * @param {*} dateString data
+ * @returns indice della data
+ */
 export function formatDateToIndex(dateString) {
     const [month, day] = dateString.split("/").map((x) => parseInt(x));
 
@@ -135,6 +159,16 @@ export function formatDateToIndex(dateString) {
     return Math.floor((targetDate.getTime() - startDate.getTime()) / oneDay);
 }
 
+
+/**
+ * vechia funzione di filtering
+ * @param {*} photo 
+ * @param {*} options 
+ * @param {*} timeTags 
+ * @param {*} periodTags 
+ * @param {*} weatherTags 
+ * @returns 
+ */
 export function filterPhoto(photo, options, timeTags, periodTags, weatherTags) {
     let weatherCheck =
         options.weather === "" ||
@@ -156,4 +190,3 @@ export function filterPhoto(photo, options, timeTags, periodTags, weatherTags) {
 
     return weatherCheck && timeCheck && periodCheck;
 }
-
