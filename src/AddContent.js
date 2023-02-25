@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Hashtag from "./components/Hashtag";
 import Icons from "./components/Icons";
 import NavBarMap from "./components/NavBars/NavBarMap";
 
@@ -40,7 +39,7 @@ export default function AddContent() {
                 let fileExif = {
                   exifVersion: exd.ExifVersion,
                   shutterSpeed:
-                    exd.ExposureTime.numerator == 1
+                    exd.ExposureTime.numerator === 1
                       ? `${exd.ExposureTime.numerator}/${exd.ExposureTime.denominator}`
                       : `${exd.ExposureTime.numerator}"`,
                   aperture: exd.FNumber.numerator / exd.FNumber.denominator,
