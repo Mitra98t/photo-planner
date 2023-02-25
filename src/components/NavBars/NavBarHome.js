@@ -16,18 +16,16 @@ export default function NavBarHome({
 }) {
     const [wichMenu, setWichMenu] = useState("");
     return (
-        <div className="w-full h-full rounded-3xl bg-stone-50 flex flex-row items-center justify-between px-12 ">
+        <div className="w-full h-full rounded-t-3xl bg-stone-50 flex flex-row items-center justify-between px-12 ">
             <div className="w-fit flex items-center justify-start gap-3">
-                <button onClick={() => setWichMenu("")}>
-                    <Icons
-                        icon={"filter"}
-                        styling={{
-                            w: "2.5rem",
-                            h: "auto",
-                            strokeWidth: "2px",
-                        }}
-                    />
-                </button>
+                <Icons
+                    icon={"filter"}
+                    styling={{
+                        w: "2.5rem",
+                        h: "auto",
+                        strokeWidth: "2px",
+                    }}
+                />
                 <div
                     className="flex flex-col items-start justify-evenly gap-1 cursor-pointer "
                     onClick={() =>

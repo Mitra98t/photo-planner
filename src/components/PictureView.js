@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatDayIndexToDate, formatMinutesToTime } from "../utils/utils";
+import Icons from "./Icons";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
 
 export default function PictureView({ picture, close }) {
-    console.log(picture);
     const main = useRef(null);
+    const navigate = useNavigate();
 
     const handleClickOutside = (e) => {
         e.preventDefault();
@@ -23,7 +25,37 @@ export default function PictureView({ picture, close }) {
                 ref={main}
                 className="w-[80vw] h-[80vh] z-[51] bg-stone-50 rounded-3xl flex flex-row items-center justify-evenly overflow-hidden shadow-area"
             >
-                <div className=" w-[70%] h-full  whitespace-nowrap p-8 flex items-center justify-center">
+                <div className=" w-[70%] h-full whitespace-nowrap p-8 flex items-center justify-center relative group">
+                    <div className="w-full h-16 flex items-center justify-between absolute z-[330] px-24 opacity-0 group-hover:opacity-100 transition ease-in-outfuration-100">
+                        <button
+                            className="h-full rounded-full bg-stone-900 opacity-20 hover:opacity-100 transition ease-in-out duration-100 p-2"
+                            onClick={() => console.log("prev photo")}
+                        >
+                            <Icons
+                                icon="previous"
+                                styling={{
+                                    w: "auto",
+                                    h: "100%",
+                                    strokeWidth: "2.5px",
+                                }}
+                                color={"stroke-stone-50"}
+                            ></Icons>
+                        </button>
+                        <button
+                            className="h-full rounded-full bg-stone-900 opacity-5 hover:opacity-100 transition ease-in-out duration-100 p-2"
+                            onClick={() => console.log("next photo")}
+                        >
+                            <Icons
+                                icon="next"
+                                styling={{
+                                    w: "auto",
+                                    h: "100%",
+                                    strokeWidth: "2.5px",
+                                }}
+                                color={"stroke-stone-50"}
+                            ></Icons>
+                        </button>
+                    </div>
                     <div className="w-fit h-full ">
                         <img
                             src={picture.img}
@@ -35,7 +67,7 @@ export default function PictureView({ picture, close }) {
                         />
                     </div>
                 </div>
-                <div className="flex-grow h-full whitespace-nowrap py-8 flex flex-col items-start justify-start gap-4">
+                <div className="flex-grow h-full whitespace-nowrap py-8 pr-8 flex flex-col items-start justify-start gap-8">
                     <div className="w-full h-[10%] flex items-center justify-start gap-4">
                         <Voting
                             dark
@@ -45,11 +77,10 @@ export default function PictureView({ picture, close }) {
                         />
                         <div
                             className="flex items-center justify-start gap-2 h-full cursor-pointer"
-                            onClick={() =>
-                                console.log(
-                                    "navigate to profile " + picture.authorName
-                                )
-                            }
+                            onClick={() => {
+                                close();
+                                navigate(`/profile/${picture.authorName}`);
+                            }}
                         >
                             <ProfilePic
                                 seed={picture.authorName}
@@ -61,7 +92,7 @@ export default function PictureView({ picture, close }) {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600">
+                    <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
                         <p>Date: {formatDayIndexToDate(picture.date)}</p>
                         <p>Hour: {formatMinutesToTime(picture.hour)}</p>
                         <p>Weather: {picture.weather}</p>
@@ -69,6 +100,17 @@ export default function PictureView({ picture, close }) {
                             Position: {picture.position[0]},{" "}
                             {picture.position[1]}
                         </p>
+                    </div>
+                    <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+                        <p>Model: {picture.camera}</p>
+                        <p>ISO: {picture.cameraSettings.ISO}</p>
+                        <p>Shutter Speed: {picture.cameraSettings.shutter} s</p>
+                        <p>Aperture: f/{picture.cameraSettings.aperture}</p>
+                        <p>zoom: {picture.cameraSettings.zoom}mm</p>
+                    </div>
+                    <div className=" w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+                        <p className="text-xl">Caption:</p>
+                        <p className="text-lg">{picture.description}</p>
                     </div>
                 </div>
             </div>
