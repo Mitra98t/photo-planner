@@ -1,3 +1,5 @@
+import EXIF from "exif-js";
+
 export const weatherCodes = {
     Thunderstorm: {
         200: "thunderstorm with light rain",
@@ -154,3 +156,4 @@ export function filterPhoto(photo, options, timeTags, periodTags, weatherTags) {
 
     return weatherCheck && timeCheck && periodCheck;
 }
+
