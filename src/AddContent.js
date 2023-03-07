@@ -4,25 +4,38 @@ import NavBarMap from "./components/NavBars/NavBarMap";
 
 import EXIF from "exif-js";
 import PhotoDataViewer from "./components/PhotoDataViewer";
+import NavBarAddContent from "./components/NavBars/NavBarAddContent";
+import { useNavigate } from "react-router-dom";
 
-export default function AddContent() {
+export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitted");
+  };
 
   return (
     <div className="w-full h-full relative bg-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] pb-4 ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         {/* <NavBarHome close={() => {}} /> */}
-        <NavBarMap />
+        <NavBarAddContent
+          close={() => navigate("/")}
+          profileArea={() => navigate(`/profile/${userUID}`)}
+          user={userUID}
+        />
       </div>
       <div className="w-full h-full flex flex-col items-center justify-start gap-10 px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300">
         <form
-          onSubmit={() => console.log("submitted")}
-          className="w-full h-fit flex sticky inset-0 bg-stone-50 p-4"
+          onSubmit={handleSubmit}
+          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 z-[100] p-4"
         >
           <input
             type={"file"}
             accept=".jpg, .png, .heif, .heic"
             onChange={(e) => {
+              e.preventDefault();
               let oldPhotos = { ...photos };
               let file = e.target.files[0];
               let exd;
@@ -67,6 +80,7 @@ export default function AddContent() {
               });
             }}
           ></input>
+          <button type={"submit"}>Carica</button>
         </form>
         {Object.keys(photos).map((pk, i) => {
           return (
@@ -74,7 +88,7 @@ export default function AddContent() {
               key={pk}
               className="w-full h-fit grid grid-cols-2 relative pt-[5vh]"
             >
-              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[100] flex items-center justify-start">
+              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[90] flex items-center justify-start">
                 <button
                   onClick={() => {
                     let oldPhotos = { ...photos };
@@ -101,12 +115,12 @@ export default function AddContent() {
                       src={photos[pk].URL}
                       alt={"added" + i}
                       className={
-                        "h-[44vh] object-fit border-4 rounded-md border-stone-900"
+                        "h-[44vh] object-cover border-4 rounded-md border-stone-900"
                       }
                     />
                   </div>
                   <div className="w-full h-full flex flex-row items-center justify-start flex-wrap gap-8">
-                    <PhotoDataViewer photo={photos[pk]} />
+                    <PhotoDataViewer photo={photos[pk]} setPhotos={setPhotos} photos={photos} />
                   </div>
                 </>
               ) : (

@@ -4,7 +4,7 @@ import NavBarHome from "./components/NavBars/NavBarHome";
 import { DBManager as db } from "./utils/DBManager";
 
 export default function Profile({ close }) {
-    const { userName } = useParams();
+    const { UID } = useParams();
     const [options, setOptions] = useState({
         weather: "",
         period: "",
@@ -19,6 +19,7 @@ export default function Profile({ close }) {
         db.getWeatherCodes().then((v) => setWeatherTags(v));
         db.getPeriod().then((v) => setPeriodTags(v));
         // eslint-disable-next-line react-hooks/exhaustive-deps
+        console.log(UID)
     }, []);
 
     return (
@@ -33,7 +34,7 @@ export default function Profile({ close }) {
                     periodTags={periodTags}
                 />
             </div>
-            {userName ? (
+            {UID ? (
                 <Outlet
                     context={[options, weatherTags, timeTags, periodTags]}
                 />

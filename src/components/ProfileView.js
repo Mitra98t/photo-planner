@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { DBManager as db } from "../utils/DBManager";
 import { filterPhoto } from "../utils/utils";
 import PhotoGallery from "./PhotoGallery";
@@ -7,7 +7,6 @@ import ProfilePic from "./ProfilePic";
 
 export default function ProfileView({ userUid, selectPhoto }) {
   const { UID } = useParams();
-  const navigate = useNavigate();
   const [options, weatherTags, timeTags, periodTags] = useOutletContext();
   const [userInfo, setUserInfo] = useState(null);
   const [photos, setPhotos] = useState(null);
@@ -57,19 +56,19 @@ export default function ProfileView({ userUid, selectPhoto }) {
         />
         <div className="flex flex-col items-start justify-evenlty gap-2">
           <p className="text-4xl font-semibold text-stone-900 ">
-            {userInfo ? userInfo.userName : UID}
+            {userInfo ? userInfo.userName : "..."}
           </p>
           <p className="text-xl text-stone-700 ">
-            {userInfo && userInfo.userEmail}
+            {userInfo ? userInfo.userEmail : "..."}
           </p>
           {personal ? (
             <div className="flex items-center justify-evenly w-full h-fit gap-2 text-stone-900">
-              <button
+              {/* <button
                 onClick={() => navigate("/addContent")}
                 className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 "
               >
                 Add Content
-              </button>
+              </button> */}
               <button className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 ">
                 Modify Profile
               </button>
@@ -84,6 +83,7 @@ export default function ProfileView({ userUid, selectPhoto }) {
           hideAuthor
           photoToShow={photoToShow}
           photoClick={selectPhoto}
+          personalProfile={personal}
         />
       </div>
     </div>

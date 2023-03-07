@@ -1,0 +1,222 @@
+[
+  {
+    "luogo": "Roma",
+    "lat": 41.902782,
+    "lng": 12.496366,
+    "zoom": 14,
+    "zoom": 14
+  },
+  {
+    "luogo": "Firenze",
+    "lat": 43.769562,
+    "lng": 11.255814,
+    "zoom": 14
+  },
+  {
+    "luogo": "Venezia",
+    "lat": 45.438385,
+    "lng": 12.326182,
+    "zoom": 14
+  },
+  {
+    "luogo": "Milano",
+    "lat": 45.465421,
+    "lng": 9.185924,
+    "zoom": 14
+  },
+  {
+    "luogo": "Napoli",
+    "lat": 40.851774,
+    "lng": 14.268124,
+    "zoom": 14
+  },
+  {
+    "luogo": "Pisa",
+    "lat": 43.722838,
+    "lng": 10.401688,
+    "zoom": 14
+  },
+  {
+    "luogo": "Verona",
+    "lat": 45.438384,
+    "lng": 10.991622,
+    "zoom": 14
+  },
+  {
+    "luogo": "Bologna",
+    "lat": 44.494887,
+    "lng": 11.342616,
+    "zoom": 14
+  },
+  {
+    "luogo": "Siena",
+    "lat": 43.318809,
+    "lng": 11.330757,
+    "zoom": 14
+  },
+  {
+    "luogo": "Padova",
+    "lat": 45.407998,
+    "lng": 11.885593,
+    "zoom": 14
+  },
+  {
+    "luogo": "Lucca",
+    "lat": 43.845952,
+    "lng": 10.502572,
+    "zoom": 14
+  },
+  {
+    "luogo": "Genova",
+    "lat": 44.40565,
+    "lng": 8.946256,
+    "zoom": 14
+  },
+  {
+    "luogo": "Assisi",
+    "lat": 43.071112,
+    "lng": 12.617947,
+    "città_appartenenza": "Perugia",
+    "zoom": 19
+  },
+  {
+    "luogo": "Cinque Terre",
+    "lat": 44.111466,
+    "lng": 9.733089,
+    "città_appartenenza": "La Spezia",
+    "zoom": 15
+  },
+  {
+    "luogo": "Torre di Pisa",
+    "lat": 43.722952,
+    "lng": 10.396597,
+    "città_appartenenza": "Pisa",
+    "zoom": 19
+  },
+  {
+    "luogo": "Piazza dei Miracoli",
+    "lat": 43.723293,
+    "lng": 10.395339,
+    "città_appartenenza": "Pisa",
+    "zoom": 18.5
+  },
+  {
+    "luogo": "Uffizi Gallery",
+    "lat": 43.768732,
+    "lng": 11.255825,
+    "città_appartenenza": "Firenze",
+    "zoom": 19
+  },
+  {
+    "luogo": "Colosseum",
+    "lat": 41.890251,
+    "lng": 12.492373,
+    "città_appartenenza": "Roma",
+    "zoom": 19
+  },
+  {
+    "luogo": "Vatican Museums",
+    "lat": 41.906204,
+    "lng": 12.453931,
+    "città_appartenenza": "Roma",
+    "zoom": 19
+  },
+  {
+    "luogo": "Ponte Vecchio",
+    "lat": 43.767785,
+    "lng": 11.253189,
+    "città_appartenenza": "Firenze",
+    "zoom": 19
+  },
+  {
+    "luogo": "Trevi Fountain",
+    "lat": 41.900932,
+    "lng": 12.483327,
+    "città_appartenenza": "Roma",
+    "zoom": 19
+  },
+  {
+    "luogo": "San Marco Basilica",
+    "lat": 45.434336,
+    "lng": 12.338784,
+    "città_appartenenza": "Venezia",
+    "zoom": 19
+  },
+  {
+    "luogo": "Duomo di Milano",
+    "lat": 45.464211,
+    "lng": 9.191383,
+    "città_appartenenza": "Milano",
+    "zoom": 19
+  },
+  {
+    "luogo": "Piazza del Campo",
+    "lat": 43.318520,
+    "lng": 11.331643,
+    "città_appartenenza": "Siena",
+    "zoom": 19
+  },
+  {
+    "luogo": "Palazzo della Signoria",
+    "lat": 43.769743,
+    "lng": 11.255353,
+    "città_appartenenza": "Firenze",
+    "zoom": 19
+  },
+  {
+    "luogo": "Arena di Verona",
+    "lat": 45.438312,
+    "lng": 10.99481,
+    "città_appartenenza": "Verona",
+    "zoom": 19
+  },
+  {
+    "luogo": "Fontana dell'Elefante",
+    "lat": 37.494473,
+    "lng": 15.084576,
+    "città_appartenenza": "Catania",
+    "zoom": 19
+  },
+  {
+    "luogo": "Castello Sforzesco",
+    "lat": 45.474581,
+    "lng": 9.178337,
+    "città_appartenenza": "Milano",
+    "zoom": 19
+  },
+  {
+    "luogo": "Mount Etna",
+    "lat": 37.750251,
+    "lng": 14.993434,
+    "città_appartenenza": "Catania",
+    "zoom": 17
+  },
+  {
+    "luogo": "Basilica di San Francesco",
+    "lat": 43.071307,
+    "lng": 12.609592,
+    "città_appartenenza": "Assisi",
+    "zoom": 19
+  },
+  {
+    "luogo": "Teatro alla Scala",
+    "lat": 45.467267,
+    "lng": 9.189677,
+    "città_appartenenza": "Milano",
+    "zoom": 19
+  },
+  {
+    "luogo": "Piazza Navona",
+    "lat": 41.899169,
+    "lng": 12.473561,
+    "città_appartenenza": "Roma",
+    "zoom": 19
+  },
+  {
+    "luogo": "Cenaia",
+    "lat": 43.608370,
+    "lng": 10.537862,
+    "città_appartenenza": "Pisa",
+    "zoom": 17
+  }
+]

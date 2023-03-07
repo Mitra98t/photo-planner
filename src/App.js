@@ -19,6 +19,8 @@ function App() {
   const location = useLocation();
   const [bounds, setBounds] = useState({});
   const [user, setUser] = useState(null);
+  const [mapLocation, setMapLocation] = useState({coords:[43.72077871691476, 10.407882154565954], zoom: 15});
+
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null
   );
@@ -27,6 +29,7 @@ function App() {
 
   useEffect(() => {
     if (loggedUser == null) return;
+    console.log(loggedUser);
     // db.getUserInformationByUID(loggedUser)
     //   .then((v) => {
     //     setUser(v);
@@ -48,7 +51,11 @@ function App() {
           ) : (
             <></>
           )}
-          <MapCmp setBounds={setBounds} blocked={location.pathname !== "/"} />
+          <MapCmp
+            setBounds={setBounds}
+            blocked={location.pathname !== "/"}
+            mapLocation={mapLocation}
+          />
           <div
             className={
               "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden transition-all ease-in-out duration-300 " +
@@ -62,13 +69,16 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
-                    <NavBarMap
-                      user={user}
-                      searchArea={() => navigate("home")}
-                      profileArea={() => navigate(`profile/${loggedUser}`)}
-                    />
-                  </div>
+                  <>
+                    <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
+                      <NavBarMap
+                        user={loggedUser}
+                        searchArea={() => navigate("home")}
+                        profileArea={() => navigate(`profile/${loggedUser}`)}
+                        setMapLocation={setMapLocation}
+                      />
+                    </div>
+                  </>
                 }
               />
               <Route
@@ -95,7 +105,10 @@ function App() {
                   }
                 />
               </Route>
-              <Route path="addContent" element={<AddContent />} />
+              <Route
+                path="addContent"
+                element={<AddContent userUID={loggedUser} />}
+              />
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>

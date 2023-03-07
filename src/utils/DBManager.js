@@ -4,6 +4,8 @@ import { getAuth } from "firebase/auth";
 import { periods, times, weatherCodes } from "./utils";
 import { doc, getDoc } from "firebase/firestore";
 
+import locations from "../mocupData/location.json";
+
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -272,5 +274,27 @@ export class DBManager {
     else {
       return Promise.reject("Missing user id");
     }
+  }
+
+  /**
+   *
+   * @param {*} locationName Nome luogo da cercare
+   * @returns informations of founded location
+   */
+  static async getLocationInfoByName(locationName) {
+    await delay(300);
+    let loc = locations.filter((l) =>
+      l.luogo.toLowerCase().startsWith(locationName.toLowerCase())
+    )[0];
+    if (!loc) return Promise.reject("no corrisponding locations");
+    return Promise.resolve(loc);
+  }
+
+  static async getLocationSuggestinosByName(locationName) {
+    await delay(300);
+    let locs = locations.filter((l) =>
+      l.luogo.toLowerCase().startsWith(locationName.toLowerCase())
+    );
+    return Promise.resolve(locs);
   }
 }
