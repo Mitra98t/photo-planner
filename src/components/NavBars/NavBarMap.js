@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { DBManager as db } from "../../utils/DBManager";
 import ProfilePic from "../ProfilePic";
+import Autocomplete from "../Autocomplete";
 
 export default function NavBarMap({
   profileArea,
@@ -8,56 +9,37 @@ export default function NavBarMap({
   user,
   setMapLocation,
 }) {
-  const [searchInput, setSearchInput] = useState("");
-  const [suggestions, setSuggestions] = useState(null);
-  const [foundloc, setFoundloc] = useState(null);
-
-  const handleSearchChange = async (e) => {
-    let search = e.target.value;
-    console.log(search);
-    setSearchInput(search);
-    if (search === "") return;
-    let possibleLocs = await db.getLocationSuggestinosByName(search);
-    console.table(possibleLocs);
-    setSuggestions(possibleLocs);
-  };
-
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-    console.log(searchInput);
-
-    let foundLoc = await db.getLocationInfoByName(searchInput);
+  const handleSearchSubmit = async (locationName) => {
+    let foundLoc = await db.getLocationInfoByName(locationName);
 
     console.log(foundLoc);
     setMapLocation({
       coords: [foundLoc.lat, foundLoc.lng],
       zoom: foundLoc.zoom,
     });
-    setFoundloc(foundLoc);
-    setSearchInput("");
   };
 
   return (
-    <div className="w-full h-full bg-stone-50 rounded-t-3xl flex flex-row items-center justify-between px-12">
-      <form
-        onSubmit={handleSearchSubmit}
-        className="h-full flex flex-row items-center justify-start"
-      >
-        <input
-          type={"text"}
-          placeholder={"search city"}
-          value={searchInput}
-          onChange={handleSearchChange}
-          className={"p-3 bg-stone-50 text-2xl"}
+    <div className="w-full h-full bg-stone-50 rounded-t-3xl gap-8 flex flex-row items-center justify-between px-12">
+      <div className="h-full flex-1 flex flex-row items-center justify-start">
+        <Autocomplete
+          handleSubmit={handleSearchSubmit}
+          topList
+          large
+          clearOnSubmit
+          autofocus
         />
-      </form>
+      </div>
       <button
         onClick={searchArea}
-        className="rounded-full font-bold text-center text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 px-6 py-4 "
+        className="rounded-full flex-1 font-bold text-center text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 px-6 py-4 "
       >
         Search Area
       </button>
-      <div className=" h-3/5 cursor-pointer " onClick={profileArea}>
+      <div
+        className=" h-3/5 cursor-pointer flex-1 flex items-center justify-end "
+        onClick={profileArea}
+      >
         <ProfilePic
           seed={user ? user : ""}
           heightBased

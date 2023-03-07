@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { periods, times, weatherCodes } from "./utils";
 import { doc, getDoc } from "firebase/firestore";
 
-import locations from "../mocupData/location.json";
+import locations from "../mocupData/locations.json";
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

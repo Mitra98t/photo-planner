@@ -38,24 +38,12 @@ export default function PhotoDataViewer({ photo, photos, setPhotos }) {
           </div>
         ))}
       </div>
-
-      {/* <div className="flex flex-col items-start justify-start gap-1">
-        <div className="flex items-start justify-start gap-2">
-          <p className="font-semibold">city:</p>
-          <input
-            className="bg-stone-50"
-            placeholder="city"
-            onChange={async (e) => {
-              let sugg = await db.getLocationSuggestinosByName(e.target.value);
-              setSuggestions(sugg);
-            }}
-          />
-        </div>
-        <div className="w-full h-fit max-h-20 bg-stone-50 rounded-md shadow-md">
-          {suggestions && suggestions.map((s) => <p>{s.luogo}</p>)}
-        </div>
-      </div> */}
-      <Autocomplete />
+      <Autocomplete
+        handleSubmit={() => {
+          let oldPhotos = photos;
+          console.log(photos);
+        }}
+      />
     </div>
   );
 }
