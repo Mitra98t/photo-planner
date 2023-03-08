@@ -290,6 +290,12 @@ export class DBManager {
     return Promise.resolve(loc);
   }
 
+  /**
+   * Returns an array of location suggestions that start with the given `locationName`.
+   *
+   * @param {string} locationName - The name of the location to search for.
+   * @returns {Promise<Array>} - A Promise that resolves to an array of location objects.
+   */
   static async getLocationSuggestinosByName(locationName) {
     await delay(300);
     let locs = locations.filter((l) =>
