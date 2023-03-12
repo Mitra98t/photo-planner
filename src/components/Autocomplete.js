@@ -35,7 +35,7 @@ export default function Autocomplete({
     inputField.current.focus();
   };
 
-  const onKeyDown = (e) => {
+  const onKeyDown = async (e) => {
     // e.preventDefault();
     if (e.key === "Enter") {
       setActiveSuggestion(0);
@@ -46,8 +46,8 @@ export default function Autocomplete({
       console.log(filteredSuggestions[activeSuggestion]);
       handleSubmit(
         !!filteredSuggestions[activeSuggestion]
-          ? filteredSuggestions[activeSuggestion].luogo
-          : locationFromInput
+          ? filteredSuggestions[activeSuggestion]
+          : await db.getLocationInfoByName (locationFromInput)
       );
     } else if (
       (!topList && e.keyCode === 38) ||

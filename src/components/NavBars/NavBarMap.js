@@ -9,8 +9,8 @@ export default function NavBarMap({
   user,
   setMapLocation,
 }) {
-  const handleSearchSubmit = async (locationName) => {
-    let foundLoc = await db.getLocationInfoByName(locationName);
+  const handleSearchSubmit = async (foundLoc) => {
+    // let foundLoc = await db.getLocationInfoByName(locationName);
 
     console.log(foundLoc);
     setMapLocation({

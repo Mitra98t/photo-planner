@@ -45,6 +45,7 @@ function App() {
         <div className="w-full h-screen pb-5">
           {selectedPhoto !== null ? (
             <PictureView
+              userUID={loggedUser}
               picture={selectedPhoto}
               close={() => setSelectedPhoto(null)}
             />

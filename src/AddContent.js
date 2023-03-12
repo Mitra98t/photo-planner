@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Icons from "./components/Icons";
 import NavBarMap from "./components/NavBars/NavBarMap";
 
@@ -6,14 +7,82 @@ import EXIF from "exif-js";
 import PhotoDataViewer from "./components/PhotoDataViewer";
 import NavBarAddContent from "./components/NavBars/NavBarAddContent";
 import { useNavigate } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { db, storage } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { DBManager } from "./utils/DBManager";
 
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    console.log(photos);
+  }, [photos]);
+
+  const upImage = async (file, id, pk) => {
+    const name = file.name + "_" + id;
+    const storageRef = ref(storage, name);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        let oldPhotos = { ...photos };
+        oldPhotos[pk].progress = progress;
+        setPhotos(oldPhotos);
+        switch (snapshot.state) {
+          case "paused":
+            break;
+          case "running":
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      async () => {
+        // let res = await getDownloadURL(uploadTask.snapshot.ref);
+        // return res;
+        // getDownloadURL(uploadTask.snapshot.ref).then((durl) => {
+        // });
+      }
+    );
+    return uploadTask;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted");
+    console.log("Cliccato");
+    let photosToUpload = { ...photos };
+    for (const pk in photosToUpload) {
+      if (Object.hasOwnProperty.call(photosToUpload, pk)) {
+        const uuid = uuidv4(); // Genera un nuovo UUID v4
+
+        let res = await upImage(
+          photosToUpload[pk].file.fileFromSource,
+          uuid,
+          pk
+        );
+        let resourceName =
+          photosToUpload[pk].file.fileFromSource.name + "_" + uuid;
+        let url = await getDownloadURL(res.ref);
+
+        photosToUpload[pk].URL = url;
+
+        DBManager.addPhoto(
+          {
+            ...photosToUpload[pk],
+          },
+          resourceName
+        );
+        // await setDoc(doc(db, "Documents", id) /* Content */);
+      }
+    }
+
+    // setPage("home");
+    // setModifyDoc(null);
   };
 
   return (
@@ -47,6 +116,7 @@ export default function AddContent({ userUID }) {
                   type: file.name.split(".")[1],
                   creationDate: exd.DateTime.split(" ")[0].replace(/:/g, "-"),
                   creationTime: exd.DateTime.split(" ")[1],
+                  fileFromSource: e.target.files[0],
                 };
 
                 let fileExif = {
@@ -71,16 +141,24 @@ export default function AddContent({ userUID }) {
                   file: fileData,
                   exif: fileExif,
                   camera: fileCamera,
+                  authorUID: userUID,
                   visible: true,
                 };
-                console.log(photo);
+                // console.log(photo);
 
                 oldPhotos[fileData.nameComplete] = { ...photo };
                 setPhotos(oldPhotos);
               });
             }}
           ></input>
-          <button type={"submit"}>Carica</button>
+          <button
+            type={"submit"}
+            disabled={Object.keys(photos).every(
+              (key) => photos[key].progress === 100
+            )}
+          >
+            Carica
+          </button>
         </form>
         {Object.keys(photos).map((pk, i) => {
           return (
@@ -110,7 +188,8 @@ export default function AddContent({ userUID }) {
               </div>
               {photos[pk].visible ? (
                 <>
-                  <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center relative">
+                    {loadingRender(photos[pk].progress)}
                     <img
                       src={photos[pk].URL}
                       alt={"added" + i}
@@ -120,7 +199,12 @@ export default function AddContent({ userUID }) {
                     />
                   </div>
                   <div className="w-full h-full flex flex-row items-center justify-start flex-wrap gap-8">
-                    <PhotoDataViewer photo={photos[pk]} setPhotos={setPhotos} photos={photos} />
+                    <PhotoDataViewer
+                      photo={photos[pk]}
+                      setPhotos={setPhotos}
+                      photos={photos}
+                      index={pk}
+                    />
                   </div>
                 </>
               ) : (
@@ -132,4 +216,41 @@ export default function AddContent({ userUID }) {
       </div>
     </div>
   );
+}
+
+function loadingRender(progress) {
+  if (progress == null) {
+    return <></>;
+  }
+  if (progress >= 100)
+    return (
+      <div className="absolute">
+        <Icons
+          icon={"check"}
+          color={"stroke-green-500"}
+          styling={{
+            w: "3rem",
+            h: "auto",
+            strokeWidth: "3px",
+          }}
+        ></Icons>
+      </div>
+    );
+
+  return (
+    <div
+      class="absolute h-8 w-8 animate-spin rounded-full border-4 border-solid border-stone-50 border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status"
+    ></div>
+  );
+
+  // return (
+  //   <div
+  //     className={
+  //       " w-full h-full bg-transparent absolute inset-0 flex items-center justify-center z-[100]"
+  //     }
+  //   >
+  //     <div class="w-8 h-8 border-4 border-t-4 border-gray-200 rounded-full animate-spin"></div>
+  //   </div>
+  // );
 }

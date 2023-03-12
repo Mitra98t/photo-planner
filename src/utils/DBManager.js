@@ -1,10 +1,20 @@
-import { auth, db } from "../firebase.js";
+import { auth, db, storage } from "../firebase.js";
 import { getAuth } from "firebase/auth";
 
 import { periods, times, weatherCodes } from "./utils";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 import locations from "../mocupData/locations.json";
+import { deleteObject, ref } from "firebase/storage";
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -169,95 +179,88 @@ export class DBManager {
   }
 
   static async getImgsAtCoords(ne, sw) {
-    await delay(500);
-    let data = [];
-    let length = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
-    // let length = 5;
-    const startTimestamp = new Date(2023, 0, 1).getTime();
-    const endTimestamp = new Date(2023, 11, 31).getTime();
-    const oneDay = 24 * 60 * 60 * 1000;
+    let res = [];
+    //TODO usare query, non filter
+    const coordQuery = query(
+      collection(db, "photos")
+      // where("lat", "==", "43.7714"),
+      // where("lng", ">=", sw[1]),
+      // where("lat", "<=", ne[0]),
+      // where("lng", "<=", ne[1])
+    );
 
-    for (let i = 0; i < length; i++) {
-      let id =
-        Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15);
-      let img = "https://source.unsplash.com/random?sig=" + i;
-      const randomTimestamp =
-        startTimestamp + Math.random() * (endTimestamp - startTimestamp);
-      const randomDate = new Date(randomTimestamp);
-      const hour = randomDate.getHours() * 60 + randomDate.getMinutes();
-      const date = Math.floor((randomTimestamp - startTimestamp) / oneDay);
-      let lat = Math.random() * (ne[0] - sw[0]) + sw[0];
-      let lng = Math.random() * (ne[1] - sw[1]) + sw[1];
-      let position = [(lat + "").substring(0, 6), (lng + "").substring(0, 6)];
-      let authorName = randomName();
-      let weather = generateWeather();
-      let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
+    const querySnapshot = await getDocs(coordQuery);
 
-      let camera = randomCameraModel();
-      let cameraSettings = randomCameraSettings();
-      let description = generatePhotoDescription();
-      data.push({
-        id,
-        img,
-        date,
-        hour,
-        weather,
-        position,
-        authorName,
-        votes,
-        camera,
-        cameraSettings,
-        description,
-      });
-    }
-    return Promise.resolve(data);
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+
+    res = res.filter(
+      (r) =>
+        r.lat >= sw[0] && r.lng >= sw[1] && r.lat <= ne[0] && r.lng <= ne[1]
+    );
+
+    return Promise.resolve(res);
   }
+  // static async getImgsAtCoords(ne, sw) {
+  //   await delay(500);
+  //   let data = [];
+  //   let length = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+  //   // let length = 5;
+  //   const startTimestamp = new Date(2023, 0, 1).getTime();
+  //   const endTimestamp = new Date(2023, 11, 31).getTime();
+  //   const oneDay = 24 * 60 * 60 * 1000;
 
-  static async getImagesByUID(userName) {
-    await delay(500);
-    let data = [];
-    let length = Math.floor(Math.random() * (40 - 10 + 1)) + 10;
-    // let length = 5;
-    const startTimestamp = new Date(2023, 0, 1).getTime();
-    const endTimestamp = new Date(2023, 11, 31).getTime();
-    const oneDay = 24 * 60 * 60 * 1000;
+  //   for (let i = 0; i < length; i++) {
+  //     let id =
+  //       Math.random().toString(36).substring(2, 15) +
+  //       Math.random().toString(36).substring(2, 15);
+  //     let img = "https://source.unsplash.com/random?sig=" + i;
+  //     const randomTimestamp =
+  //       startTimestamp + Math.random() * (endTimestamp - startTimestamp);
+  //     const randomDate = new Date(randomTimestamp);
+  //     const hour = randomDate.getHours() * 60 + randomDate.getMinutes();
+  //     const date = Math.floor((randomTimestamp - startTimestamp) / oneDay);
+  //     let lat = Math.random() * (ne[0] - sw[0]) + sw[0];
+  //     let lng = Math.random() * (ne[1] - sw[1]) + sw[1];
+  //     let position = [(lat + "").substring(0, 6), (lng + "").substring(0, 6)];
+  //     let authorName = randomName();
+  //     let weather = generateWeather();
+  //     let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
 
-    for (let i = 0; i < length; i++) {
-      let id =
-        Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15);
-      let img = "https://source.unsplash.com/random?sig=" + i;
-      const randomTimestamp =
-        startTimestamp + Math.random() * (endTimestamp - startTimestamp);
-      const randomDate = new Date(randomTimestamp);
-      const hour = randomDate.getHours() * 60 + randomDate.getMinutes();
-      const date = Math.floor((randomTimestamp - startTimestamp) / oneDay);
-      let lat = Math.random() * 180 - 90;
-      let lng = Math.random() * 360 - 180;
+  //     let camera = randomCameraModel();
+  //     let cameraSettings = randomCameraSettings();
+  //     let description = generatePhotoDescription();
+  //     data.push({
+  //       id,
+  //       img,
+  //       date,
+  //       hour,
+  //       weather,
+  //       position,
+  //       authorName,
+  //       votes,
+  //       camera,
+  //       cameraSettings,
+  //       description,
+  //     });
+  //   }
+  //   return Promise.resolve(data);
+  // }
 
-      let position = [(lat + "").substring(0, 6), (lng + "").substring(0, 6)];
-      let authorName = userName;
-      let weather = generateWeather();
-      let votes = Math.floor(Math.random() * (150 - -150 + 1)) + -150;
-      let camera = randomCameraModel();
-      let cameraSettings = randomCameraSettings();
-      let description = generatePhotoDescription();
-      data.push({
-        id,
-        img,
-        date,
-        hour,
-        weather,
-        position,
-        authorName,
-        votes,
-        camera,
-        cameraSettings,
-        description,
-      });
-    }
-    return Promise.resolve(data);
+  static async getImagesByUID(userUID) {
+    let res = [];
+    const photoByUIDQuery = query(
+      collection(db, "photos"),
+      where("authorUID", "==", userUID)
+    );
+    const querySnapshot = await getDocs(photoByUIDQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+
+    return Promise.resolve(res);
   }
 
   static async getUserInformationByUID(UID) {
@@ -298,9 +301,53 @@ export class DBManager {
    */
   static async getLocationSuggestinosByName(locationName) {
     await delay(300);
+    if (!locationName) {
+      return Promise.resolve([]);
+    }
     let locs = locations.filter((l) =>
       l.luogo.toLowerCase().startsWith(locationName.toLowerCase())
     );
     return Promise.resolve(locs);
+  }
+
+  static async addPhoto(photo, photoName) {
+    return Promise.resolve(
+      setDoc(doc(db, "photos", photoName), {
+        URL: photo.URL,
+        authorUID: photo.authorUID,
+        fileData: {
+          fileName: photo.file.nameComplete,
+          name: photo.file.name,
+          description: photo.file.description,
+          type: photo.file.type,
+          creationDate: photo.file.creationDate,
+          creationTime: photo.file.creationTime,
+        },
+        camera: {
+          model: photo.camera.model,
+          make: photo.camera.make,
+        },
+        cameraSettings: {
+          ISO: photo.exif.ISO,
+          aperture: photo.exif.aperture,
+          focalLength: photo.exif.focalLength,
+          shutterSpeed: photo.exif.shutterSpeed,
+        },
+        location: photo.location.luogo,
+        lat: photo.location.lat,
+        lng: photo.location.lng,
+      })
+    );
+  }
+
+  static async removeImage(imageID) {
+    const imageRef = ref(storage, imageID);
+
+    // Delete the file
+    let deleteImageRes = await deleteObject(imageRef);
+
+    let deleteDocRes = await deleteDoc(doc(db, "photos", imageID));
+
+    return Promise.resolve({ ...deleteDocRes, ...deleteImageRes });
   }
 }
