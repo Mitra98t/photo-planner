@@ -21,7 +21,7 @@ export default function Login({ setCurrentUser }) {
           email: user.email,
         });
         setCurrentUser(user.uid);
-        localStorage.setItem("uid", user.uid);
+        // localStorage.setItem("uid", user.uid);
         navigate("/");
       })
       .catch((err) => {
@@ -30,9 +30,18 @@ export default function Login({ setCurrentUser }) {
       });
   };
   return (
-    <div>
-      Login
-      <button onClick={() => modalSignIn()}>Sign in with google</button>
+    <div className="w-full h-screen bg-stone-200 flex items-center justify-center">
+      <div className="w-fit h-fit p-8 rounded-xl shadow-lg flex flex-col items-start justify-evenly gap-4 bg-stone-50">
+        <p className="text-3xl font-bold text-stone-900">Login</p>
+        <button
+          onClick={() => modalSignIn()}
+          className={
+            "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-lg transition-all ease-in-out duration-150"
+          }
+        >
+          Sign in with Google
+        </button>
+      </div>
     </div>
   );
 }
