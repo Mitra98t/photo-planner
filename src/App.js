@@ -19,7 +19,10 @@ function App() {
   const location = useLocation();
   const [bounds, setBounds] = useState({});
   const [user, setUser] = useState(null);
-  const [mapLocation, setMapLocation] = useState({coords:[43.72077871691476, 10.407882154565954], zoom: 15});
+  const [mapLocation, setMapLocation] = useState({
+    coords: [43.72077871691476, 10.407882154565954],
+    zoom: 15,
+  });
 
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null

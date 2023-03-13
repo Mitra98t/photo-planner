@@ -2,6 +2,7 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { DBManager as db } from "../utils/DBManager";
+import { getWeatherByCode } from "../utils/utils";
 import Autocomplete from "./Autocomplete";
 
 export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
@@ -10,8 +11,10 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
   // const [exif, setExif] = useState(photo.exif);
   // const [camera, setCamera] = useState(photo.camera);
   const [suggestions, setSuggestions] = useState(null);
+  const [weatherCodes, setWeatherCodes] = useState(null);
 
   useEffect(() => {
+    db.getWeatherCodes().then((c) => setWeatherCodes(c));
     console.log(photos);
   }, []);
 
@@ -113,12 +116,58 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
         <div className="flex flex-row items-center justify-start gap-2">
           <span className="font-bold whitespace-nowrap">Location: </span>
           <Autocomplete
-            handleSubmit={(data) => {
+            handleSubmit={async (data) => {
               let oldPhotos = { ...photos };
+              let weather = await db.getWeatherByTimeAndLoc(
+                photos[index].file.creationDate,
+                photos[index].file.creationTime,
+                { lat: data.lat, lng: data.lng }
+              );
               photos[index].location = { ...data };
+              photos[index].weather = { ...weather };
               setPhotos(oldPhotos);
             }}
           />
+        </div>
+        <div className="flex flex-row items-center justify-start gap-2">
+          <span className="font-bold whitespace-nowrap">weather: </span>
+          <select
+            className="focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
+            onChange={(e) => {
+              let oldPhotos = { ...photos };
+              // let test = { ...e.target.value };
+              photos[index].weather = {
+                code: e.target.value,
+                weather: getWeatherByCode(e.target.value, weatherCodes),
+              };
+              setPhotos(oldPhotos);
+            }}
+          >
+            {weatherCodes &&
+              Object.keys(weatherCodes).map((section) => (
+                <optgroup label={section}>
+                  {Object.keys(weatherCodes[section]).map((code) => (
+                    <option
+                      value={code}
+                      selected={code === photos[index].weather.code}
+                    >
+                      {weatherCodes[section][code]}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            <option></option>
+          </select>
+          {/* <input
+            className={
+              "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
+            }
+            type={"text"}
+            value={photos[index].weather.weather}
+            onChange={(e) => {}}
+            placeholder={"Weather..."}
+            readOnly
+          /> */}
         </div>
       </div>
     </div>

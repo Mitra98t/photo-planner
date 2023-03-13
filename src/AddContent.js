@@ -142,6 +142,7 @@ export default function AddContent({ userUID }) {
                   exif: fileExif,
                   camera: fileCamera,
                   authorUID: userUID,
+                  weather: {},
                   visible: true,
                 };
                 // console.log(photo);

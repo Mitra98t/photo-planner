@@ -42,8 +42,8 @@ export default function Image({ image, hideAuthor, clickCallback }) {
         <div className="flex flex-col items-start justify-start gap-0.5 text-stone-50 font-semibold whitespace-nowrap">
           <p>Date: {image.fileData.creationDate}</p>
           <p>Hour: {image.fileData.creationTime}</p>
-          {/* <p>Weather: {image.weather}</p> */}
           <p>Position: {image.location}</p>
+          <p>Weather: {image.weather.weather}</p>
         </div>
       </div>
 

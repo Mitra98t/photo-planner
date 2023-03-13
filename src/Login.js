@@ -21,7 +21,8 @@ export default function Login({ setCurrentUser }) {
           email: user.email,
         });
         setCurrentUser(user.uid);
-        // localStorage.setItem("uid", user.uid);
+        localStorage.setItem("uid", user.uid);
+        localStorage.setItem("token", token);
         navigate("/");
       })
       .catch((err) => {

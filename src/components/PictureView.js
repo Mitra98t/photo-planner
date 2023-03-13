@@ -90,11 +90,11 @@ export default function PictureView({ picture, close, userUID }) {
           <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Date: {picture.fileData.creationDate}</p>
             <p>Hour: {picture.fileData.creationTime}</p>
-            {/* <p>Weather: {picture.weather}</p> */}
             <p>Position: {picture.location}</p>
-            <p>
+            <p>Weather: {picture.weather.weather}</p>
+            {/* <p>
               Coordinates: {picture.lat}, {picture.lng}
-            </p>
+            </p> */}
           </div>
           <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Make: {picture.camera.make}</p>
