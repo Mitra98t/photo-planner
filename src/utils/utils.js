@@ -141,7 +141,6 @@ export function getDate(dateString) {
  * @returns
  */
 export function filterPhoto(photo, options) {
-  console.log(photo);
   let timePhoto = formatTimeToMinutes(photo.fileData.creationTime);
   let timeStart = formatTimeToMinutes(options.time.from);
   let timeEnd = formatTimeToMinutes(options.time.to);
