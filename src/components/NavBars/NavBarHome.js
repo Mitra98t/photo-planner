@@ -88,9 +88,7 @@ export default function NavBarHome({ close, options, setOptions }) {
                 <input
                   onChange={(e) => {
                     let oldOpt = { ...options };
-                    console.log(oldOpt);
                     oldOpt.time.from = e.target.value;
-                    console.log(oldOpt);
                     setOptions(oldOpt);
                   }}
                   type={"time"}
@@ -104,7 +102,6 @@ export default function NavBarHome({ close, options, setOptions }) {
                   onChange={(e) => {
                     let oldOpt = { ...options };
                     oldOpt.time.to = e.target.value;
-                    console.log(oldOpt);
                     setOptions(oldOpt);
                   }}
                   type={"time"}
@@ -134,9 +131,7 @@ export default function NavBarHome({ close, options, setOptions }) {
                 <input
                   onChange={(e) => {
                     let oldOpt = { ...options };
-                    console.log(oldOpt);
                     oldOpt.period.from = e.target.value;
-                    console.log(oldOpt);
                     setOptions(oldOpt);
                   }}
                   type={"date"}
@@ -149,9 +144,7 @@ export default function NavBarHome({ close, options, setOptions }) {
                 <input
                   onChange={(e) => {
                     let oldOpt = { ...options };
-                    console.log(oldOpt);
                     oldOpt.period.to = e.target.value;
-                    console.log(oldOpt);
                     setOptions(oldOpt);
                   }}
                   type={"date"}

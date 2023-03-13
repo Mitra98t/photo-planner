@@ -5,10 +5,6 @@ export default function PopupMenu({ close, hidden, children }) {
 
   const handleClickOutside = (e) => {
     e.preventDefault();
-    console.log("main.current");
-    console.log(main.current);
-    console.log("e.target");
-    console.log(e.target);
     if (main.current != null && !main.current.contains(e.target)) close();
   };
 

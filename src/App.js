@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     if (loggedUser == null) return;
-    console.log(loggedUser);
+    // console.log(loggedUser);
     // db.getUserInformationByUID(loggedUser)
     //   .then((v) => {
     //     setUser(v);

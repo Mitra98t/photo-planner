@@ -15,7 +15,7 @@ export default function AddContent({ userUID }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(photos);
+    // console.log(photos);
   }, [photos]);
 
   const upImage = async (file, id, pk) => {
