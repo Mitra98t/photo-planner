@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { DBManager as db } from "../utils/DBManager";
-import { formatDayIndexToDate, formatMinutesToTime } from "../utils/utils";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
 
-export default function Image({ image, hideAuthor, clickCallback }) {
-  console.log("image component");
-  console.log(image);
-
+export default function Image({ userUID, image, hideAuthor, clickCallback }) {
   const [author, setAuthor] = useState(null);
 
   useEffect(() => {
     db.getUserInformationByUID(image.authorUID).then((r) => {
       setAuthor({ UID: image.authorUID, ...r });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -23,11 +20,7 @@ export default function Image({ image, hideAuthor, clickCallback }) {
         onClick={() => clickCallback(image)}
       >
         <div className="w-full h-fit flex flex-row-reverse justify-between items-start">
-          <Voting
-            votes={Math.floor(Math.random() * 201 - 100)}
-            upVote={() => {}}
-            downVote={() => {}}
-          />
+          <Voting userUID={userUID} photoID={image.ID} disable />
           {hideAuthor ? (
             <></>
           ) : (

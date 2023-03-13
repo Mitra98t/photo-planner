@@ -43,7 +43,6 @@ export default function Autocomplete({
       let locationFromInput = userInput;
       if (clearOnSubmit) setUserInput("");
       else setUserInput(filteredSuggestions[activeSuggestion].luogo);
-      console.log(filteredSuggestions[activeSuggestion]);
       handleSubmit(
         !!filteredSuggestions[activeSuggestion]
           ? filteredSuggestions[activeSuggestion]
@@ -84,8 +83,6 @@ export default function Autocomplete({
           {filteredSuggestions.map((suggestion, index) => {
             let className = " bg-stone-50 ";
             if (index === activeSuggestion) {
-              console.log("activeSuggestion " + activeSuggestion);
-              console.log("index " + index);
               className = " bg-stone-300 ";
             }
             return (

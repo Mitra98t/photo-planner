@@ -8,6 +8,7 @@ export default function PhotoGallery({
   hideAuthor = false,
   personalProfile = false,
   photoClick,
+  userUID,
 }) {
   const navigate = useNavigate();
   return (
@@ -33,9 +34,11 @@ export default function PhotoGallery({
               className="h-[35vh] flex-grow overflow-hidden group relative rounded-2xl"
             >
               <Image
+                userUID={userUID}
                 clickCallback={photoClick}
                 image={p}
                 hideAuthor={hideAuthor}
+                
               />
             </li>
           ))}

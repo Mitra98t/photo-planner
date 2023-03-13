@@ -4,7 +4,6 @@ import MapCmp from "./components/MapCmp";
 import NavBarMap from "./components/NavBars/NavBarMap";
 import HomePhoto from "./HomePhoto";
 import classNames from "classnames";
-import { DBManager as db, randomName } from "./utils/DBManager";
 import Profile from "./Profile";
 import PictureView from "./components/PictureView";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
@@ -12,13 +11,11 @@ import ErrorPage from "./components/ErrorPage";
 import ProfileView from "./components/ProfileView";
 import AddContent from "./AddContent";
 import Login from "./Login";
-import { auth } from "./firebase.js";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [bounds, setBounds] = useState({});
-  const [user, setUser] = useState(null);
   const [mapLocation, setMapLocation] = useState({
     coords: [43.72077871691476, 10.407882154565954],
     zoom: 15,
@@ -92,6 +89,7 @@ function App() {
                     close={() => navigate("/")}
                     bounds={bounds}
                     selectPhoto={setSelectedPhoto}
+                    userUID={loggedUser}
                   />
                 }
               />
@@ -103,7 +101,7 @@ function App() {
                   path=":UID"
                   element={
                     <ProfileView
-                      userUid={loggedUser}
+                      userUID={loggedUser}
                       selectPhoto={setSelectedPhoto}
                     />
                   }

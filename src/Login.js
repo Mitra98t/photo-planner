@@ -10,7 +10,6 @@ export default function Login({ setCurrentUser }) {
   const navigate = useNavigate();
 
   const modalSignIn = async () => {
-    console.log("sign in");
     signInWithPopup(auth, provider)
       .then(async (r) => {
         const credentials = GoogleAuthProvider.credentialFromResult(r);
@@ -26,8 +25,8 @@ export default function Login({ setCurrentUser }) {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err.code);
-        const credential = GoogleAuthProvider.credentialFromError(err);
+        // const credential = GoogleAuthProvider.credentialFromError(err);
+        console.log(err);
       });
   };
   return (

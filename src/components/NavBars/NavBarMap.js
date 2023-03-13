@@ -1,5 +1,4 @@
 import React from "react";
-import { DBManager as db } from "../../utils/DBManager";
 import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
 
@@ -12,7 +11,6 @@ export default function NavBarMap({
   const handleSearchSubmit = async (foundLoc) => {
     // let foundLoc = await db.getLocationInfoByName(locationName);
 
-    console.log(foundLoc);
     setMapLocation({
       coords: [foundLoc.lat, foundLoc.lng],
       zoom: foundLoc.zoom,

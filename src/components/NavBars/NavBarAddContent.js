@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ProfilePic from "../ProfilePic";
 
 export default function NavBarAddContent({ close, profileArea, user }) {

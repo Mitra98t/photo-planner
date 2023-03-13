@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Icons from "./components/Icons";
-import NavBarMap from "./components/NavBars/NavBarMap";
 
 import EXIF from "exif-js";
 import PhotoDataViewer from "./components/PhotoDataViewer";
 import NavBarAddContent from "./components/NavBars/NavBarAddContent";
 import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, storage } from "./firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
 
 export default function AddContent({ userUID }) {
@@ -54,7 +52,6 @@ export default function AddContent({ userUID }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Cliccato");
     let photosToUpload = { ...photos };
     for (const pk in photosToUpload) {
       if (Object.hasOwnProperty.call(photosToUpload, pk)) {
@@ -145,7 +142,6 @@ export default function AddContent({ userUID }) {
                   weather: {},
                   visible: true,
                 };
-                // console.log(photo);
 
                 oldPhotos[fileData.nameComplete] = { ...photo };
                 setPhotos(oldPhotos);

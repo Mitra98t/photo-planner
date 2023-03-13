@@ -1,5 +1,4 @@
-import { auth, db, storage } from "../firebase.js";
-import { getAuth } from "firebase/auth";
+import { db, storage } from "../firebase.js";
 
 import { periods, times, weatherCodes } from "./utils";
 import {
@@ -76,97 +75,6 @@ function generateWeather() {
   };
 }
 
-function randomCameraModel() {
-  const cameraModels = [
-    "Canon EOS R5",
-    "Canon EOS R6",
-    "Canon EOS RP",
-    "Canon EOS 1DX Mark III",
-    "Canon EOS M50 Mark II",
-    "Nikon Z7 II",
-    "Nikon Z6 II",
-    "Nikon D6",
-    "Nikon D850",
-    "Nikon D780",
-    "Sony A7 III",
-    "Sony A7R IV",
-    "Sony A9 II",
-    "Sony A6600",
-    "Sony A6400",
-    "Fujifilm X-T4",
-    "Fujifilm X-T3",
-    "Fujifilm X-Pro3",
-    "Fujifilm GFX 100",
-    "Fujifilm X100V",
-    "Olympus OM-D E-M1 Mark III",
-    "Olympus PEN E-PL9",
-    "Olympus PEN E-PL10",
-    "Olympus Tough TG-6",
-    "Olympus Tough TG-Tracker",
-    "Panasonic Lumix S5",
-    "Panasonic Lumix S1R",
-    "Panasonic Lumix GH5",
-    "Panasonic Lumix GH5S",
-    "Panasonic Lumix G100",
-    "Leica Q2",
-    "Leica M10",
-    "Leica SL2",
-    "Leica CL",
-    "Leica T",
-    "Hasselblad X1D II 50C",
-    "Hasselblad H6D-400c",
-    "Hasselblad H5D-50c",
-    "Hasselblad 907X 50C",
-    "Hasselblad HV",
-  ];
-
-  const randomIndex = Math.floor(Math.random() * cameraModels.length);
-  return cameraModels[randomIndex];
-}
-
-function randomCameraSettings() {
-  const ISO = 100 * Math.floor(Math.random() * (256 - 1) + 1);
-  let aperture = (Math.random() * (0.9 - 22) + 22).toFixed(1);
-  let shutterSpeed = Math.random() * (3000 - 1) + 3000;
-  let zoom = Math.floor(Math.random() * (101 - 1) + 1);
-
-  if (shutterSpeed < 100) {
-    shutterSpeed /= 100;
-    const fraction = shutterSpeed.split(".");
-    const denominator = Math.pow(10, fraction[1].length);
-    shutterSpeed = `1/${denominator}`;
-  } else {
-    shutterSpeed /= 100;
-    shutterSpeed = Math.floor(shutterSpeed);
-  }
-
-  if (aperture > 10) {
-    aperture = Math.floor(aperture);
-  }
-
-  return {
-    ISO,
-    aperture,
-    shutter: shutterSpeed,
-    zoom,
-  };
-}
-function generatePhotoDescription() {
-  const photoDescriptions = [
-    "Immagine suggestiva di un tramonto sulla spiaggia.",
-    "Paesaggio montano con neve e alberi.",
-    "Vista aerea della città al crepuscolo.",
-    "Ritratto di un sorridente bambino al parco.",
-    "Foto artistica di una farfalla su un fiore.",
-    "Scatto notturno di un grattacielo illuminato.",
-    "Paesaggio marino con barche e onde.",
-  ];
-
-  let description =
-    photoDescriptions[Math.floor(Math.random() * photoDescriptions.length)];
-  return description;
-}
-
 export class DBManager {
   static async getWeatherCodes() {
     await delay(700);
@@ -184,13 +92,7 @@ export class DBManager {
   static async getImgsAtCoords(ne, sw) {
     let res = [];
     //TODO usare query, non filter
-    const coordQuery = query(
-      collection(db, "photos")
-      // where("lat", "==", "43.7714"),
-      // where("lng", ">=", sw[1]),
-      // where("lat", "<=", ne[0]),
-      // where("lng", "<=", ne[1])
-    );
+    const coordQuery = query(collection(db, "photos"));
 
     const querySnapshot = await getDocs(coordQuery);
 
@@ -239,7 +141,6 @@ export class DBManager {
     if (!UID) return Promise.reject("Missing user id");
     const docRef = doc(db, "users", UID);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap);
     if (docSnap.exists())
       return Promise.resolve({
         UID: UID,
@@ -325,5 +226,57 @@ export class DBManager {
     let deleteDocRes = await deleteDoc(doc(db, "photos", imageID));
 
     return Promise.resolve({ ...deleteDocRes, ...deleteImageRes });
+  }
+
+  static async getVotersByPhotoID(photoID) {
+    if (!photoID) return Promise.reject("Missing photo id");
+    const docRef = doc(db, "votes", photoID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists())
+      return Promise.resolve({
+        photoID: photoID,
+        upVoters: docSnap.data().upVoters,
+        downVoters: docSnap.data().downVoters,
+      });
+    else {
+      return Promise.resolve({
+        photoID: photoID,
+        upVoters: [],
+        downVoters: [],
+      });
+    }
+  }
+
+  static async addVote(vote, userUID, photoID) {
+    let currentVotes = await this.getVotersByPhotoID(photoID);
+    if (
+      (vote >= 0 && currentVotes.upVoters.indexOf(userUID) !== -1) ||
+      (vote <= 0 && currentVotes.downVoters.indexOf(userUID) !== -1)
+    )
+      return Promise.resolve({
+        photoID: photoID,
+        upVoters: currentVotes.upVoters,
+        downVoters: currentVotes.downVoters,
+      });
+
+    currentVotes.upVoters.splice(currentVotes.upVoters.indexOf(userUID), 1);
+    currentVotes.downVoters.splice(currentVotes.upVoters.indexOf(userUID), 1);
+    if (vote > 0 && !currentVotes.upVoters.includes(userUID))
+      currentVotes.upVoters = [...currentVotes.upVoters, userUID];
+    else if (!currentVotes.downVoters.includes(userUID))
+      currentVotes.downVoters = [...currentVotes.upVoters, userUID];
+    else return Promise.reject("cant vote");
+
+    setDoc(doc(db, "votes", photoID), {
+      photoID: photoID,
+      upVoters: currentVotes.upVoters,
+      downVoters: currentVotes.downVoters,
+    });
+
+    return Promise.resolve({
+      photoID: photoID,
+      upVoters: currentVotes.upVoters,
+      downVoters: currentVotes.downVoters,
+    });
   }
 }

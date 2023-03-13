@@ -1,8 +1,6 @@
-import { async } from "@firebase/util";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DBManager as db } from "../utils/DBManager";
-import { formatDayIndexToDate, formatMinutesToTime } from "../utils/utils";
 import Icons from "./Icons";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
@@ -19,9 +17,7 @@ export default function PictureView({ picture, close, userUID }) {
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
-    console.log(picture);
     db.getUserInformationByUID(picture.authorUID).then((r) => {
-      console.log({ UID: picture.authorUID, ...r });
       setAuthor({ UID: picture.authorUID, ...r });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,12 +60,7 @@ export default function PictureView({ picture, close, userUID }) {
         </div>
         <div className="flex-grow h-full whitespace-nowrap py-8 pr-8 flex flex-col items-start justify-start gap-8">
           <div className="w-full h-[10%] flex items-center justify-start gap-4">
-            <Voting
-              dark
-              votes={Math.floor(Math.random() * 201 - 100)}
-              upVote={() => {}}
-              downVote={() => {}}
-            />
+            <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
               className="flex items-center justify-start gap-2 h-full cursor-pointer"
               onClick={() => {

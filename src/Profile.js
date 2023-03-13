@@ -19,7 +19,6 @@ export default function Profile({ close }) {
         db.getWeatherCodes().then((v) => setWeatherTags(v));
         db.getPeriod().then((v) => setPeriodTags(v));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        console.log(UID)
     }, []);
 
     return (

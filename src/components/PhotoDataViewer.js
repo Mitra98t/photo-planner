@@ -15,7 +15,6 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
 
   useEffect(() => {
     db.getWeatherCodes().then((c) => setWeatherCodes(c));
-    console.log(photos);
   }, []);
 
   return (

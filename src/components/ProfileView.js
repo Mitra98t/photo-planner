@@ -5,7 +5,7 @@ import { filterPhoto } from "../utils/utils";
 import PhotoGallery from "./PhotoGallery";
 import ProfilePic from "./ProfilePic";
 
-export default function ProfileView({ userUid, selectPhoto }) {
+export default function ProfileView({ userUID, selectPhoto }) {
   const { UID } = useParams();
   const [options, weatherTags, timeTags, periodTags] = useOutletContext();
   const [userInfo, setUserInfo] = useState(null);
@@ -14,7 +14,6 @@ export default function ProfileView({ userUid, selectPhoto }) {
   const [personal, setPersonal] = useState(false);
 
   useEffect(() => {
-    console.log(UID);
     db.getUserInformationByUID(UID).then((v) => setUserInfo(v));
     db.getImagesByUID(UID).then((v) => {
       setPhotos(v);
@@ -24,11 +23,11 @@ export default function ProfileView({ userUid, selectPhoto }) {
   }, [UID]);
 
   useEffect(() => {
-    if (userUid == null) return;
-    if (userUid === UID) {
+    if (userUID == null) return;
+    if (userUID === UID) {
       setPersonal(true);
     }
-  }, [userUid, UID]);
+  }, [userUID, UID]);
 
   useEffect(() => {
     if (photos != null) {
@@ -84,6 +83,7 @@ export default function ProfileView({ userUid, selectPhoto }) {
           photoToShow={photoToShow}
           photoClick={selectPhoto}
           personalProfile={personal}
+          userUID={userUID}
         />
       </div>
     </div>

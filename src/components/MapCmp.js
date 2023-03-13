@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Map, ZoomControl } from "pigeon-maps";
 
@@ -19,9 +19,8 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
       defaultZoom={15}
       maxZoom={19.4}
       minZoom={3}
-      onClick={(e) => console.log(e.latLng)}
+      onClick={(e) => {}}
       onBoundsChanged={(e) => {
-        console.log(e.bounds);
         setBounds(e.bounds);
       }}
       zoomSnap={false}

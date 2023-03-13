@@ -5,7 +5,7 @@ import { DBManager as db } from "./utils/DBManager";
 import PhotoGallery from "./components/PhotoGallery";
 import { filterPhoto } from "./utils/utils";
 
-export default function HomePhoto({ close, bounds, selectPhoto }) {
+export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
   const [photos, setPhotos] = useState(null);
   const [photoToShow, setPhotoToShow] = useState(null);
   const [options, setOptions] = useState({
@@ -63,7 +63,7 @@ export default function HomePhoto({ close, bounds, selectPhoto }) {
             No photos here... -_-
           </p>
         ) : (
-          <PhotoGallery photoToShow={photoToShow} photoClick={selectPhoto} />
+          <PhotoGallery userUID={userUID} photoToShow={photoToShow} photoClick={selectPhoto} />
         )}
       </div>
     </div>
