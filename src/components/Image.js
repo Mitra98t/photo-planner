@@ -43,7 +43,8 @@ export default function Image({ userUID, image, hideAuthor, clickCallback }) {
       <img
         src={image.URL}
         alt="random img"
-        className={" max-h-full min-w-full object-cover align-bottom "}
+        // className={" max-h-full min-w-full object-cover align-bottom "}
+        className={" h-full w-full object-cover align-bottom "}
       />
     </>
   );

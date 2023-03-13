@@ -7,7 +7,7 @@ import ProfilePic from "./ProfilePic";
 
 export default function ProfileView({ userUID, selectPhoto }) {
   const { UID } = useParams();
-  const [options, weatherTags, timeTags, periodTags] = useOutletContext();
+  const [options] = useOutletContext();
   const [userInfo, setUserInfo] = useState(null);
   const [photos, setPhotos] = useState(null);
   const [photoToShow, setPhotoToShow] = useState(null);
@@ -33,9 +33,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
     if (photos != null) {
       let pht = [...photos];
 
-      pht = pht.filter((p) =>
-        filterPhoto(p, options, timeTags, periodTags, weatherTags)
-      );
+      pht = pht.filter((p) => filterPhoto(p, options));
       setPhotoToShow(pht);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,12 +60,6 @@ export default function ProfileView({ userUID, selectPhoto }) {
           </p>
           {personal ? (
             <div className="flex items-center justify-evenly w-full h-fit gap-2 text-stone-900">
-              {/* <button
-                onClick={() => navigate("/addContent")}
-                className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 "
-              >
-                Add Content
-              </button> */}
               <button className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 ">
                 Modify Profile
               </button>

@@ -1,6 +1,6 @@
 import { db, storage } from "../firebase.js";
 
-import { periods, times, weatherCodes } from "./utils";
+import { weatherCodes } from "./utils";
 import {
   collection,
   deleteDoc,
@@ -79,14 +79,6 @@ export class DBManager {
   static async getWeatherCodes() {
     await delay(700);
     return Promise.resolve(weatherCodes);
-  }
-  static async getTimes() {
-    await delay(700);
-    return Promise.resolve(times);
-  }
-  static async getPeriod() {
-    await delay(700);
-    return Promise.resolve(periods);
   }
 
   static async getImgsAtCoords(ne, sw) {
