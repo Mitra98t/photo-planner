@@ -112,6 +112,14 @@ export default function Icons({
             d="M15.75 19.5L8.25 12l7.5-7.5"
           />
         );
+      case "close":
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        );
 
       default:
         return (

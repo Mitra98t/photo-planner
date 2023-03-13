@@ -153,6 +153,9 @@ export default function AddContent({ userUID }) {
             disabled={Object.keys(photos).every(
               (key) => photos[key].progress === 100
             )}
+            className={
+              "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-full transition-all ease-in-out duration-150"
+            }
           >
             Carica
           </button>

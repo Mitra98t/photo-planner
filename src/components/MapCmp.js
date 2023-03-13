@@ -16,7 +16,8 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
       defaultCenter={[43.72077871691476, 10.407882154565954]}
       center={mapLocation.coords}
       zoom={mapLocation.zoom}
-      defaultZoom={15}
+      // defaultZoom={15}
+      defaultZoom={4}
       maxZoom={19.4}
       minZoom={3}
       onClick={(e) => {}}

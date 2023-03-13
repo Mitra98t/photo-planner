@@ -74,28 +74,6 @@ export const weatherCodes = {
 };
 
 /**
- * divisione dei momenti della giornata espressi in range di minuti
- */
-export const times = {
-  night: [1260, 360],
-  dawn: [360, 480],
-  morning: [480, 660],
-  noon: [660, 780],
-  afternoon: [780, 1140],
-  sunset: [1140, 1260],
-};
-
-/**
- * divisione dei momenti dell'anno espressi in range di date mm/gg
- */
-export const periods = {
-  winter: [formatDateToIndex("12/21"), formatDateToIndex("3/20")],
-  spring: [formatDateToIndex("3/21"), formatDateToIndex("6/20")],
-  summer: [formatDateToIndex("6/21"), formatDateToIndex("9/23")],
-  autumn: [formatDateToIndex("9/24"), formatDateToIndex("12/20")],
-};
-
-/**
  * Partendo da dei Minuti trasforma in hh:mm
  * @param {*} minutes minuti nella giornata
  * @returns time of day => hh:mm
@@ -106,6 +84,10 @@ export function formatMinutesToTime(minutes) {
   return `${hours.toString().padStart(2, "0")}:${remainingMinutes
     .toString()
     .padStart(2, "0")}`;
+}
+export function formatTimeToMinutes(time) {
+  const [hours, minutes] = time.split(":");
+  return hours * 60 + minutes;
 }
 
 /**
@@ -143,19 +125,10 @@ export function formatDayIndexToDate(dayIndex) {
   return `${month} ${dayOfWeek} ${dayOfMonth}`;
 }
 
-/**
- * A partire dalla data come stringa restituisce la data come indice
- * @param {*} dateString data
- * @returns indice della data
- */
-export function formatDateToIndex(dateString) {
-  const [month, day] = dateString.split("/").map((x) => parseInt(x));
+export function getDate(dateString) {
+  const [year, month, day] = dateString.split("-").map((x) => +x);
 
-  const startDate = new Date(2023, 0, 1);
-  const targetDate = new Date(2023, month - 1, day);
-  const oneDay = 24 * 60 * 60 * 1000;
-
-  return Math.floor((targetDate.getTime() - startDate.getTime()) / oneDay);
+  return new Date(year, month, day);
 }
 
 /**
@@ -167,24 +140,31 @@ export function formatDateToIndex(dateString) {
  * @param {*} weatherTags
  * @returns
  */
-export function filterPhoto(photo, options, timeTags, periodTags, weatherTags) {
+export function filterPhoto(photo, options) {
+  console.log(photo);
+  let timePhoto = formatTimeToMinutes(photo.fileData.creationTime);
+  let timeStart = formatTimeToMinutes(options.time.from);
+  let timeEnd = formatTimeToMinutes(options.time.to);
+
+  let datePhoto = getDate(photo.fileData.creationDate);
+  let dateStart = getDate(options.period.from);
+  let dateEnd = getDate(options.period.to);
+
   let weatherCheck =
     options.weather === "" ||
-    photo.weather.toLowerCase() === options.weather.toLowerCase();
+    photo.weather.weather.toLowerCase() === options.weather.toLowerCase();
+
   let timeCheck =
-    options.time === "" ||
-    (timeTags[options.time][0] > timeTags[options.time][1] &&
-      (photo.hour > timeTags[options.time][0] ||
-        photo.hour <= timeTags[options.time][1])) ||
-    (photo.hour > timeTags[options.time][0] &&
-      photo.hour <= timeTags[options.time][1]);
+    options.time.from === "" ||
+    options.time.to === "" ||
+    timeStart > timeEnd ||
+    (timePhoto >= timeStart && timePhoto <= timeEnd);
+
   let periodCheck =
-    options.period === "" ||
-    (periodTags[options.period][0] > periodTags[options.period][1] &&
-      (photo.date > periodTags[options.period][0] ||
-        photo.date <= periodTags[options.period][1])) ||
-    (photo.date > periodTags[options.period][0] &&
-      photo.date <= periodTags[options.period][1]);
+    options.period.from === "" ||
+    options.period.to === "" ||
+    dateStart > dateEnd ||
+    (datePhoto >= dateStart && datePhoto <= dateEnd);
 
   return weatherCheck && timeCheck && periodCheck;
 }
