@@ -216,8 +216,13 @@ export class DBManager {
     let deleteImageRes = await deleteObject(imageRef);
 
     let deleteDocRes = await deleteDoc(doc(db, "photos", imageID));
+    let deleteVotesRes = await deleteDoc(doc(db, "votes", imageID));
 
-    return Promise.resolve({ ...deleteDocRes, ...deleteImageRes });
+    return Promise.resolve({
+      ...deleteDocRes,
+      ...deleteImageRes,
+      ...deleteVotesRes,
+    });
   }
 
   static async getVotersByPhotoID(photoID) {
@@ -242,8 +247,10 @@ export class DBManager {
   static async addVote(vote, userUID, photoID) {
     let currentVotes = await this.getVotersByPhotoID(photoID);
     if (
-      (vote >= 0 && currentVotes.upVoters.indexOf(userUID) !== -1) ||
-      (vote <= 0 && currentVotes.downVoters.indexOf(userUID) !== -1)
+      (vote >= 0 &&
+        currentVotes.upVoters.findIndex((voter) => voter === userUID) !== -1) ||
+      (vote <= 0 &&
+        currentVotes.downVoters.findIndex((voter) => voter === userUID) !== -1)
     )
       return Promise.resolve({
         photoID: photoID,
@@ -251,15 +258,29 @@ export class DBManager {
         downVoters: currentVotes.downVoters,
       });
 
-    currentVotes.upVoters.splice(currentVotes.upVoters.indexOf(userUID), 1);
-    currentVotes.downVoters.splice(currentVotes.upVoters.indexOf(userUID), 1);
-    if (vote > 0 && !currentVotes.upVoters.includes(userUID))
+    if (currentVotes.upVoters.findIndex((voter) => voter === userUID) !== -1)
+      currentVotes.upVoters.splice(
+        currentVotes.upVoters.findIndex((voter) => voter === userUID),
+        1
+      );
+    if (currentVotes.downVoters.findIndex((voter) => voter === userUID) !== -1)
+      currentVotes.downVoters.splice(
+        currentVotes.downVoters.findIndex((voter) => voter === userUID),
+        1
+      );
+    if (
+      vote > 0 &&
+      currentVotes.upVoters.findIndex((voter) => voter === userUID) === -1
+    )
       currentVotes.upVoters = [...currentVotes.upVoters, userUID];
-    else if (!currentVotes.downVoters.includes(userUID))
-      currentVotes.downVoters = [...currentVotes.upVoters, userUID];
+    else if (
+      vote < 0 &&
+      currentVotes.downVoters.findIndex((voter) => voter === userUID) === -1
+    )
+      currentVotes.downVoters = [...currentVotes.downVoters, userUID];
     else return Promise.reject("cant vote");
 
-    setDoc(doc(db, "votes", photoID), {
+    await setDoc(doc(db, "votes", photoID), {
       photoID: photoID,
       upVoters: currentVotes.upVoters,
       downVoters: currentVotes.downVoters,
