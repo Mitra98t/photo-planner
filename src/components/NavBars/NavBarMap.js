@@ -35,7 +35,7 @@ export default function NavBarMap({
         Search Area
       </button>
       <div className=" h-3/5 flex-1 flex items-center justify-end  gap-12">
-        <a href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut" target="_blank" className="font-semibold text-lg text-stone-900 hover:scale-110 transition-all ease-in-out duration-150" >Feedback and Ideas</a>
+        <a href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut" onclick={() => parent.location='https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut'} className="font-semibold text-lg text-stone-900 hover:scale-110 transition-all ease-in-out duration-150" >Feedback and Ideas</a>
         <button onClick={profileArea} className={"h-full w-fit rounded-full"}>
           <ProfilePic
             seed={user ? user : ""}
