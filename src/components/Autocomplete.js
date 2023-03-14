@@ -136,7 +136,7 @@ export default function Autocomplete({
           classNames({
             " text-2xl p-3 ": large,
             " text-base p-2 ": !large,
-          })
+          }) 
         }
       />
       <div

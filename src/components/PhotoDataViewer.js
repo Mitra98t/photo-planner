@@ -19,7 +19,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
 
   return (
     <div className="w-full h-full flex flex-col items-start justify-evenly gap-4 px-4">
-      <div className="flex flex-col items-start justify-start gap-1">
+      <div className="w-full flex flex-col items-start justify-start gap-1">
         {inputField(
           photos[index].file.name,
           (v) => {
@@ -36,7 +36,9 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
             oldPhotos[index].file.description = v;
             setPhotos(oldPhotos);
           },
-          "Description"
+          "Description",
+          true,
+          true
         )}
         {inputField(
           photos[index].file.creationDate,
@@ -112,7 +114,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
           "Focal length",
           false
         )}
-        <div className="flex flex-row items-center justify-start gap-2">
+        <div className="flex flex-row items-center justify-start gap-2 w-full">
           <span className="font-bold whitespace-nowrap">Location: </span>
           <Autocomplete
             handleSubmit={async (data) => {
@@ -122,7 +124,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
             }}
           />
         </div>
-        <div className="flex flex-row items-center justify-start gap-2">
+        <div className="flex flex-row items-center justify-start gap-2 ">
           <span className="font-bold whitespace-nowrap">weather: </span>
           <select
             className="focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
@@ -156,20 +158,33 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
     </div>
   );
 }
-function inputField(value, setValue, label, editable = true) {
+function inputField(value, setValue, label, editable = true, textArea = false) {
   return (
-    <div className="flex flex-row items-center justify-start gap-2">
+    <div className="w-full flex flex-row items-center justify-start gap-2">
       <span className="font-bold whitespace-nowrap">{label}: </span>
-      <input
-        className={
-          "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
-        }
-        type={"text"}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder={label + "..."}
-        readOnly={!editable}
-      />
+      {textArea ? (
+        <textarea
+          className={
+            "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full whitespace-pre-wrap min-h-[4rem] max-h-[15rem] px-2 py-1 "
+          }
+          type={"text"}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={label + "..."}
+          readOnly={!editable}
+        ></textarea>
+      ) : (
+        <input
+          className={
+            "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
+          }
+          type={"text"}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={label + "..."}
+          readOnly={!editable}
+        />
+      )}
     </div>
   );
 }

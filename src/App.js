@@ -52,6 +52,17 @@ function App() {
           ) : (
             <></>
           )}
+          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[500] bg-stone-50 p-4 rounded-xl shadow-lg">
+            <span className="font-semibold text-base text-stone-900">
+              It's a Beta be kind
+            </span>
+            <a
+              href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
+              className="italic font-medium text-sm text-stone-900"
+            >
+              And report bugs {"<"}3
+            </a>
+          </div>
           <MapCmp
             setBounds={setBounds}
             blocked={location.pathname !== "/"}
