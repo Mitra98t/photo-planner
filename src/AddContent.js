@@ -15,12 +15,29 @@ export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
   const navigate = useNavigate();
 
+  const compressImage = async (file, { quality = 1, type = file.type }) => {
+    // Get as image data
+    const imageBitmap = await createImageBitmap(file);
+
+    // Draw to canvas
+    const canvas = document.createElement("canvas");
+    canvas.width = imageBitmap.width;
+    canvas.height = imageBitmap.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(imageBitmap, 0, 0);
+
+    // Turn into Blob
+    return await new Promise((resolve) =>
+      canvas.toBlob(resolve, type, quality)
+    );
+  };
+
   useEffect(() => {
     // console.log(photos);
   }, [photos]);
 
   const upImage = async (file, id, pk) => {
-    const name = file.name + "_" + id;
+    const name = id;
     const storageRef = ref(storage, name);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
@@ -63,8 +80,7 @@ export default function AddContent({ userUID }) {
           uuid,
           pk
         );
-        let resourceName =
-          photosToUpload[pk].file.fileFromSource.name + "_" + uuid;
+        let resourceName = uuid;
         let url = await getDownloadURL(res.ref);
 
         photosToUpload[pk].URL = url;
@@ -101,12 +117,12 @@ export default function AddContent({ userUID }) {
           <input
             type={"file"}
             accept=".jpg, .png, .heif, .heic"
-            onChange={(e) => {
+            onChange={async (e) => {
               e.preventDefault();
               let oldPhotos = { ...photos };
               let file = e.target.files[0];
               let exd;
-              EXIF.getData(e.target.files[0], () => {
+              EXIF.getData(e.target.files[0], async () => {
                 exd = EXIF.getAllTags(e.target.files[0]);
                 let fileData = {
                   nameComplete: file.name,
@@ -114,7 +130,9 @@ export default function AddContent({ userUID }) {
                   type: file.name.split(".")[1],
                   creationDate: exd.DateTime.split(" ")[0].replace(/:/g, "-"),
                   creationTime: exd.DateTime.split(" ")[1],
-                  fileFromSource: e.target.files[0],
+                  fileFromSource: await compressImage(e.target.files[0], {
+                    quality: 0.5,
+                  }),
                 };
 
                 let fileExif = {
