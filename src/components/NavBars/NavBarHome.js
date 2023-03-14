@@ -44,13 +44,8 @@ export default function NavBarHome({ close, options, setOptions }) {
         </button>
         <div className="flex flex-col items-start justify-evenly gap-1 cursor-pointer p-2 ">
           <p className="text-xl font-bold">Weather</p>
-          {/* <Hashtag
-            label={options.weather === "" ? "Any" : options.weather}
-            text="text-md"
-            onClick={() => {}}
-          /> */}
           <select
-            className="focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-fit px-2 py-1 "
+            className="focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-fit py-2 "
             value={options.weather === "" ? "any" : options.weather}
             onChange={(e) => {
               let oldOptions = { ...options };
@@ -83,7 +78,7 @@ export default function NavBarHome({ close, options, setOptions }) {
           </p>
           <PopupMenu hidden={wichMenu !== "time"} close={() => setWichMenu("")}>
             <div className="w-full h-fit pr-6">
-              <div className="w-full h-fit flex flex-row items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap">
                 <p>From:</p>
                 <input
                   onChange={(e) => {
@@ -93,10 +88,10 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"time"}
                   value={options.time.from}
-                  className={"bg-stone-50 p-3"}
+                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
                 />
               </div>
-              <div className="w-full h-fit flex flex-row items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap">
                 <p>To:</p>
                 <input
                   onChange={(e) => {
@@ -106,14 +101,14 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"time"}
                   value={options.time.to}
-                  className={"bg-stone-50 p-3"}
+                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
                 />
               </div>
             </div>
           </PopupMenu>
         </div>
         <div
-          className="flex flex-col items-start justify-evenly gap-1 cursor-pointer p-2"
+          className="flex flex-col items-start justify-evenly gap-3 cursor-pointer relative p-2"
           onClick={() => setWichMenu(() => "period")}
         >
           <p className="text-xl font-bold">Period</p>
@@ -126,7 +121,7 @@ export default function NavBarHome({ close, options, setOptions }) {
             close={() => setWichMenu("")}
           >
             <div className="w-full h-fit ">
-              <div className="w-full h-fit flex flex-row items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap">
                 <p>From:</p>
                 <input
                   onChange={(e) => {
@@ -136,10 +131,10 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"date"}
                   value={options.period.from}
-                  className={"bg-stone-50 p-3"}
+                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
                 />
               </div>
-              <div className="w-full h-fit flex flex-row items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-1 items-center justify-between whitespace-nowrap">
                 <p>To:</p>
                 <input
                   onChange={(e) => {
@@ -149,7 +144,7 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"date"}
                   value={options.period.to}
-                  className={"bg-stone-50 p-3"}
+                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
                 />
               </div>
             </div>

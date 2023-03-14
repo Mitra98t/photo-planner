@@ -117,13 +117,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
           <Autocomplete
             handleSubmit={async (data) => {
               let oldPhotos = { ...photos };
-              let weather = await db.getWeatherByTimeAndLoc(
-                photos[index].file.creationDate,
-                photos[index].file.creationTime,
-                { lat: data.lat, lng: data.lng }
-              );
               photos[index].location = { ...data };
-              photos[index].weather = { ...weather };
               setPhotos(oldPhotos);
             }}
           />
@@ -157,16 +151,6 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
               ))}
             <option></option>
           </select>
-          {/* <input
-            className={
-              "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
-            }
-            type={"text"}
-            value={photos[index].weather.weather}
-            onChange={(e) => {}}
-            placeholder={"Weather..."}
-            readOnly
-          /> */}
         </div>
       </div>
     </div>
