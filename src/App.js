@@ -58,6 +58,7 @@ function App() {
             </span>
             <a
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
+              target="_blank"
               className="italic font-medium text-sm text-stone-900"
             >
               And report bugs {"<"}3
