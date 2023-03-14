@@ -56,13 +56,18 @@ function App() {
             <span className="font-semibold text-base text-stone-900">
               It's a Beta be kind
             </span>
-            <a
+            <button
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
-              onClick={() => parent.location='https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut'}
+              onClick={() =>
+                window.open(
+                  "https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut",
+                  "_blank"
+                )
+              }
               className="italic font-medium text-sm text-stone-900"
             >
               And report bugs {"<"}3
-            </a>
+            </button>
           </div>
           <MapCmp
             setBounds={setBounds}
