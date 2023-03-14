@@ -114,59 +114,63 @@ export default function AddContent({ userUID }) {
           onSubmit={handleSubmit}
           className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 z-[100] p-4"
         >
-          <input
-            type={"file"}
-            accept=".jpg, .png, .heif, .heic"
-            onChange={async (e) => {
-              e.preventDefault();
-              let oldPhotos = { ...photos };
-              let file = e.target.files[0];
-              let exd;
-              EXIF.getData(e.target.files[0], async () => {
-                exd = EXIF.getAllTags(e.target.files[0]);
-                let fileData = {
-                  nameComplete: file.name,
-                  name: file.name.split(".")[0],
-                  type: file.name.split(".")[1],
-                  creationDate: exd.DateTime.split(" ")[0].replace(/:/g, "-"),
-                  creationTime: exd.DateTime.split(" ")[1],
-                  fileFromSource: await compressImage(e.target.files[0], {
-                    quality: 0.5,
-                  }),
-                };
+          <div className="w-fit h-full flex flex-row items-center justify-start gap-6">
+            <input
+              type={"file"}
+              accept=".jpg, .png, .heif, .heic"
+              className="file:mr-4 file:px-6 file:py-3 file:bg-stone-900 file:hover:bg-stone-700 file:rounded-full file:text-stone-50 file:font-semibold file:border-0 file:cursor-pointer"
+              onChange={async (e) => {
+                e.preventDefault();
+                let oldPhotos = { ...photos };
+                let file = e.target.files[0];
+                let exd;
+                EXIF.getData(e.target.files[0], async () => {
+                  exd = EXIF.getAllTags(e.target.files[0]);
+                  let fileData = {
+                    nameComplete: file.name,
+                    name: file.name.split(".")[0],
+                    type: file.name.split(".")[1],
+                    creationDate: exd.DateTime.split(" ")[0].replace(/:/g, "-"),
+                    creationTime: exd.DateTime.split(" ")[1],
+                    fileFromSource: await compressImage(e.target.files[0], {
+                      quality: 0.5,
+                    }),
+                  };
 
-                let fileExif = {
-                  exifVersion: exd.ExifVersion,
-                  shutterSpeed:
-                    exd.ExposureTime.numerator === 1
-                      ? `${exd.ExposureTime.numerator}/${exd.ExposureTime.denominator}`
-                      : `${exd.ExposureTime.numerator}"`,
-                  aperture: exd.FNumber.numerator / exd.FNumber.denominator,
-                  focalLength:
-                    exd.FocalLength.numerator / exd.FocalLength.denominator,
-                  ISO: exd.ISOSpeedRatings,
-                };
+                  let fileExif = {
+                    exifVersion: exd.ExifVersion,
+                    shutterSpeed:
+                      exd.ExposureTime.numerator === 1
+                        ? `${exd.ExposureTime.numerator}/${exd.ExposureTime.denominator}`
+                        : `${exd.ExposureTime.numerator}"`,
+                    aperture: exd.FNumber.numerator / exd.FNumber.denominator,
+                    focalLength:
+                      exd.FocalLength.numerator / exd.FocalLength.denominator,
+                    ISO: exd.ISOSpeedRatings,
+                  };
 
-                let fileCamera = {
-                  make: exd.Make,
-                  model: exd.Model,
-                };
+                  let fileCamera = {
+                    make: exd.Make,
+                    model: exd.Model,
+                  };
 
-                let photo = {
-                  URL: URL.createObjectURL(e.target.files[0]),
-                  file: fileData,
-                  exif: fileExif,
-                  camera: fileCamera,
-                  authorUID: userUID,
-                  weather: {},
-                  visible: true,
-                };
+                  let photo = {
+                    URL: URL.createObjectURL(e.target.files[0]),
+                    file: fileData,
+                    exif: fileExif,
+                    camera: fileCamera,
+                    authorUID: userUID,
+                    weather: {},
+                    visible: true,
+                  };
 
-                oldPhotos[fileData.nameComplete] = { ...photo };
-                setPhotos(oldPhotos);
-              });
-            }}
-          ></input>
+                  oldPhotos[fileData.nameComplete] = { ...photo };
+                  setPhotos(oldPhotos);
+                });
+              }}
+            ></input>
+            <p className=" italic font-medium">If the button doesn't work, refresh page {"<"}3</p>
+          </div>
           {Object.keys(photos).every((key) => photos[key].progress === 100) ||
           Object.keys(photos).some((key) => !checkPhoto(photos[key])) ? (
             <button
@@ -193,9 +197,9 @@ export default function AddContent({ userUID }) {
           return (
             <div
               key={pk}
-              className="w-full h-fit grid grid-cols-2 relative pt-[5vh]"
+              className="w-full h-fit grid grid-cols-2 relative pt-[7vh] "
             >
-              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[90] flex items-center justify-start">
+              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[90] flex items-center justify-start gap-3 px-4">
                 <button
                   onClick={() => {
                     let oldPhotos = { ...photos };
@@ -208,12 +212,25 @@ export default function AddContent({ userUID }) {
                     icon={photos[pk].visible ? "menuOpen" : "menuClose"}
                     styling={{
                       w: "auto",
-                      h: "100%",
+                      h: "60%",
                       strokeWidth: "2px",
                     }}
                   />
                 </button>
-                <p>{photos[pk].file.name}</p>
+                {photos[pk].visible ? (
+                  <></>
+                ) : (
+                  <img
+                    src={photos[pk].URL}
+                    alt={"added" + i}
+                    className={
+                      "h-[6rem] object-cover border rounded-sm border-stone-900"
+                    }
+                  />
+                )}
+                <span className="text-2xl font-semibold text-stone-900">
+                  {photos[pk].file.name}
+                </span>
               </div>
               {photos[pk].visible ? (
                 <>
