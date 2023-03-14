@@ -95,9 +95,11 @@ export default function PictureView({ picture, close, userUID }) {
             <p>Aperture: f/{picture.cameraSettings.aperture}</p>
             <p>zoom: {picture.cameraSettings.focalLength}mm</p>
           </div>
-          <div className=" w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className=" max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Title: {picture.fileData.name}</p>
-            <p>Description: {picture.fileData.description}</p>
+            <p className="whitespace-pre-wrap">
+              Description: {picture.fileData.description}
+            </p>
           </div>
         </div>
       </div>

@@ -176,3 +176,53 @@ export function getWeatherByCode(code, weatherCodes) {
   }
   return null;
 }
+
+function isNonEmptyString(str) {
+  return typeof str === "string" && str.trim().length > 0;
+}
+
+export function checkPhoto(photo) {
+  let infoCheck =
+    isNonEmptyString(photo.URL) && isNonEmptyString(photo.authorUID);
+
+  let fileDataCkeck =
+    !!photo.file &&
+    isNonEmptyString(photo.file.nameComplete) &&
+    isNonEmptyString(photo.file.name) &&
+    isNonEmptyString(photo.file.description) &&
+    isNonEmptyString(photo.file.type) &&
+    isNonEmptyString(photo.file.creationDate) &&
+    isNonEmptyString(photo.file.creationTime);
+
+  let cameraCheck =
+    !!photo.camera &&
+    isNonEmptyString(photo.camera.model) &&
+    isNonEmptyString(photo.camera.make);
+
+  let weatherCheck =
+    !!photo.weather &&
+    isNonEmptyString(photo.weather.weather) &&
+    isNonEmptyString(photo.weather.code);
+
+  let settingsCheck =
+    !!photo.exif &&
+    isNonEmptyString(photo.exif.ISO + "") &&
+    isNonEmptyString(photo.exif.aperture + "") &&
+    isNonEmptyString(photo.exif.focalLength + "") &&
+    isNonEmptyString(photo.exif.shutterSpeed);
+
+  let locationCheck =
+    !!photo.location &&
+    isNonEmptyString(photo.location.luogo) &&
+    isNonEmptyString(photo.location.lat) &&
+    isNonEmptyString(photo.location.lng);
+
+  return (
+    infoCheck &&
+    fileDataCkeck &&
+    cameraCheck &&
+    weatherCheck &&
+    settingsCheck &&
+    locationCheck
+  );
+}

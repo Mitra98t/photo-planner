@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
+import { checkPhoto } from "./utils/utils";
 
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
@@ -148,17 +149,27 @@ export default function AddContent({ userUID }) {
               });
             }}
           ></input>
-          <button
-            type={"submit"}
-            disabled={Object.keys(photos).every(
-              (key) => photos[key].progress === 100
-            )}
-            className={
-              "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-full transition-all ease-in-out duration-150"
-            }
-          >
-            Carica
-          </button>
+          {Object.keys(photos).every((key) => photos[key].progress === 100) ||
+          Object.keys(photos).some((key) => !checkPhoto(photos[key])) ? (
+            <button
+              type={"submit"}
+              disabled
+              className={
+                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 rounded-full transition-all ease-in-out duration-150"
+              }
+            >
+              Carica
+            </button>
+          ) : (
+            <button
+              type={"submit"}
+              className={
+                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-full transition-all ease-in-out duration-150"
+              }
+            >
+              Carica
+            </button>
+          )}
         </form>
         {Object.keys(photos).map((pk, i) => {
           return (
