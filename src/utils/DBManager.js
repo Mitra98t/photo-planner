@@ -161,7 +161,7 @@ export class DBManager {
       httpGet(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
           locationName
-        )}&format=json`
+        )}&format=json&accept-language=it&limit=1`
       )
     );
     locations.length = 50;
@@ -196,10 +196,9 @@ export class DBManager {
       httpGet(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
           locationName
-        )}&format=json`
+        )}&format=json&accept-language=it&limit=4`
       )
     );
-    locations.length = 50;
 
     for (const l in locations) {
       locations[l] = {
@@ -214,14 +213,6 @@ export class DBManager {
     }
 
     return Promise.resolve(locations);
-    // await delay(300);
-    // if (!locationName) {
-    //   return Promise.resolve([]);
-    // }
-    // let locs = locations.filter((l) =>
-    //   l.luogo.toLowerCase().startsWith(locationName.toLowerCase())
-    // );
-    // return Promise.resolve(locs);
   }
 
   static async addPhoto(photo, photoName) {

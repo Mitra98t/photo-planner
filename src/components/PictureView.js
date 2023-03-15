@@ -31,7 +31,7 @@ export default function PictureView({ picture, close, userUID }) {
       >
         {picture.authorUID === userUID ? (
           <button
-            className="absolute bottom-4 right-4 hover:scale-105"
+            className="absolute bottom-4 right-4 hover:scale-110 z-[300] transition-all ease-in-out duration-100 "
             onClick={async () => {
               await db.removeImage(picture.ID);
               close();
@@ -41,6 +41,7 @@ export default function PictureView({ picture, close, userUID }) {
             <Icons
               icon={"trash"}
               styling={{ w: "2rem", h: "auto", strokeWidth: "1.5px" }}
+              color={" stroke-stone-900 dark:stroke-stone-50 "}
             />
           </button>
         ) : (
@@ -58,8 +59,8 @@ export default function PictureView({ picture, close, userUID }) {
             />
           </div>
         </div>
-        <div className="flex-grow h-full whitespace-nowrap py-8 pr-8 flex flex-col items-start justify-start gap-8">
-          <div className="w-full h-[10%] flex items-center justify-start gap-4">
+        <div className="flex-grow h-full whitespace-nowrap py-8 pr-8 flex flex-col items-start justify-start gap-8 overflow-y-scroll overflow-x-hidden relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600">
+          <div className="w-full h-[12%] flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 pb-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
               className="flex items-center justify-start gap-2 h-full cursor-pointer"

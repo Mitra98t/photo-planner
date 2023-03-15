@@ -122,6 +122,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
               photos[index].location = { ...data };
               setPhotos(oldPhotos);
             }}
+            searchOnClick
           />
         </div>
         <div className="flex flex-row items-center justify-start gap-2 ">

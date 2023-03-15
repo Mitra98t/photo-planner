@@ -109,7 +109,7 @@ export default function AddContent({ userUID }) {
           user={userUID}
         />
       </div>
-      <div className="w-full h-full flex flex-col items-center justify-start gap-10 px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300">
+      <div className="w-full h-full flex flex-col items-center justify-start gap-10 px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600">
         <form
           onSubmit={handleSubmit}
           className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 dark:bg-dark-800 z-[100] p-4"
