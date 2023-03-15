@@ -100,7 +100,7 @@ export default function AddContent({ userUID }) {
   };
 
   return (
-    <div className="w-full h-full relative bg-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] pb-4 ">
+    <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] pb-4 ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         {/* <NavBarHome close={() => {}} /> */}
         <NavBarAddContent
@@ -112,13 +112,13 @@ export default function AddContent({ userUID }) {
       <div className="w-full h-full flex flex-col items-center justify-start gap-10 px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300">
         <form
           onSubmit={handleSubmit}
-          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 z-[100] p-4"
+          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 dark:bg-dark-800 z-[100] p-4"
         >
           <div className="w-fit h-full flex flex-row items-center justify-start gap-6">
             <input
               type={"file"}
               accept=".jpg, .png, .heif, .heic"
-              className="file:mr-4 file:px-6 file:py-3 file:bg-stone-900 file:hover:bg-stone-700 file:rounded-full file:text-stone-50 file:font-semibold file:border-0 file:cursor-pointer"
+              className="file:mr-4 file:px-6 file:py-3 file:bg-stone-900 file:hover:bg-stone-700 file:dark:bg-dark-900 file:dark:hover:bg-dark-700 file:rounded-full file:text-stone-50 file:font-semibold file:border-0 file:cursor-pointer"
               onChange={async (e) => {
                 e.preventDefault();
                 let oldPhotos = { ...photos };
@@ -169,7 +169,9 @@ export default function AddContent({ userUID }) {
                 });
               }}
             ></input>
-            <p className=" italic font-medium">If the button doesn't work, refresh page {"<"}3</p>
+            <p className=" italic font-medium">
+              If the button doesn't work, refresh page {"<"}3
+            </p>
           </div>
           {Object.keys(photos).every((key) => photos[key].progress === 100) ||
           Object.keys(photos).some((key) => !checkPhoto(photos[key])) ? (
@@ -177,7 +179,7 @@ export default function AddContent({ userUID }) {
               type={"submit"}
               disabled
               className={
-                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 rounded-full transition-all ease-in-out duration-150"
+                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 rounded-full transition-all ease-in-out duration-150"
               }
             >
               Carica
@@ -186,7 +188,7 @@ export default function AddContent({ userUID }) {
             <button
               type={"submit"}
               className={
-                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-full transition-all ease-in-out duration-150"
+                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 dark:bg-dark-900 dark:hover:bg-dark-700 rounded-full transition-all ease-in-out duration-150"
               }
             >
               Carica
@@ -199,7 +201,7 @@ export default function AddContent({ userUID }) {
               key={pk}
               className="w-full h-fit grid grid-cols-2 relative pt-[7vh] "
             >
-              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 z-[90] flex items-center justify-start gap-3 px-4">
+              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 dark:bg-dark-800 z-[90] flex items-center justify-start gap-3 px-4">
                 <button
                   onClick={() => {
                     let oldPhotos = { ...photos };
@@ -210,6 +212,7 @@ export default function AddContent({ userUID }) {
                 >
                   <Icons
                     icon={photos[pk].visible ? "menuOpen" : "menuClose"}
+                    color={" stroke-stone-900 dark:stroke-stone-50"}
                     styling={{
                       w: "auto",
                       h: "60%",
@@ -224,11 +227,11 @@ export default function AddContent({ userUID }) {
                     src={photos[pk].URL}
                     alt={"added" + i}
                     className={
-                      "h-[6rem] object-cover border rounded-sm border-stone-900"
+                      "h-[6rem] object-cover border rounded-sm border-stone-900 dark:border-dark-600 dark:border-2"
                     }
                   />
                 )}
-                <span className="text-2xl font-semibold text-stone-900">
+                <span className="text-2xl font-semibold">
                   {photos[pk].file.name}
                 </span>
               </div>
@@ -240,7 +243,7 @@ export default function AddContent({ userUID }) {
                       src={photos[pk].URL}
                       alt={"added" + i}
                       className={
-                        "h-[44vh] object-cover border-4 rounded-md border-stone-900"
+                        "h-[44vh] object-cover border-4 rounded-md border-stone-900 dark:border-dark-600"
                       }
                     />
                   </div>

@@ -52,10 +52,8 @@ function App() {
           ) : (
             <></>
           )}
-          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[500] bg-stone-50 p-4 rounded-xl shadow-lg">
-            <span className="font-semibold text-base text-stone-900">
-              It's a Beta be kind
-            </span>
+          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[500] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
+            <span className="font-semibold text-base">It's a Beta be kind</span>
             <button
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
               onClick={() =>
@@ -64,7 +62,7 @@ function App() {
                   "_blank"
                 )
               }
-              className="italic font-medium text-sm text-stone-900"
+              className="italic font-medium text-sm"
             >
               And report bugs {"<"}3
             </button>
@@ -76,7 +74,7 @@ function App() {
           />
           <div
             className={
-              "absolute bottom-0 left-0 w-full bg-stone-50 rounded-t-3xl shadow-top overflow-hidden transition-all ease-in-out duration-300 " +
+              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden transition-all ease-in-out duration-300 " +
               classNames({
                 "h-[90vh]": location.pathname !== "/",
                 "h-[10vh]": location.pathname === "/",

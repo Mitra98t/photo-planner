@@ -4,6 +4,7 @@ import PopupMenu from "../PopupMenu";
 import TimeTagSelector from "../Selectors/TimeTagSelector";
 import PeriodTagSelector from "../Selectors/PeriodTagSelector";
 import WeatherTagsSelector from "../Selectors/WeatherTagsSelector";
+import ThemeSelector from "../ThemeSelector";
 import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
 
@@ -16,8 +17,8 @@ export default function NavBarHome({ close, options, setOptions }) {
   }, []);
 
   return (
-    <div className="w-full h-full rounded-t-3xl bg-stone-50 flex flex-row items-center justify-between px-12 ">
-      <div className="w-fit flex items-center justify-start gap-1 divide-x-2">
+    <div className="w-full h-full rounded-t-3xl text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 flex flex-row items-center justify-between px-12 ">
+      <div className="w-fit flex items-center justify-start gap-1 divide-x-2 dark:divide-dark-700">
         <button
           onClick={() =>
             setOptions({
@@ -35,6 +36,7 @@ export default function NavBarHome({ close, options, setOptions }) {
         >
           <Icons
             icon={"filter"}
+            color={" stroke-stone-900 dark:stroke-stone-50"}
             styling={{
               w: "2.5rem",
               h: "auto",
@@ -42,10 +44,10 @@ export default function NavBarHome({ close, options, setOptions }) {
             }}
           />
         </button>
-        <div className="flex flex-col items-start justify-evenly gap-1 cursor-pointer p-2 ">
+        <div className="flex flex-col items-start justify-evenly gap-1 cursor-pointer p-2  ">
           <p className="text-xl font-bold">Weather</p>
           <select
-            className="focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-fit py-2 "
+            className="focus:outline-stone-900 rounded-lg bg-stone-50 dark:bg-dark-800 w-fit py-2 "
             value={options.weather === "" ? "any" : options.weather}
             onChange={(e) => {
               let oldOptions = { ...options };
@@ -53,7 +55,7 @@ export default function NavBarHome({ close, options, setOptions }) {
               setOptions(oldOptions);
             }}
           >
-            <option value={"any"}>Any</option>
+            <option value={""}>Any</option>
             {weatherCodes &&
               Object.keys(weatherCodes).map((section) => (
                 <optgroup label={section}>
@@ -78,7 +80,7 @@ export default function NavBarHome({ close, options, setOptions }) {
           </p>
           <PopupMenu hidden={wichMenu !== "time"} close={() => setWichMenu("")}>
             <div className="w-full h-fit pr-6">
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
                 <p>From:</p>
                 <input
                   onChange={(e) => {
@@ -88,10 +90,12 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"time"}
                   value={options.time.from}
-                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
+                  className={
+                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50  p-3"
+                  }
                 />
               </div>
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
                 <p>To:</p>
                 <input
                   onChange={(e) => {
@@ -101,7 +105,9 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"time"}
                   value={options.time.to}
-                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
+                  className={
+                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50  p-3"
+                  }
                 />
               </div>
             </div>
@@ -121,7 +127,7 @@ export default function NavBarHome({ close, options, setOptions }) {
             close={() => setWichMenu("")}
           >
             <div className="w-full h-fit ">
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
                 <p>From:</p>
                 <input
                   onChange={(e) => {
@@ -131,10 +137,12 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"date"}
                   value={options.period.from}
-                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
+                  className={
+                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 p-3"
+                  }
                 />
               </div>
-              <div className="w-full h-fit flex flex-row gap-1 items-center justify-between whitespace-nowrap">
+              <div className="w-full h-fit flex flex-row gap-1 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
                 <p>To:</p>
                 <input
                   onChange={(e) => {
@@ -144,19 +152,24 @@ export default function NavBarHome({ close, options, setOptions }) {
                   }}
                   type={"date"}
                   value={options.period.to}
-                  className={"focus:outline-stone-900 bg-stone-50 p-3"}
+                  className={
+                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 p-3"
+                  }
                 />
               </div>
             </div>
           </PopupMenu>
         </div>
       </div>
-      <button
-        onClick={close}
-        className="rounded-full font-bold text-center text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 px-6 py-4 "
-      >
-        Close
-      </button>
+      <div className="w-fit h-full flex flex-row items-center justify-end gap-8">
+        <ThemeSelector />
+        <button
+          onClick={close}
+          className="rounded-full font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-6 py-4 "
+        >
+          Close
+        </button>
+      </div>
     </div>
   );
 }
