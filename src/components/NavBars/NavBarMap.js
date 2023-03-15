@@ -10,16 +10,19 @@ export default function NavBarMap({
   user,
   setMapLocation,
 }) {
-
   const handleSearchSubmit = async (foundLoc) => {
     // let foundLoc = await db.getLocationInfoByName(locationName);
+    console.log(foundLoc);
     setMapLocation({
       coords: [foundLoc.lat, foundLoc.lng],
       zoom: foundLoc.zoom,
+      bounds: {
+        ne: [foundLoc.boundry[1], foundLoc.boundry[3]],
+        sw: [foundLoc.boundry[0], foundLoc.boundry[2]],
+      },
     });
   };
 
-  
   return (
     <div className="w-full h-full dark:bg-dark-800 bg-stone-50 rounded-t-3xl gap-8 flex flex-row items-center justify-between px-12">
       <div className="h-full flex-1 flex flex-row items-center justify-start">

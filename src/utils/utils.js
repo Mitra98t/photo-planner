@@ -226,3 +226,4 @@ export function checkPhoto(photo) {
     locationCheck
   );
 }
+

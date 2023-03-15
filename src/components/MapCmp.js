@@ -23,6 +23,7 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
         minZoom={3}
         onClick={(e) => {}}
         onBoundsChanged={(e) => {
+          console.log(e.bounds)
           setBounds(e.bounds);
         }}
         zoomSnap={false}
