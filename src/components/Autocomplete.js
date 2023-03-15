@@ -77,13 +77,13 @@ export default function Autocomplete({
               " flex-col ": !topList,
               " flex-col-reverse ": topList,
             }) +
-            " fixed flex rounded-lg overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 max-h-40 border-2 border-stone-900"
+            " fixed flex rounded-lg overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 max-h-40 border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50 "
           }
         >
           {filteredSuggestions.map((suggestion, index) => {
-            let className = " bg-stone-50 ";
+            let className = " bg-stone-50 dark:bg-dark-800 ";
             if (index === activeSuggestion) {
-              className = " bg-stone-300 ";
+              className = " bg-stone-300 dark:bg-dark-700 ";
             }
             return (
               <li
@@ -132,7 +132,7 @@ export default function Autocomplete({
         ref={inputField}
         autoFocus={autofocus}
         className={
-          "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full " +
+          "focus:outline-stone-900 dark:focus:outline-stone-50 rounded-lg bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 dark:placeholder:text-dark-500 w-full " +
           classNames({
             " text-2xl p-3 ": large,
             " text-base p-2 ": !large,

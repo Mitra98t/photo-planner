@@ -27,7 +27,7 @@ export default function PictureView({ picture, close, userUID }) {
     <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-stone-900">
       <div
         ref={main}
-        className="w-[80vw] h-[80vh] z-[51] bg-stone-50 rounded-3xl flex flex-row items-center justify-evenly overflow-hidden shadow-area relative"
+        className="w-[80vw] h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-3xl flex flex-row items-center justify-evenly overflow-hidden shadow-area relative"
       >
         {picture.authorUID === userUID ? (
           <button
@@ -71,14 +71,14 @@ export default function PictureView({ picture, close, userUID }) {
               <ProfilePic
                 seed={picture.authorUID}
                 heightBased
-                border={" border-[3px] border-stone-900"}
+                border={" border-[3px] border-stone-900 dark:border-dark-600"}
               />
               <p className="text-3xl font-semibold">
                 {author == null ? "..." : author.userName}
               </p>
             </div>
           </div>
-          <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Date: {picture.fileData.creationDate}</p>
             <p>Hour: {picture.fileData.creationTime}</p>
             <p>Position: {picture.location}</p>
@@ -87,7 +87,7 @@ export default function PictureView({ picture, close, userUID }) {
               Coordinates: {picture.lat}, {picture.lng}
             </p> */}
           </div>
-          <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Make: {picture.camera.make}</p>
             <p>Model: {picture.camera.model}</p>
             <p>ISO: {picture.cameraSettings.ISO}</p>
@@ -95,7 +95,7 @@ export default function PictureView({ picture, close, userUID }) {
             <p>Aperture: f/{picture.cameraSettings.aperture}</p>
             <p>zoom: {picture.cameraSettings.focalLength}mm</p>
           </div>
-          <div className=" max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className=" max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Title: {picture.fileData.name}</p>
             <p className="whitespace-pre-wrap">
               Description: {picture.fileData.description}

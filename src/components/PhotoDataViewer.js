@@ -127,7 +127,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
         <div className="flex flex-row items-center justify-start gap-2 ">
           <span className="font-bold whitespace-nowrap">weather: </span>
           <select
-            className="focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
+            className="focus:outline-stone-900  rounded-lg bg-stone-50 dark:bg-dark-800 w-full px-2 py-1 "
             onChange={(e) => {
               let oldPhotos = { ...photos };
               // let test = { ...e.target.value };
@@ -160,12 +160,12 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
 }
 function inputField(value, setValue, label, editable = true, textArea = false) {
   return (
-    <div className="w-full flex flex-row items-center justify-start gap-2">
+    <div className="w-full flex flex-row items-center justify-start gap-2 text-stone-900 dark:text-stone-50">
       <span className="font-bold whitespace-nowrap">{label}: </span>
       {textArea ? (
         <textarea
           className={
-            "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full whitespace-pre-wrap min-h-[4rem] max-h-[15rem] px-2 py-1 "
+            "focus:outline-stone-900  dark:placeholder:text-dark-500 rounded-lg bg-stone-50 dark:bg-dark-800 w-full whitespace-pre-wrap min-h-[4rem] max-h-[15rem] px-2 py-1 "
           }
           type={"text"}
           value={value}
@@ -176,7 +176,7 @@ function inputField(value, setValue, label, editable = true, textArea = false) {
       ) : (
         <input
           className={
-            "focus:outline-stone-900 rounded-lg bg-stone-50 text-stone-900 w-full px-2 py-1 "
+            "focus:outline-stone-900  dark:placeholder:text-dark-500 rounded-lg bg-stone-50 dark:bg-dark-800 w-full px-2 py-1 "
           }
           type={"text"}
           value={value}

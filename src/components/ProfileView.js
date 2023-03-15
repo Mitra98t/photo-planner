@@ -42,25 +42,25 @@ export default function ProfileView({ userUID, selectPhoto }) {
   return (
     <div
       className={
-        "w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 flex flex-col items-center justify-start gap-8"
+        "w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 flex flex-col items-center justify-start gap-8"
       }
     >
       <div className="w-full h-1/4 flex items-center justify-center gap-8">
         <ProfilePic
           seed={UID}
           heightBased
-          border={" border-2 border-stone-900 "}
+          border={" border-2 border-stone-900 dark:border-dark-600 "}
         />
         <div className="flex flex-col items-start justify-evenlty gap-2">
-          <p className="text-4xl font-semibold text-stone-900 ">
+          <p className="text-4xl font-semibold ">
             {userInfo ? userInfo.userName : "..."}
           </p>
-          <p className="text-xl text-stone-700 ">
+          <p className="text-xl text-stone-700 dark:text-dark-600 ">
             {userInfo ? userInfo.userEmail : "..."}
           </p>
           {personal ? (
-            <div className="flex items-center justify-evenly w-full h-fit gap-2 text-stone-900">
-              <button className="rounded-full text-center text-sm text-stone-50 bg-stone-900 hover:bg-stone-700 px-4 py-1 ">
+            <div className="flex items-center justify-evenly w-full h-fit gap-2">
+              <button className="rounded-full text-center text-sm text-stone-50 bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-4 py-1 ">
                 Modify Profile
               </button>
             </div>

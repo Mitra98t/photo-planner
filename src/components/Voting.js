@@ -34,11 +34,10 @@ export default function Voting({
             votesData != null &&
             votesData.upVoters.length !== 0 &&
             votesData.upVoters.indexOf(userUID) !== -1
-              ? " stroke-blue-500 "
-              : classNames({
-                  " stroke-stone-50 ": !dark,
-                  " stroke-stone-900 ": dark,
-                })
+              ? " stroke-blue-500 dark:stroke-blue-700 "
+              : dark
+              ? " stroke-stone-900 dark:stroke-dark-600 "
+              : " stroke-stone-50 "
           }
         />
       </button>
@@ -46,7 +45,7 @@ export default function Voting({
         className={
           classNames({
             " text-stone-50 ": !dark,
-            " text-stone-900 ": dark,
+            " text-stone-900 dark:text-dark-600 ": dark,
           }) + " font-semibold text-lg "
         }
       >
@@ -62,11 +61,10 @@ export default function Voting({
             votesData != null &&
             votesData.downVoters.length !== 0 &&
             votesData.downVoters.indexOf(userUID) !== -1
-              ? " stroke-blue-500 "
-              : classNames({
-                  " stroke-stone-50 ": !dark,
-                  " stroke-stone-900 ": dark,
-                })
+              ? " stroke-blue-500 dark:stroke-blue-700 "
+              : dark
+              ? " stroke-stone-900 dark:stroke-dark-600 "
+              : " stroke-stone-50 "
           }
         />
       </button>
