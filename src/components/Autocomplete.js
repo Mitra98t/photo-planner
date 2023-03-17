@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { DBManager as db } from "../utils/DBManager";
 
 export default function Autocomplete({
@@ -7,7 +7,8 @@ export default function Autocomplete({
   topList = false,
   large = false,
   clearOnSubmit = false,
-  autofocus=false
+  autofocus = false,
+  searchOnClick = false,
 }) {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -17,14 +18,20 @@ export default function Autocomplete({
   const inputField = useRef(null);
 
   const onChange = async (e) => {
-    const inputValue = e.currentTarget.value;
-    setUserInput(inputValue);
-
-    let filtered = await db.getLocationSuggestinosByName(inputValue);
-
-    setFilteredSuggestions(filtered);
-    setShowSuggestions(true);
+    setUserInput(e.currentTarget.value);
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      db.getLocationSuggestinosByName(userInput).then((filtered) => {
+        setFilteredSuggestions(filtered);
+        setShowSuggestions(true);
+      });
+    }, 300);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [userInput]);
 
   const onClick = (e) => {
     setActiveSuggestion(0);
@@ -33,25 +40,30 @@ export default function Autocomplete({
     setUserInput(e.currentTarget.innerText);
 
     inputField.current.focus();
+    if (searchOnClick) searchLocation();
+  };
+
+  const searchLocation = async () => {
+    setActiveSuggestion(0);
+    setShowSuggestions(false);
+    let locationFromInput = userInput;
+    if (clearOnSubmit) setUserInput("");
+    else setUserInput(filteredSuggestions[activeSuggestion].luogo);
+    handleSubmit(
+      !!filteredSuggestions[activeSuggestion]
+        ? filteredSuggestions[activeSuggestion]
+        : await db.getLocationInfoByName(locationFromInput)
+    );
   };
 
   const onKeyDown = async (e) => {
-    // e.preventDefault();
     if (e.key === "Enter") {
-      setActiveSuggestion(0);
-      setShowSuggestions(false);
-      let locationFromInput = userInput;
-      if (clearOnSubmit) setUserInput("");
-      else setUserInput(filteredSuggestions[activeSuggestion].luogo);
-      handleSubmit(
-        !!filteredSuggestions[activeSuggestion]
-          ? filteredSuggestions[activeSuggestion]
-          : await db.getLocationInfoByName (locationFromInput)
-      );
+      searchLocation();
     } else if (
       (!topList && e.keyCode === 38) ||
       (topList && e.keyCode === 40)
     ) {
+      e.preventDefault();
       if (activeSuggestion <= 0) {
         setActiveSuggestion(0);
       } else setActiveSuggestion(() => activeSuggestion - 1);
@@ -59,6 +71,7 @@ export default function Autocomplete({
       (!topList && e.keyCode === 40) ||
       (topList && e.keyCode === 38)
     ) {
+      e.preventDefault();
       if (activeSuggestion >= filteredSuggestions.length) {
         setActiveSuggestion(() => filteredSuggestions.length - 1);
       } else {
@@ -77,7 +90,7 @@ export default function Autocomplete({
               " flex-col ": !topList,
               " flex-col-reverse ": topList,
             }) +
-            " fixed flex rounded-lg overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 max-h-40 border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50 "
+            " fixed flex rounded-lg  max-h-40 border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50 max-w-[30vw] "
           }
         >
           {filteredSuggestions.map((suggestion, index) => {
@@ -106,17 +119,18 @@ export default function Autocomplete({
       );
     } else {
       suggestionsListComponent = (
-        <div
-          className={
-            "fixed rounded-lg overflow-hidden " +
-            classNames({
-              " text-xl px-3 py-1 ": large,
-              " text-base px-2 py-1": !large,
-            })
-          }
-        >
-          <em className=" p-4 ">No suggestions available.</em>
-        </div>
+        <></>
+        // <div
+        //   className={
+        //     "fixed rounded-lg overflow-hidden " +
+        //     classNames({
+        //       " text-xl px-3 py-1 ": large,
+        //       " text-base px-2 py-1": !large,
+        //     })
+        //   }
+        // >
+        //   <em className=" p-4 ">No suggestions available.</em>
+        // </div>
       );
     }
   }
@@ -136,7 +150,7 @@ export default function Autocomplete({
           classNames({
             " text-2xl p-3 ": large,
             " text-base p-2 ": !large,
-          }) 
+          })
         }
       />
       <div

@@ -1,6 +1,6 @@
 import { db, storage } from "../firebase.js";
 
-import { weatherCodes } from "./utils";
+import { calculateMapZoom, weatherCodes } from "./utils";
 import {
   collection,
   deleteDoc,
@@ -27,6 +27,13 @@ function titleCase(str) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(" ");
+}
+
+function httpGet(theUrl) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("GET", theUrl, false); // false for synchronous request
+  xmlHttp.send(null);
+  return xmlHttp.responseText;
 }
 
 export function randomName() {
@@ -150,7 +157,27 @@ export class DBManager {
    * @returns informations of founded location
    */
   static async getLocationInfoByName(locationName) {
-    await delay(300);
+    let locations = await JSON.parse(
+      httpGet(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          locationName
+        )}&format=json&accept-language=it&limit=1`
+      )
+    );
+    locations.length = 50;
+
+    for (const l in locations) {
+      locations[l] = {
+        placeID: locations[l].place_id,
+        luogo: locations[l].display_name,
+        lat: locations[l].lat,
+        lng: locations[l].lon,
+        //TODO better zoom value
+        zoom: 15,
+        boundry: locations[l].boundingbox,
+      };
+    }
+
     let loc = locations.filter((l) =>
       l.luogo.toLowerCase().startsWith(locationName.toLowerCase())
     )[0];
@@ -165,14 +192,27 @@ export class DBManager {
    * @returns {Promise<Array>} - A Promise that resolves to an array of location objects.
    */
   static async getLocationSuggestinosByName(locationName) {
-    await delay(300);
-    if (!locationName) {
-      return Promise.resolve([]);
-    }
-    let locs = locations.filter((l) =>
-      l.luogo.toLowerCase().startsWith(locationName.toLowerCase())
+    let locations = await JSON.parse(
+      httpGet(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          locationName
+        )}&format=json&accept-language=it&limit=4`
+      )
     );
-    return Promise.resolve(locs);
+
+    for (const l in locations) {
+      locations[l] = {
+        placeID: locations[l].place_id,
+        luogo: locations[l].display_name,
+        lat: locations[l].lat,
+        lng: locations[l].lon,
+        //TODO better zoom value
+        zoom: 15,
+        boundry: locations[l].boundingbox,
+      };
+    }
+
+    return Promise.resolve(locations);
   }
 
   static async addPhoto(photo, photoName) {
@@ -205,6 +245,7 @@ export class DBManager {
         location: photo.location.luogo,
         lat: photo.location.lat,
         lng: photo.location.lng,
+        placeID: photo.location.placeID,
       })
     );
   }

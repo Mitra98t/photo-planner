@@ -19,6 +19,7 @@ function App() {
   const [mapLocation, setMapLocation] = useState({
     coords: [43.72077871691476, 10.407882154565954],
     zoom: 15,
+    bounds: { ne: [], sw: [] },
   });
 
   const [loggedUser, setLoggedUser] = useState(
