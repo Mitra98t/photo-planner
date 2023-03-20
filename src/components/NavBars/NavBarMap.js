@@ -35,21 +35,17 @@ export default function NavBarMap({
           fixed
         />
       </div>
-      {/* <button
+      <Button
         onClick={searchArea}
-        className="rounded-full flex-1 font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 hover:bg-stone-700 dark:hover:bg-dark-700 px-6 py-4 "
+        accentColor="purple-700"
+        darkAccentColor="purple-500"
+        additional="flex-1"
+        height="h-[70%]"
+        maxHeight="h-fit"
+        hover="outline-[6px]"
       >
         Search Area
-      </button> */}
-      <div className="flex-1 h-[70%]">
-        <Button
-          onClick={searchArea}
-          darkTextColor="text-green-500"
-          accentColor="blue-500"
-        >
-          Search Area
-        </Button>
-      </div>
+      </Button>
       <div className=" h-3/5 flex-1 flex items-center justify-end  gap-12">
         <button
           href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"

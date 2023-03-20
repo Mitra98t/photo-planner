@@ -7,6 +7,7 @@ import WeatherTagsSelector from "../Selectors/WeatherTagsSelector";
 import ThemeSelector from "../ThemeSelector";
 import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
+import Button from "../../elements/Button";
 
 export default function NavBarHome({ close, options, setOptions }) {
   const [wichMenu, setWichMenu] = useState("");
@@ -163,12 +164,17 @@ export default function NavBarHome({ close, options, setOptions }) {
       </div>
       <div className="w-fit h-full flex flex-row items-center justify-end gap-8">
         <ThemeSelector />
-        <button
+        <Button
           onClick={close}
-          className="rounded-full font-bold text-center text-xl text-stone-50 dark:text-stone-50 border-[3px] border-stone-900 dark:border-blue-500  bg-blue-500 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-blue-300 px-6 py-4 "
+          accentColor="red-600"
+          darkAccentColor="red-500"
+          darkBaseColor="dark-900"
+          baseColor="stone-900"
+          height="h-auto"
+          hover="outline-[6px]"
         >
           Close
-        </button>
+        </Button>
       </div>
     </div>
   );

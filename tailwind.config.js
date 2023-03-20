@@ -20,4 +20,10 @@ module.exports = {
     },
   },
   plugins: [require("tailwind-scrollbar")],
+  safelist: [
+    {
+      pattern: /(bg|border|text|outline)-\w+-[1-9]00/,
+      variants: ["dark", "dark:hover", "hover"],
+    },
+  ],
 };

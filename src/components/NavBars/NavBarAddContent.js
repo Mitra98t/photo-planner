@@ -1,16 +1,23 @@
 import React from "react";
+import Button from "../../elements/Button";
 import ProfilePic from "../ProfilePic";
 import ThemeSelector from "../ThemeSelector";
 
 export default function NavBarAddContent({ close, profileArea, user }) {
   return (
     <div className="w-full h-full rounded-t-3xl bg-stone-50 dark:bg-dark-800 flex flex-row items-center justify-between px-12 ">
-      <button
+      <Button
         onClick={close}
-        className="rounded-full font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-6 py-4 "
+        accentColor="red-600"
+        darkAccentColor="red-500"
+        darkBaseColor="dark-900"
+        baseColor="stone-900"
+        height="h-auto"
+        width="w-fit"
+        hover="outline-[6px]"
       >
         Close
-      </button>
+      </Button>
       <div className="h-full w-fit flex flex-row items-center justify-end gap-8 ">
         <ThemeSelector />
         <button className="h-3/5 " onClick={profileArea}>

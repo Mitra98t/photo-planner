@@ -10,6 +10,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
 import { checkPhoto } from "./utils/utils";
+import Button from "./elements/Button";
 
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
@@ -177,7 +178,19 @@ export default function AddContent({ userUID }) {
               If the button doesn't work, refresh page {"<"}3
             </p>
           </div>
-          {Object.keys(photos).every((key) => photos[key].progress === 100) ||
+          <Button
+            disabled={
+              Object.keys(photos).every(
+                (key) => photos[key].progress === 100
+              ) || Object.keys(photos).some((key) => !checkPhoto(photos[key]))
+            }
+            type="submit"
+            hover="outline-[6px]"
+            width="w-fit"
+          >
+            Load
+          </Button>
+          {/* {Object.keys(photos).every((key) => photos[key].progress === 100) ||
           Object.keys(photos).some((key) => !checkPhoto(photos[key])) ? (
             <button
               type={"submit"}
@@ -197,7 +210,7 @@ export default function AddContent({ userUID }) {
             >
               Carica
             </button>
-          )}
+          )} */}
         </form>
         {Object.keys(photos).map((pk, i) => {
           return (
