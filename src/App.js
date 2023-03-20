@@ -43,7 +43,7 @@ function App() {
       {loggedUser == null ? (
         <Login setCurrentUser={setLoggedUser} />
       ) : (
-        <div className="w-full h-screen pb-5 wrapper">
+        <div className="w-full h-screen pb-5 animationWrapper">
           {selectedPhoto !== null ? (
             <PictureView
               userUID={loggedUser}

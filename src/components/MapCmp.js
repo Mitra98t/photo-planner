@@ -12,7 +12,7 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
   // }, []);
 
   return (
-    <>
+    <div className="w-full h-full map">
       <Map
         defaultCenter={[43.72077871691476, 10.407882154565954]}
         center={mapLocation.coords}
@@ -33,6 +33,6 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
       </Map>
       <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " />
       {/* <div className="w-full h-screen absolute inset-0 bg-yellow-600 dark:bg-dark-800 pointer-events-none mix-blend-hue " /> */}
-    </>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
 import Icons from "../Icons";
 import ThemeSelector from "../ThemeSelector";
+import Button from "../../elements/Button";
 
 export default function NavBarMap({
   profileArea,
@@ -34,12 +35,21 @@ export default function NavBarMap({
           fixed
         />
       </div>
-      <button
+      {/* <button
         onClick={searchArea}
         className="rounded-full flex-1 font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 hover:bg-stone-700 dark:hover:bg-dark-700 px-6 py-4 "
       >
         Search Area
-      </button>
+      </button> */}
+      <div className="flex-1 h-[70%]">
+        <Button
+          onClick={searchArea}
+          darkTextColor="text-green-500"
+          accentColor="blue-500"
+        >
+          Search Area
+        </Button>
+      </div>
       <div className=" h-3/5 flex-1 flex items-center justify-end  gap-12">
         <button
           href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"

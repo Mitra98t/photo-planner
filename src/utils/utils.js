@@ -227,3 +227,6 @@ export function checkPhoto(photo) {
   );
 }
 
+export function formatStyle(styles) {
+  return styles.join(" ");
+}
