@@ -4,16 +4,19 @@ import { DBManager as db } from "../utils/DBManager";
 
 export default function Autocomplete({
   handleSubmit,
+  defaultValue = "",
   topList = false,
   large = false,
   clearOnSubmit = false,
   autofocus = false,
   searchOnClick = false,
+  fixed = false,
 }) {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState(defaultValue);
+  const [sent, setSent] = useState(defaultValue !== "");
 
   const inputField = useRef(null);
 
@@ -45,7 +48,9 @@ export default function Autocomplete({
 
   const searchLocation = async () => {
     setActiveSuggestion(0);
+    setFilteredSuggestions([]);
     setShowSuggestions(false);
+    setSent(true);
     let locationFromInput = userInput;
     if (clearOnSubmit) setUserInput("");
     else setUserInput(filteredSuggestions[activeSuggestion].luogo);
@@ -57,6 +62,7 @@ export default function Autocomplete({
   };
 
   const onKeyDown = async (e) => {
+    setSent(false);
     if (e.key === "Enter") {
       searchLocation();
     } else if (
@@ -80,67 +86,13 @@ export default function Autocomplete({
     }
   };
 
-  let suggestionsListComponent = <></>;
-  if (showSuggestions && userInput) {
-    if (filteredSuggestions.length) {
-      suggestionsListComponent = (
-        <ul
-          className={
-            classNames({
-              " flex-col ": !topList,
-              " flex-col-reverse ": topList,
-            }) +
-            " fixed flex rounded-lg  max-h-40 border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50 max-w-[30vw] "
-          }
-        >
-          {filteredSuggestions.map((suggestion, index) => {
-            let className = " bg-stone-50 dark:bg-dark-800 ";
-            if (index === activeSuggestion) {
-              className = " bg-stone-300 dark:bg-dark-700 ";
-            }
-            return (
-              <li
-                className={
-                  " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
-                  className +
-                  classNames({
-                    " text-xl ": large,
-                    " text-base ": !large,
-                  })
-                }
-                key={suggestion.luogo + index}
-                onClick={onClick}
-              >
-                {suggestion.luogo}
-              </li>
-            );
-          })}
-        </ul>
-      );
-    } else {
-      suggestionsListComponent = (
-        <></>
-        // <div
-        //   className={
-        //     "fixed rounded-lg overflow-hidden " +
-        //     classNames({
-        //       " text-xl px-3 py-1 ": large,
-        //       " text-base px-2 py-1": !large,
-        //     })
-        //   }
-        // >
-        //   <em className=" p-4 ">No suggestions available.</em>
-        // </div>
-      );
-    }
-  }
-
   return (
     <div className="relative h-fit w-full ">
       <input
         type="text"
         onChange={onChange}
         onKeyDown={onKeyDown}
+        onClick={() => setSent(false)}
         value={userInput}
         placeholder={"Search city..."}
         ref={inputField}
@@ -155,15 +107,75 @@ export default function Autocomplete({
       />
       <div
         className={
-          "absolute left-0 flex " +
+          "absolute left-0 flex z-[900] " +
           classNames({
             " top-10 flex-col ": !topList,
             " bottom-10 flex-col-reverse ": topList,
           })
         }
       >
-        {suggestionsListComponent}
+        {suggestions(
+          topList,
+          fixed,
+          filteredSuggestions,
+          activeSuggestion,
+          large,
+          showSuggestions,
+          sent,
+          onClick
+        )}
       </div>
     </div>
+  );
+}
+function suggestions(
+  topList,
+  fixed,
+  filteredSuggestions,
+  activeSuggestion,
+  large,
+  showSuggestions,
+  sent,
+  onClick
+) {
+  if (!showSuggestions || filteredSuggestions.length === 0 || sent)
+    return <></>;
+  return (
+    <ul
+      className={
+        classNames({
+          " flex-col ": !topList,
+          " flex-col-reverse ": topList,
+        }) +
+        classNames({
+          "  ": !fixed,
+          " fixed ": fixed,
+        }) +
+        " flex rounded-lg  h-fit overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50 max-w-[30vw] "
+      }
+    >
+      {filteredSuggestions.map((suggestion, index) => {
+        let className = " bg-stone-50 dark:bg-dark-800 ";
+        if (index === activeSuggestion) {
+          className = " bg-stone-300 dark:bg-dark-700 ";
+        }
+        return (
+          <li
+            className={
+              " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
+              className +
+              classNames({
+                " text-xl ": large,
+                " text-base ": !large,
+              })
+            }
+            key={suggestion.luogo + index}
+            onClick={onClick}
+          >
+            {suggestion.luogo}
+          </li>
+        );
+      })}
+    </ul>
   );
 }

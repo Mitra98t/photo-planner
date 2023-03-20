@@ -36,7 +36,7 @@ export default function Login({ setCurrentUser }) {
         <button
           onClick={() => modalSignIn()}
           className={
-            "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-lg transition-all ease-in-out duration-150"
+            "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-lg"
           }
         >
           Sign in with Google

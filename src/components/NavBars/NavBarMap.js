@@ -31,6 +31,7 @@ export default function NavBarMap({
           large
           clearOnSubmit
           autofocus
+          fixed
         />
       </div>
       <button
@@ -48,7 +49,7 @@ export default function NavBarMap({
               "_blank"
             )
           }
-          className="font-semibold text-lg text-stone-900 dark:text-stone-50 hover:scale-110 transition-all ease-in-out duration-150"
+          className="font-semibold text-lg text-stone-900 dark:text-stone-50 hover:scale-110 "
         >
           Feedback and Ideas
         </button>

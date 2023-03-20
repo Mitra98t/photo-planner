@@ -165,7 +165,7 @@ export default function NavBarHome({ close, options, setOptions }) {
         <ThemeSelector />
         <button
           onClick={close}
-          className="rounded-full font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-6 py-4 "
+          className="rounded-full font-bold text-center text-xl text-red-500 dark:text-stone-50 border-0 border-red-500 dark:border-[3px] bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-6 py-4 "
         >
           Close
         </button>

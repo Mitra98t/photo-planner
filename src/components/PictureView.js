@@ -31,7 +31,7 @@ export default function PictureView({ picture, close, userUID }) {
       >
         {picture.authorUID === userUID ? (
           <button
-            className="absolute bottom-4 right-4 hover:scale-110 z-[300] transition-all ease-in-out duration-100 "
+            className="absolute bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
             onClick={async () => {
               await db.removeImage(picture.ID);
               close();
@@ -79,7 +79,7 @@ export default function PictureView({ picture, close, userUID }) {
               </p>
             </div>
           </div>
-          <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className="whitespace-pre-wrap max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Date: {picture.fileData.creationDate}</p>
             <p>Hour: {picture.fileData.creationTime}</p>
             <p>Position: {picture.location}</p>
@@ -88,7 +88,7 @@ export default function PictureView({ picture, close, userUID }) {
               Coordinates: {picture.lat}, {picture.lng}
             </p> */}
           </div>
-          <div className="flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className="whitespace-pre-wrap max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Make: {picture.camera.make}</p>
             <p>Model: {picture.camera.model}</p>
             <p>ISO: {picture.cameraSettings.ISO}</p>
@@ -96,11 +96,9 @@ export default function PictureView({ picture, close, userUID }) {
             <p>Aperture: f/{picture.cameraSettings.aperture}</p>
             <p>zoom: {picture.cameraSettings.focalLength}mm</p>
           </div>
-          <div className=" max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
+          <div className="whitespace-pre-wrap max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600 hover:scale-105 transition ease-in-out duration-150">
             <p>Title: {picture.fileData.name}</p>
-            <p className="whitespace-pre-wrap">
-              Description: {picture.fileData.description}
-            </p>
+            <p>Description: {picture.fileData.description}</p>
           </div>
         </div>
       </div>

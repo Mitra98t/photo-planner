@@ -43,7 +43,7 @@ function App() {
       {loggedUser == null ? (
         <Login setCurrentUser={setLoggedUser} />
       ) : (
-        <div className="w-full h-screen pb-5">
+        <div className="w-full h-screen pb-5 wrapper">
           {selectedPhoto !== null ? (
             <PictureView
               userUID={loggedUser}
@@ -75,7 +75,7 @@ function App() {
           />
           <div
             className={
-              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden transition-all ease-in-out duration-300 " +
+              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 " +
               classNames({
                 "h-[90vh]": location.pathname !== "/",
                 "h-[10vh]": location.pathname === "/",
