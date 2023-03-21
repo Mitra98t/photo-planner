@@ -125,10 +125,12 @@ export default function AddContent({ userUID }) {
                 let oldPhotos = { ...photos };
                 let file = e.target.files[0];
                 let exd;
-                // console.log(file)
+                console.log("file")
+                console.log(file)
                 EXIF.getData(e.target.files[0], async () => {
                   exd = EXIF.getAllTags(e.target.files[0]);
-                  // console.log(exd);
+                  console.log("exd");
+                  console.log(exd);
                   let fileData = {
                     nameComplete: file.name,
                     name: file.name.split(".")[0],

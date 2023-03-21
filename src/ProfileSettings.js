@@ -17,14 +17,6 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
     theme: "light",
   });
 
-  // useEffect(() => {
-  //   db.getSettingsByUID(userUID).then((r) => {
-  //     console.log(r);
-  //     setCurrSettings(r);
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   useEffect(() => {
     if (settings == null) return;
     let newSett = { ...currSettings };
@@ -40,6 +32,7 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await db.addSettingsToUID(userUID, currSettings);
+    localStorage.setItem("profileSettingsCache", JSON.stringify(currSettings));
     toast("Settings saved!");
     setSettings(currSettings);
   };

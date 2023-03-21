@@ -20,6 +20,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
     db.getSettingsByUID(UID)
       .then((r) => setcurrUserSettings(r))
       .catch((e) => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

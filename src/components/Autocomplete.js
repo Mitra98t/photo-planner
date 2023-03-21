@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DBManager as db } from "../utils/DBManager";
+import ProfilePic from "./ProfilePic";
 
 export default function Autocomplete({
   handleSubmit,
@@ -13,7 +14,8 @@ export default function Autocomplete({
   searchOnClick = false,
   fixed = false,
   alsoUsers = false,
-  label="Search location..."
+  label = "Search location...",
+  setIsEmpty = () => {},
 }) {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -26,12 +28,14 @@ export default function Autocomplete({
   const inputField = useRef(null);
 
   const onChange = async (e) => {
+    if (e.currentTarget.value === "") setIsEmpty(true);
+    else setIsEmpty(false);
     setUserInput(e.currentTarget.value);
   };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (alsoUsers && userInput[0] === "@") {
+      if (alsoUsers && userInput[0] === "@" && userInput.length > 1) {
         db.getUsersByDisplayName(userInput.substring(1)).then((r) => {
           setFilteredSuggestions(r);
           setShowSuggestions(true);
@@ -53,6 +57,7 @@ export default function Autocomplete({
     setActiveSuggestion(0);
     setFilteredSuggestions([]);
     setShowSuggestions(false);
+    setSent(true);
     setUserInput(
       (alsoUsers && userInput[0] === "@" ? "@" : "") + e.currentTarget.innerText
     );
@@ -193,7 +198,7 @@ function suggestions(
           return (
             <li
               className={
-                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
+                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row items-center justify-start gap-4  " +
                 className +
                 classNames({
                   " text-xl ": large,
@@ -203,7 +208,10 @@ function suggestions(
               key={suggestion.username + index}
               onClick={onClick}
             >
-              {suggestion.username}
+              <div className="h-[3rem] py-1">
+                <ProfilePic seed={suggestion.ID} heightBased />
+              </div>
+              <p>{suggestion.username}</p>
             </li>
           );
         else
