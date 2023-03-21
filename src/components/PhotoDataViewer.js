@@ -122,13 +122,18 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
               photos[index].location = { ...data };
               setPhotos(oldPhotos);
             }}
+            defaultValue={
+              photos[index].location && photos[index].location.luogo
+            }
             searchOnClick
+            topList
           />
         </div>
         <div className="flex flex-row items-center justify-start gap-2 ">
           <span className="font-bold whitespace-nowrap">weather: </span>
           <select
             className="focus:outline-stone-900  rounded-lg bg-stone-50 dark:bg-dark-800 w-full px-2 py-1 "
+            value={photos[index].weather && photos[index].weather.code}
             onChange={(e) => {
               let oldPhotos = { ...photos };
               // let test = { ...e.target.value };
@@ -143,12 +148,7 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
               Object.keys(weatherCodes).map((section) => (
                 <optgroup label={section}>
                   {Object.keys(weatherCodes[section]).map((code) => (
-                    <option
-                      value={code}
-                      selected={code === photos[index].weather.code}
-                    >
-                      {weatherCodes[section][code]}
-                    </option>
+                    <option value={code}>{weatherCodes[section][code]}</option>
                   ))}
                 </optgroup>
               ))}

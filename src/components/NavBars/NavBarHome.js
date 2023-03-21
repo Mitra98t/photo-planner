@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Hashtag from "../Hashtag";
 import PopupMenu from "../PopupMenu";
-import TimeTagSelector from "../Selectors/TimeTagSelector";
-import PeriodTagSelector from "../Selectors/PeriodTagSelector";
-import WeatherTagsSelector from "../Selectors/WeatherTagsSelector";
 import ThemeSelector from "../ThemeSelector";
 import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
+import Button from "../../elements/Button";
 
 export default function NavBarHome({ close, options, setOptions }) {
   const [wichMenu, setWichMenu] = useState("");
@@ -163,12 +160,15 @@ export default function NavBarHome({ close, options, setOptions }) {
       </div>
       <div className="w-fit h-full flex flex-row items-center justify-end gap-8">
         <ThemeSelector />
-        <button
+        <Button
           onClick={close}
-          className="rounded-full font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-6 py-4 "
+          accentColor="red-600"
+          darkAccentColor="red-500"
+          height="h-auto"
+          hover="outline-[6px]"
         >
           Close
-        </button>
+        </Button>
       </div>
     </div>
   );

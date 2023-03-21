@@ -1,6 +1,6 @@
 import { db, storage } from "../firebase.js";
 
-import { calculateMapZoom, weatherCodes } from "./utils";
+import { weatherCodes } from "./utils";
 import {
   collection,
   deleteDoc,
@@ -12,7 +12,6 @@ import {
   where,
 } from "firebase/firestore";
 
-import locations from "../mocupData/locations.json";
 import { deleteObject, ref } from "firebase/storage";
 
 function delay(ms) {
@@ -288,16 +287,43 @@ export class DBManager {
   static async addVote(vote, userUID, photoID) {
     let currentVotes = await this.getVotersByPhotoID(photoID);
     if (
-      (vote >= 0 &&
-        currentVotes.upVoters.findIndex((voter) => voter === userUID) !== -1) ||
-      (vote <= 0 &&
-        currentVotes.downVoters.findIndex((voter) => voter === userUID) !== -1)
-    )
+      vote >= 0 &&
+      currentVotes.upVoters.findIndex((voter) => voter === userUID) !== -1
+    ) {
+      currentVotes.upVoters.splice(
+        currentVotes.upVoters.findIndex((voter) => voter === userUID),
+        1
+      );
+      await setDoc(doc(db, "votes", photoID), {
+        photoID: photoID,
+        upVoters: currentVotes.upVoters,
+        downVoters: currentVotes.downVoters,
+      });
       return Promise.resolve({
         photoID: photoID,
         upVoters: currentVotes.upVoters,
         downVoters: currentVotes.downVoters,
       });
+    }
+    if (
+      vote <= 0 &&
+      currentVotes.downVoters.findIndex((voter) => voter === userUID) !== -1
+    ) {
+      currentVotes.downVoters.splice(
+        currentVotes.downVoters.findIndex((voter) => voter === userUID),
+        1
+      );
+      await setDoc(doc(db, "votes", photoID), {
+        photoID: photoID,
+        upVoters: currentVotes.upVoters,
+        downVoters: currentVotes.downVoters,
+      });
+      return Promise.resolve({
+        photoID: photoID,
+        upVoters: currentVotes.upVoters,
+        downVoters: currentVotes.downVoters,
+      });
+    }
 
     if (currentVotes.upVoters.findIndex((voter) => voter === userUID) !== -1)
       currentVotes.upVoters.splice(

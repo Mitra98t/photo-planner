@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
-import Icons from "../Icons";
 import ThemeSelector from "../ThemeSelector";
+import Button from "../../elements/Button";
 
 export default function NavBarMap({
   profileArea,
@@ -31,14 +31,20 @@ export default function NavBarMap({
           large
           clearOnSubmit
           autofocus
+          fixed
         />
       </div>
-      <button
+      <Button
         onClick={searchArea}
-        className="rounded-full flex-1 font-bold text-center text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 hover:bg-stone-700 dark:hover:bg-dark-700 px-6 py-4 "
+        accentColor="green-300"
+        darkAccentColor="cyan-500"
+        additional="flex-1"
+        height="h-fit"
+        textColor="text-stone-900 dark:text-stone-50"
+        paddings="py-3"
       >
         Search Area
-      </button>
+      </Button>
       <div className=" h-3/5 flex-1 flex items-center justify-end  gap-12">
         <button
           href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
@@ -48,7 +54,7 @@ export default function NavBarMap({
               "_blank"
             )
           }
-          className="font-semibold text-lg text-stone-900 dark:text-stone-50 hover:scale-110 transition-all ease-in-out duration-150"
+          className="font-semibold text-lg text-stone-900 dark:text-stone-50 hover:scale-110 "
         >
           Feedback and Ideas
         </button>
