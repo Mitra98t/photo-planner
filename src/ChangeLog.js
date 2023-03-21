@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBarGeneric from "./components/NavBars/NavBarGeneric";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
 import { DBManager as db } from "./utils/DBManager";
 
 export default function ChangeLog({ userUID }) {
