@@ -6,21 +6,16 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import Icons from "./components/Icons";
+import { useNavigate } from "react-router-dom";
+import NavBarGeneric from "./components/NavBars/NavBarGeneric";
 
 export default function ProfileSettings({ userUID, settings, setSettings }) {
+  const navigate = useNavigate();
   const [currSettings, setCurrSettings] = useState({
     monochromaticMaps: false,
     showEmail: false,
     theme: "light",
   });
-
-  // useEffect(() => {
-  //   db.getSettingsByUID(userUID).then((r) => {
-  //     console.log(r);
-  //     setCurrSettings(r);
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   useEffect(() => {
     if (settings == null) return;
@@ -37,6 +32,7 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await db.addSettingsToUID(userUID, currSettings);
+    localStorage.setItem("profileSettingsCache", JSON.stringify(currSettings));
     toast("Settings saved!");
     setSettings(currSettings);
   };
@@ -49,7 +45,14 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
   };
 
   return (
-    <div className="w-full h-full p-8 flex flex-row items-start justify-start text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 ">
+    <div className="w-full h-full pt-[10vh] px-8 flex flex-row items-start justify-start text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 ">
+      <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
+        <NavBarGeneric
+          close={() => navigate("/")}
+          profileArea={() => navigate(`/profile/${userUID}`)}
+          user={userUID}
+        />
+      </div>
       <div className="flex-1 flex flex-col items-start justify-start gap-4">
         {currSettings &&
           Object.keys(currSettings)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./test.css";
-import NavBarHome from "./components/NavBars/NavBarHome";
+import NavBarFilters from "./components/NavBars/NavBarFilters";
 import { DBManager as db } from "./utils/DBManager";
 import PhotoGallery from "./components/PhotoGallery";
 import { filterPhoto } from "./utils/utils";
@@ -45,7 +45,11 @@ export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
       }
     >
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
-        <NavBarHome close={close} options={options} setOptions={setOptions} />
+        <NavBarFilters
+          close={close}
+          options={options}
+          setOptions={setOptions}
+        />
       </div>
       <div className="w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 px-8 ">
         {photoToShow && photoToShow.length === 0 ? (

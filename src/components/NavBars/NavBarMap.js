@@ -31,6 +31,9 @@ export default function NavBarMap({
           clearOnSubmit
           autofocus
           fixed
+          alsoUsers
+          label="Search location or @users..."
+          searchOnClick
         />
       </div>
       <Button

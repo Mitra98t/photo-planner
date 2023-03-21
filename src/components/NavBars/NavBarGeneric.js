@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../elements/Button";
 import ProfilePic from "../ProfilePic";
 
-export default function NavBarAddContent({ close, profileArea, user }) {
+export default function NavBarGeneric({ close, profileArea, user }) {
   return (
     <div className="w-full h-full rounded-t-3xl bg-stone-50 dark:bg-dark-800 flex flex-row items-center justify-between px-12 ">
       <Button

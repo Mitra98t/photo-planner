@@ -20,6 +20,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
     db.getSettingsByUID(UID)
       .then((r) => setcurrUserSettings(r))
       .catch((e) => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
           heightBased
           border={" border-2 border-stone-900 dark:border-dark-600 "}
         />
-        <div className="flex flex-col items-start justify-evenlty gap-2">
+        <div className="flex flex-col items-start justify-evenlty gap-4">
           <p className="text-4xl font-semibold ">
             {userInfo ? userInfo.userName : "..."}
           </p>
@@ -86,7 +87,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
                 additional="duration-75"
                 onClick={() => navigate("/profileSettings")}
               >
-                Modify Profile
+                Profile Settings
               </Button>
             </div>
           ) : (

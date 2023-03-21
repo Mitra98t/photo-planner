@@ -387,4 +387,55 @@ export class DBManager {
       downVoters: currentVotes.downVoters,
     });
   }
+
+  static async getUsersByDisplayName(displayName) {
+    let res = [];
+    const usersQuery = query(collection(db, "users"));
+
+    const querySnapshot = await getDocs(usersQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+    res = res.filter((r) =>
+      r.username.toLowerCase().startsWith(displayName.toLowerCase())
+    );
+    res = res.slice(0, 8);
+
+    return Promise.resolve(res);
+  }
+
+  static async getChangelogComplete() {
+    let res = [];
+    const changeLogQuery = query(collection(db, "changeLog"));
+
+    const querySnapshot = await getDocs(changeLogQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+
+    if (res.length <= 0) return Promise.reject("missing logs");
+
+    res = res.sort((a, b) => a.version - b.version);
+
+    return Promise.resolve(res);
+  }
+
+  static async getLastChangelog() {
+    let res = [];
+    const changeLogQuery = query(collection(db, "changeLog"));
+
+    const querySnapshot = await getDocs(changeLogQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+
+    if (res.length <= 0) return Promise.reject("missing logs");
+
+    let toGive = res.sort((a, b) => a.version - b.version)[0];
+
+    return Promise.resolve(toGive);
+  }
 }

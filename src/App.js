@@ -14,6 +14,7 @@ import Login from "./Login";
 import { formatStyle } from "./utils/utils";
 import ProfileSettings from "./ProfileSettings";
 import { DBManager as db } from "./utils/DBManager";
+import ChangeLog from "./ChangeLog";
 
 function App() {
   const navigate = useNavigate();
@@ -28,9 +29,18 @@ function App() {
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null
   );
-  const [settings, setSettings] = useState(null);
+  const [settings, setSettings] = useState(
+    localStorage.getItem("profileSettingsCache") === null
+      ? null
+      : JSON.parse(localStorage.getItem("profileSettingsCache"))
+  );
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [lastChangeLog, setLastChangeLog] = useState(null);
   // const [startPos, setStartPos] = useState([43.72073, 10.4076]);
+
+  useEffect(() => {
+    db.getLastChangelog().then((r) => setLastChangeLog(r));
+  }, []);
 
   useEffect(() => {
     if (loggedUser == null) return;
@@ -46,6 +56,8 @@ function App() {
   useEffect(() => {
     if (settings == null) return;
     if (!settings.hasOwnProperty("theme")) return;
+
+    localStorage.setItem("profileSettingsCache", JSON.stringify(settings));
 
     const html = document.querySelector("html");
     //add or remove class dark in html elem according to theme in localstorage.
@@ -84,6 +96,12 @@ function App() {
               className="italic font-medium text-sm"
             >
               And report bugs {"<"}3
+            </button>
+            <button
+              onClick={() => navigate("/changelog")}
+              className="font-semibold text-sm"
+            >
+              V. {lastChangeLog && lastChangeLog.version}
             </button>
           </div>
           <MapCmp
@@ -167,6 +185,10 @@ function App() {
                     setSettings={setSettings}
                   />
                 }
+              />
+              <Route
+                path="changeLog"
+                element={<ChangeLog userUID={loggedUser} />}
               />
               <Route path="*" element={<ErrorPage />} />
             </Routes>
