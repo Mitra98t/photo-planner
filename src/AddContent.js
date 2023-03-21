@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Icons from "./components/Icons";
 
-import EXIF from "exif-js";
+import piexif from "piexifjs";
 import PhotoDataViewer from "./components/PhotoDataViewer";
 import NavBarGeneric from "./components/NavBars/NavBarGeneric";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,52 @@ import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
 import { checkPhoto } from "./utils/utils";
 import Button from "./elements/Button";
+
+function blobToBase64(blob) {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
+
+function extractExif(exif) {
+  const exifToString = (data, isFraction = false, isTime = false) => {
+    if (!Array.isArray(data)) return data + "";
+    let [numeratore, denominatore] = data;
+    console.log([numeratore, denominatore]);
+    denominatore = numeratore >= 10 ? denominatore / 10 : denominatore;
+    numeratore = numeratore >= 10 ? numeratore / 10 : numeratore;
+    console.log([numeratore, denominatore]);
+    if (numeratore > denominatore && isTime) return `${numeratore}`;
+    if (isFraction) return `${numeratore}/${denominatore}`;
+    else return `${numeratore / denominatore}`;
+  };
+
+  const dateTimeOriginal = exif["Exif"][piexif.ExifIFD.DateTimeOriginal];
+  let res = {
+    camera: {
+      make: exif["0th"][piexif.ImageIFD.Make],
+      model: exif["0th"][piexif.ImageIFD.Model],
+    },
+    dateTime: {
+      date: dateTimeOriginal.split(" ")[0].replaceAll(":", "-"),
+      time: dateTimeOriginal.split(" ")[1],
+    },
+    cameraSettings: {
+      ISO: exifToString(exif["Exif"][piexif.ExifIFD.ISOSpeedRatings]),
+      aperture: exifToString(exif["Exif"][piexif.ExifIFD.FNumber]),
+      focalLength: exifToString(exif["Exif"][piexif.ExifIFD.FocalLength]),
+      shutterSpeed: exifToString(
+        exif["Exif"][piexif.ExifIFD.ExposureTime],
+        true,
+        true,
+      ),
+    },
+  };
+
+  return res;
+}
 
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
@@ -124,57 +170,43 @@ export default function AddContent({ userUID }) {
                 e.preventDefault();
                 let oldPhotos = { ...photos };
                 let file = e.target.files[0];
-                let exd;
-                console.log("file")
-                console.log(file)
-                EXIF.getData(e.target.files[0], async () => {
-                  exd = EXIF.getAllTags(e.target.files[0]);
-                  console.log("exd");
-                  console.log(exd);
-                  let fileData = {
-                    nameComplete: file.name,
-                    name: file.name.split(".")[0],
-                    type: file.name.split(".")[1],
-                    creationDate: exd.DateTimeOriginal.split(" ")[0].replace(
-                      /:/g,
-                      "-"
-                    ),
-                    creationTime: exd.DateTimeOriginal.split(" ")[1],
-                    fileFromSource: await compressImage(e.target.files[0], {
-                      quality: 0.5,
-                    }),
-                  };
 
-                  let fileExif = {
-                    exifVersion: exd.ExifVersion,
-                    shutterSpeed:
-                      exd.ExposureTime.numerator === 1
-                        ? `${exd.ExposureTime.numerator}/${exd.ExposureTime.denominator}`
-                        : `${exd.ExposureTime.numerator}"`,
-                    aperture: exd.FNumber.numerator / exd.FNumber.denominator,
-                    focalLength:
-                      exd.FocalLength.numerator / exd.FocalLength.denominator,
-                    ISO: exd.ISOSpeedRatings,
-                  };
+                let base64 = await blobToBase64(file);
+                let exif = piexif.load(base64);
+                let exifReadable = extractExif(exif);
+                console.log(exifReadable);
 
-                  let fileCamera = {
-                    make: exd.Make,
-                    model: exd.Model,
-                  };
-
-                  let photo = {
-                    URL: URL.createObjectURL(e.target.files[0]),
-                    file: fileData,
-                    exif: fileExif,
-                    camera: fileCamera,
-                    authorUID: userUID,
-                    weather: {},
-                    visible: true,
-                  };
-
-                  oldPhotos[fileData.nameComplete] = { ...photo };
-                  setPhotos(oldPhotos);
-                });
+                let fileData = {
+                  nameComplete: file.name,
+                  name: file.name.split(".")[0],
+                  type: file.name.split(".")[1],
+                  creationDate: exifReadable.dateTime.date,
+                  creationTime: exifReadable.dateTime.time,
+                  fileFromSource: await compressImage(e.target.files[0], {
+                    quality: 0.5,
+                  }),
+                };
+                let fileExif = {
+                  shutterSpeed: exifReadable.cameraSettings.shutterSpeed,
+                  aperture: exifReadable.cameraSettings.aperture,
+                  focalLength: exifReadable.cameraSettings.focalLength,
+                  ISO: exifReadable.cameraSettings.ISO,
+                };
+                let fileCamera = {
+                  make: exifReadable.camera.make,
+                  model: exifReadable.camera.model,
+                };
+                let photo = {
+                  URL: URL.createObjectURL(e.target.files[0]),
+                  file: fileData,
+                  exif: fileExif,
+                  camera: fileCamera,
+                  authorUID: userUID,
+                  weather: {},
+                  visible: true,
+                };
+                oldPhotos[fileData.nameComplete] = { ...photo };
+                setPhotos(oldPhotos);
               }}
             ></input>
             <p className=" italic font-medium">
