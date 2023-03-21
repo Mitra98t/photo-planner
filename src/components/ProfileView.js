@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import Button from "../elements/Button";
 import { DBManager as db } from "../utils/DBManager";
 import { filterPhoto } from "../utils/utils";
 import PhotoGallery from "./PhotoGallery";
 import ProfilePic from "./ProfilePic";
 
-export default function ProfileView({ userUID, selectPhoto }) {
+export default function ProfileView({ userUID, selectPhoto, settings }) {
   const navigate = useNavigate();
   const { UID } = useParams();
   const [options] = useOutletContext();
@@ -56,17 +57,32 @@ export default function ProfileView({ userUID, selectPhoto }) {
           <p className="text-4xl font-semibold ">
             {userInfo ? userInfo.userName : "..."}
           </p>
-          <p className="text-xl text-stone-700 dark:text-dark-600 ">
-            {userInfo ? userInfo.userEmail : "..."}
-          </p>
+          {settings && settings.showEmail ? (
+            <p className="text-xl text-stone-700 dark:text-dark-600 ">
+              {userInfo ? userInfo.userEmail : "..."}
+            </p>
+          ) : (
+            <></>
+          )}
           {personal ? (
-            <div className="flex items-center justify-evenly w-full h-fit gap-2">
-              <button
+            <div className="flex items-center justify-evenly w-full h-fit gap-2 ">
+              <Button
+                paddings="py-1 px-3"
+                width="w-fit"
+                height="h-fit"
+                text="text-base"
+                font="font-normal"
+                additional="duration-75"
+                onClick={() => navigate("/profileSettings")}
+              >
+                Modify Profile
+              </Button>
+              {/* <button
                 onClick={() => navigate("/profileSettings")}
                 className="rounded-full text-center text-sm text-stone-50 bg-stone-900 dark:bg-dark-900 dark:hover:bg-dark-700 hover:bg-stone-700 px-4 py-1 "
               >
-                Modify Profile
-              </button>
+                Modify Profile 
+              </button> */}
             </div>
           ) : (
             <></>

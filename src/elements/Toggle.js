@@ -14,19 +14,19 @@ export default function Toggle({
     <button
       onClick={onClick}
       className={formatStyle([
-        "w-full h-full rounded-full group relative flex flex-row items-center border-2 border-stone-900",
+        "w-full h-full rounded-full group relative flex flex-row items-center border-2 border-stone-900 dark:border-stone-50",
         toggle === null
           ? "justify-center"
           : toggle
           ? "justify-end"
           : "justify-start",
-        toggle ? colorStyle : "bg-stone-500",
+        toggle ? colorStyle : "bg-stone-500 dark:bg-dark-600",
         dimensions,
       ])}
     >
       <div
         className={formatStyle([
-          "rounded-full h-full w-auto aspect-square scale-105 group-hover:scale-110 duration-100 bg-stone-50 outline outline-2 outline-stone-900",
+          "rounded-full h-full w-auto aspect-square scale-105 group-hover:scale-110 duration-100 bg-stone-50 dark:bg-dark-900 outline outline-2 outline-stone-900 dark:outline-stone-50",
         ])}
       ></div>
     </button>

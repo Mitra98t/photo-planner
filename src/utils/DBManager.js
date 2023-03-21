@@ -253,6 +253,7 @@ export class DBManager {
     let upSettings = {
       monochromaticMaps: false,
       showEmail: false,
+      theme: "light",
     };
     for (const key in upSettings) {
       if (settings.hasOwnProperty(key)) {

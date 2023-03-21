@@ -13,6 +13,7 @@ import AddContent from "./AddContent";
 import Login from "./Login";
 import { formatStyle } from "./utils/utils";
 import ProfileSettings from "./ProfileSettings";
+import { DBManager as db } from "./utils/DBManager";
 
 function App() {
   const navigate = useNavigate();
@@ -27,11 +28,13 @@ function App() {
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null
   );
+  const [settings, setSettings] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   // const [startPos, setStartPos] = useState([43.72073, 10.4076]);
 
   useEffect(() => {
     if (loggedUser == null) return;
+    db.getSettingsByUID(loggedUser).then((r) => setSettings(r));
     // console.log(loggedUser);
     // db.getUserInformationByUID(loggedUser)
     //   .then((v) => {
@@ -74,6 +77,7 @@ function App() {
             setBounds={setBounds}
             blocked={location.pathname !== "/"}
             mapLocation={mapLocation}
+            userSettings={settings}
           />
           {location.pathname !== "/" ? (
             <div
@@ -143,7 +147,13 @@ function App() {
               />
               <Route
                 path="profileSettings"
-                element={<ProfileSettings userUID={loggedUser} />}
+                element={
+                  <ProfileSettings
+                    userUID={loggedUser}
+                    settings={settings}
+                    setSettings={setSettings}
+                  />
+                }
               />
               <Route path="*" element={<ErrorPage />} />
             </Routes>

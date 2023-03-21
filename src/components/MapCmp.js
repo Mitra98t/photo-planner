@@ -2,7 +2,12 @@ import React from "react";
 
 import { Map, ZoomControl } from "pigeon-maps";
 
-export default function MapCmp({ setBounds, blocked, mapLocation }) {
+export default function MapCmp({
+  setBounds,
+  blocked,
+  mapLocation,
+  userSettings,
+}) {
   // useEffect(() => {
   //   //TODO: Fix automatic position, its a bit off
   //   navigator.geolocation.getCurrentPosition(
@@ -31,8 +36,11 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
       >
         <ZoomControl />
       </Map>
-      {/* <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " /> */}
-      <div className="w-full h-screen absolute inset-0 bg-transparent dark:bg-dark-800 pointer-events-none mix-blend-hue " />
+      {userSettings && userSettings.monochromaticMaps ? (
+        <div className="w-full h-screen absolute inset-0 bg-green-600 dark:bg-dark-800 pointer-events-none mix-blend-hue " />
+      ) : (
+        <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " />
+      )}
     </div>
   );
 }
