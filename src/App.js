@@ -11,6 +11,9 @@ import ErrorPage from "./components/ErrorPage";
 import ProfileView from "./components/ProfileView";
 import AddContent from "./AddContent";
 import Login from "./Login";
+import { formatStyle } from "./utils/utils";
+import ProfileSettings from "./ProfileSettings";
+import { DBManager as db } from "./utils/DBManager";
 
 function App() {
   const navigate = useNavigate();
@@ -25,11 +28,13 @@ function App() {
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null
   );
+  const [settings, setSettings] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   // const [startPos, setStartPos] = useState([43.72073, 10.4076]);
 
   useEffect(() => {
     if (loggedUser == null) return;
+    db.getSettingsByUID(loggedUser).then((r) => setSettings(r));
     // console.log(loggedUser);
     // db.getUserInformationByUID(loggedUser)
     //   .then((v) => {
@@ -37,6 +42,19 @@ function App() {
     //   })
     //   .catch((err) => {});
   }, [loggedUser]);
+
+  useEffect(() => {
+    if (settings == null) return;
+    if (!settings.hasOwnProperty("theme")) return;
+
+    const html = document.querySelector("html");
+    //add or remove class dark in html elem according to theme in localstorage.
+    if (settings.theme === "dark") {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, [settings]);
 
   return (
     <>
@@ -72,15 +90,24 @@ function App() {
             setBounds={setBounds}
             blocked={location.pathname !== "/"}
             mapLocation={mapLocation}
+            userSettings={settings}
           />
+          {location.pathname !== "/" ? (
+            <div
+              className="absolute inset-0 w-full h-[10vh] bg-transparent"
+              onClick={() => navigate("/")}
+            ></div>
+          ) : (
+            <></>
+          )}
           <div
-            className={
-              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 " +
+            className={formatStyle([
+              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 ",
               classNames({
                 "h-[90vh]": location.pathname !== "/",
                 "h-[10vh]": location.pathname === "/",
-              })
-            }
+              }),
+            ])}
           >
             <Routes>
               <Route
@@ -126,6 +153,20 @@ function App() {
               <Route
                 path="addContent"
                 element={<AddContent userUID={loggedUser} />}
+              />
+              <Route
+                path="addContent"
+                element={<AddContent userUID={loggedUser} />}
+              />
+              <Route
+                path="profileSettings"
+                element={
+                  <ProfileSettings
+                    userUID={loggedUser}
+                    settings={settings}
+                    setSettings={setSettings}
+                  />
+                }
               />
               <Route path="*" element={<ErrorPage />} />
             </Routes>

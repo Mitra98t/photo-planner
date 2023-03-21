@@ -249,6 +249,34 @@ export class DBManager {
     );
   }
 
+  static async addSettingsToUID(userUID, settings) {
+    let upSettings = {
+      monochromaticMaps: false,
+      showEmail: false,
+      theme: "light",
+    };
+    for (const key in upSettings) {
+      if (settings.hasOwnProperty(key)) {
+        upSettings[key] = settings[key];
+      }
+    }
+    return Promise.resolve(
+      setDoc(doc(db, "settings", userUID), { ...upSettings })
+    );
+  }
+
+  static async getSettingsByUID(userUID) {
+    const docRef = doc(db, "settings", userUID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists())
+      return Promise.resolve({
+        ...docSnap.data(),
+      });
+    else {
+      return Promise.reject("cant fetch settings");
+    }
+  }
+
   static async removeImage(imageID) {
     const imageRef = ref(storage, imageID);
 
