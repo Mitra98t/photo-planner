@@ -4,7 +4,7 @@ import Icons from "./components/Icons";
 
 import EXIF from "exif-js";
 import PhotoDataViewer from "./components/PhotoDataViewer";
-import NavBarAddContent from "./components/NavBars/NavBarAddContent";
+import NavBarGeneric from "./components/NavBars/NavBarGeneric";
 import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
@@ -104,7 +104,7 @@ export default function AddContent({ userUID }) {
     <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] pb-4 ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         {/* <NavBarHome close={() => {}} /> */}
-        <NavBarAddContent
+        <NavBarGeneric
           close={() => navigate("/")}
           profileArea={() => navigate(`/profile/${userUID}`)}
           user={userUID}

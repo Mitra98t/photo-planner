@@ -387,4 +387,21 @@ export class DBManager {
       downVoters: currentVotes.downVoters,
     });
   }
+
+  static async getUsersByDisplayName(displayName) {
+    let res = [];
+    const usersQuery = query(collection(db, "users"));
+
+    const querySnapshot = await getDocs(usersQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+    res = res.filter((r) =>
+      r.username.toLowerCase().startsWith(displayName.toLowerCase())
+    );
+    res = res.slice(0, 8);
+
+    return Promise.resolve(res);
+  }
 }

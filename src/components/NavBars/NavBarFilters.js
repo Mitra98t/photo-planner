@@ -4,7 +4,7 @@ import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
 import Button from "../../elements/Button";
 
-export default function NavBarHome({ close, options, setOptions }) {
+export default function NavBarFilters({ close, options, setOptions }) {
   const [wichMenu, setWichMenu] = useState("");
   const [weatherCodes, setWeatherCodes] = useState(null);
 
@@ -13,7 +13,7 @@ export default function NavBarHome({ close, options, setOptions }) {
   }, []);
 
   return (
-    <div className="w-full h-full rounded-t-3xl text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 flex flex-row items-center justify-between px-12 ">
+    <div className="w-full h-full rounded-t-3xl text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 flex flex-row-reverse items-center justify-between px-12 ">
       <div className="w-fit flex items-center justify-start gap-1 divide-x-2 dark:divide-dark-700">
         <button
           onClick={() =>

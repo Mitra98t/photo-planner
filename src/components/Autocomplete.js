@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { DBManager as db } from "../utils/DBManager";
 
 export default function Autocomplete({
@@ -11,12 +12,16 @@ export default function Autocomplete({
   autofocus = false,
   searchOnClick = false,
   fixed = false,
+  alsoUsers = false,
+  label="Search location..."
 }) {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [userInput, setUserInput] = useState(defaultValue);
   const [sent, setSent] = useState(defaultValue !== "");
+
+  const navigate = useNavigate();
 
   const inputField = useRef(null);
 
@@ -26,31 +31,49 @@ export default function Autocomplete({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      db.getLocationSuggestinosByName(userInput).then((filtered) => {
-        setFilteredSuggestions(filtered);
-        setShowSuggestions(true);
-      });
+      if (alsoUsers && userInput[0] === "@") {
+        db.getUsersByDisplayName(userInput.substring(1)).then((r) => {
+          setFilteredSuggestions(r);
+          setShowSuggestions(true);
+        });
+      } else {
+        db.getLocationSuggestinosByName(userInput).then((filtered) => {
+          setFilteredSuggestions(filtered);
+          setShowSuggestions(true);
+        });
+      }
     }, 300);
     return () => {
       clearTimeout(timeout);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInput]);
 
   const onClick = (e) => {
     setActiveSuggestion(0);
     setFilteredSuggestions([]);
     setShowSuggestions(false);
-    setUserInput(e.currentTarget.innerText);
+    setUserInput(
+      (alsoUsers && userInput[0] === "@" ? "@" : "") + e.currentTarget.innerText
+    );
 
     inputField.current.focus();
-    if (searchOnClick) searchLocation();
+    if (searchOnClick)
+      if (alsoUsers && userInput[0] === "@") searchUser();
+      else searchLocation();
+  };
+
+  const searchUser = async () => {
+    let displayName = userInput.substring(1);
+    if (clearOnSubmit) setUserInput("");
+    else setUserInput(filteredSuggestions[activeSuggestion].username);
+    let res = !!filteredSuggestions[activeSuggestion]
+      ? filteredSuggestions[activeSuggestion]
+      : await db.getUsersByDisplayName(displayName)[0];
+    navigate(`/profile/${res.ID}`);
   };
 
   const searchLocation = async () => {
-    setActiveSuggestion(0);
-    setFilteredSuggestions([]);
-    setShowSuggestions(false);
-    setSent(true);
     let locationFromInput = userInput;
     if (clearOnSubmit) setUserInput("");
     else setUserInput(filteredSuggestions[activeSuggestion].luogo);
@@ -64,7 +87,12 @@ export default function Autocomplete({
   const onKeyDown = async (e) => {
     setSent(false);
     if (e.key === "Enter") {
-      searchLocation();
+      setActiveSuggestion(0);
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+      setSent(true);
+      if (alsoUsers && userInput[0] === "@") searchUser();
+      else searchLocation();
     } else if (
       (!topList && e.keyCode === 38) ||
       (topList && e.keyCode === 40)
@@ -94,7 +122,7 @@ export default function Autocomplete({
         onKeyDown={onKeyDown}
         onClick={() => setSent(false)}
         value={userInput}
-        placeholder={"Search city..."}
+        placeholder={label}
         ref={inputField}
         autoFocus={autofocus}
         className={
@@ -122,7 +150,8 @@ export default function Autocomplete({
           large,
           showSuggestions,
           sent,
-          onClick
+          onClick,
+          alsoUsers && userInput[0] === "@"
         )}
       </div>
     </div>
@@ -136,7 +165,8 @@ function suggestions(
   large,
   showSuggestions,
   sent,
-  onClick
+  onClick,
+  isUser
 ) {
   if (!showSuggestions || filteredSuggestions.length === 0 || sent)
     return <></>;
@@ -159,22 +189,40 @@ function suggestions(
         if (index === activeSuggestion) {
           className = " bg-stone-300 dark:bg-dark-700 ";
         }
-        return (
-          <li
-            className={
-              " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
-              className +
-              classNames({
-                " text-xl ": large,
-                " text-base ": !large,
-              })
-            }
-            key={suggestion.luogo + index}
-            onClick={onClick}
-          >
-            {suggestion.luogo}
-          </li>
-        );
+        if (isUser)
+          return (
+            <li
+              className={
+                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
+                className +
+                classNames({
+                  " text-xl ": large,
+                  " text-base ": !large,
+                })
+              }
+              key={suggestion.username + index}
+              onClick={onClick}
+            >
+              {suggestion.username}
+            </li>
+          );
+        else
+          return (
+            <li
+              className={
+                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
+                className +
+                classNames({
+                  " text-xl ": large,
+                  " text-base ": !large,
+                })
+              }
+              key={suggestion.luogo + index}
+              onClick={onClick}
+            >
+              {suggestion.luogo}
+            </li>
+          );
       })}
     </ul>
   );
