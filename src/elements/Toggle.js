@@ -14,7 +14,7 @@ export default function Toggle({
     <button
       onClick={onClick}
       className={formatStyle([
-        "w-full h-full rounded-full group relative flex flex-row items-center border-2 border-stone-900 dark:border-stone-50",
+        "w-full h-full rounded-full group relative flex flex-row items-center border-2 border-stone-900 dark:border-stone-50 focus:scale-110 focus:outline-none ",
         toggle === null
           ? "justify-center"
           : toggle

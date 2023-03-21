@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ThemeSelector from "./components/ThemeSelector";
 import Button from "./elements/Button";
 import Toggle from "./elements/Toggle";
 import { DBManager as db } from "./utils/DBManager";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import Icons from "./components/Icons";
 
 export default function ProfileSettings({ userUID, settings, setSettings }) {
   const [currSettings, setCurrSettings] = useState({
@@ -34,7 +37,15 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await db.addSettingsToUID(userUID, currSettings);
+    toast("Settings saved!");
     setSettings(currSettings);
+  };
+
+  const handleThemeSwitch = () => {
+    let oldCurrSettings = { ...currSettings };
+    oldCurrSettings.theme =
+      oldCurrSettings.theme === "light" ? "dark" : "light";
+    setCurrSettings(oldCurrSettings);
   };
 
   return (
@@ -52,7 +63,23 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
                       key={s}
                     >
                       <span className="text-xl font-semibold ">{s}: </span>
-                      <ThemeSelector />
+                      <button
+                        onClick={handleThemeSwitch}
+                        className="focus:scale-110 hover:scale-110 focus:outline-none"
+                      >
+                        <Icons
+                          icon={
+                            currSettings && currSettings.theme === "light"
+                              ? "sun"
+                              : "moon"
+                          }
+                          color={" stroke-stone-900 dark:stroke-stone-50 "}
+                          styling={{
+                            w: "3rem",
+                            strokeWidth: "1.5px",
+                          }}
+                        />
+                      </button>
                     </div>
                   );
 
@@ -87,6 +114,19 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
         >
           Save
         </Button>
+
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     </div>
   );

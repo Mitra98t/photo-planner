@@ -20,7 +20,10 @@ export default function PhotoGallery({
           role={"button"}
           onClick={() => navigate("/addContent")}
         >
-          <Icons icon={"plus"} color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-200 " />
+          <Icons
+            icon={"plus"}
+            color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-200 "
+          />
         </li>
       ) : (
         <></>
@@ -41,7 +44,7 @@ export default function PhotoGallery({
               />
             </li>
           ))}
-      <li className="flex-grow-[10]"></li>
+      <li key={"lastElementGhost"} className="flex-grow-[10]"></li>
     </ul>
   );
 }

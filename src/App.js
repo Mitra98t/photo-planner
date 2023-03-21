@@ -43,6 +43,19 @@ function App() {
     //   .catch((err) => {});
   }, [loggedUser]);
 
+  useEffect(() => {
+    if (settings == null) return;
+    if (!settings.hasOwnProperty("theme")) return;
+
+    const html = document.querySelector("html");
+    //add or remove class dark in html elem according to theme in localstorage.
+    if (settings.theme === "dark") {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, [settings]);
+
   return (
     <>
       {loggedUser == null ? (

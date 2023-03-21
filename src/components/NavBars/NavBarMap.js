@@ -1,7 +1,6 @@
 import React from "react";
 import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
-import ThemeSelector from "../ThemeSelector";
 import Button from "../../elements/Button";
 
 export default function NavBarMap({
@@ -58,7 +57,6 @@ export default function NavBarMap({
         >
           Feedback and Ideas
         </button>
-        <ThemeSelector />
         <button onClick={profileArea} className={"h-full w-fit rounded-full"}>
           <ProfilePic
             seed={user ? user : ""}

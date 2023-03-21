@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../../elements/Button";
 import ProfilePic from "../ProfilePic";
-import ThemeSelector from "../ThemeSelector";
 
 export default function NavBarAddContent({ close, profileArea, user }) {
   return (
@@ -16,7 +15,6 @@ export default function NavBarAddContent({ close, profileArea, user }) {
         Close
       </Button>
       <div className="h-full w-fit flex flex-row items-center justify-end gap-8 ">
-        <ThemeSelector />
         <button className="h-3/5 " onClick={profileArea}>
           <ProfilePic
             seed={user ? user : ""}

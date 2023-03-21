@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PopupMenu from "../PopupMenu";
-import ThemeSelector from "../ThemeSelector";
 import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
 import Button from "../../elements/Button";
@@ -159,7 +158,6 @@ export default function NavBarHome({ close, options, setOptions }) {
         </div>
       </div>
       <div className="w-fit h-full flex flex-row items-center justify-end gap-8">
-        <ThemeSelector />
         <Button
           onClick={close}
           accentColor="red-600"
