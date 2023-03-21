@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import NavBarHome from "./components/NavBars/NavBarHome";
-import { DBManager as db } from "./utils/DBManager";
 
 export default function Profile({ close }) {
   const { UID } = useParams();

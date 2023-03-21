@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { formatStyle } from "../utils/utils";
 
 export default function Button({
@@ -15,8 +15,6 @@ export default function Button({
   hover = "",
   width = "w-full",
   height = "h-full",
-  maxWidth = "",
-  maxHeight = "",
   paddings = "px-6 py-4",
   additional = "",
   type = "button",
@@ -34,8 +32,6 @@ export default function Button({
   const general = formatStyle([
     width,
     height,
-    maxWidth === "" ? "" : "max-" + maxWidth,
-    maxHeight === "" ? "" : "max-" + maxHeight,
     paddings,
     additional,
     whiteSpaceWrap ? "" : "whitespace-nowrap",
@@ -47,27 +43,18 @@ export default function Button({
         ...(hover.length > 0 ? hover.split(" ").map((c) => "hover:" + c) : ""),
       ]);
 
-  console.log(
-    formatStyle([
-      "rounded-full outline outline-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
-      baseColors,
-      accentColors,
-      textStyle,
-      hoverStyle,
-      general,
-      disabled ? "cursor-not-allowed" : "",
-    ])
-  );
   return (
     <button
       className={formatStyle([
-        "rounded-full outline outline-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
+        "rounded-full outline outline-[4px] dark:outline-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
         baseColors,
         accentColors,
         textStyle,
         hoverStyle,
         general,
-        disabled ? "cursor-not-allowed" : "",
+        disabled
+          ? "cursor-not-allowed"
+          : "hover:outline-[6px] dark:hover:outline-[5px]",
       ])}
       onClick={disabled ? () => {} : onClick}
       disabled={disabled}

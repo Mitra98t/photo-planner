@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Hashtag from "../Hashtag";
 import PopupMenu from "../PopupMenu";
-import TimeTagSelector from "../Selectors/TimeTagSelector";
-import PeriodTagSelector from "../Selectors/PeriodTagSelector";
-import WeatherTagsSelector from "../Selectors/WeatherTagsSelector";
 import ThemeSelector from "../ThemeSelector";
 import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
@@ -168,8 +164,6 @@ export default function NavBarHome({ close, options, setOptions }) {
           onClick={close}
           accentColor="red-600"
           darkAccentColor="red-500"
-          darkBaseColor="dark-900"
-          baseColor="stone-900"
           height="h-auto"
           hover="outline-[6px]"
         >

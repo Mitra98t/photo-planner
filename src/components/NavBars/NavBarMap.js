@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
-import Icons from "../Icons";
 import ThemeSelector from "../ThemeSelector";
 import Button from "../../elements/Button";
 
@@ -37,12 +36,12 @@ export default function NavBarMap({
       </div>
       <Button
         onClick={searchArea}
-        accentColor="purple-700"
-        darkAccentColor="purple-500"
+        accentColor="green-300"
+        darkAccentColor="cyan-500"
         additional="flex-1"
-        height="h-[70%]"
-        maxHeight="h-fit"
-        hover="outline-[6px]"
+        height="h-fit"
+        textColor="text-stone-900 dark:text-stone-50"
+        paddings="py-3"
       >
         Search Area
       </Button>

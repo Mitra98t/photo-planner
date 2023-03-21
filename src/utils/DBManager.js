@@ -1,6 +1,6 @@
 import { db, storage } from "../firebase.js";
 
-import { calculateMapZoom, weatherCodes } from "./utils";
+import { weatherCodes } from "./utils";
 import {
   collection,
   deleteDoc,
@@ -12,7 +12,6 @@ import {
   where,
 } from "firebase/firestore";
 
-import locations from "../mocupData/locations.json";
 import { deleteObject, ref } from "firebase/storage";
 
 function delay(ms) {

@@ -12,7 +12,7 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
   // }, []);
 
   return (
-    <div className="w-full h-full map">
+    <div className="w-full h-full notAnimated">
       <Map
         defaultCenter={[43.72077871691476, 10.407882154565954]}
         center={mapLocation.coords}
@@ -31,8 +31,8 @@ export default function MapCmp({ setBounds, blocked, mapLocation }) {
       >
         <ZoomControl />
       </Map>
-      <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " />
-      {/* <div className="w-full h-screen absolute inset-0 bg-yellow-600 dark:bg-dark-800 pointer-events-none mix-blend-hue " /> */}
+      {/* <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " /> */}
+      <div className="w-full h-screen absolute inset-0 bg-transparent dark:bg-dark-800 pointer-events-none mix-blend-hue " />
     </div>
   );
 }

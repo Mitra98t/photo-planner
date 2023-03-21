@@ -119,7 +119,7 @@ export default function AddContent({ userUID }) {
             <input
               type={"file"}
               accept=".jpg, .png, .heif, .heic"
-              className="file:mr-4 file:px-6 file:py-3 file:bg-stone-900 file:hover:bg-stone-700 file:dark:bg-dark-900 file:dark:hover:bg-dark-700 file:rounded-full file:text-stone-50 file:font-semibold file:border-0 file:cursor-pointer"
+              className="file:bg-blue-600 file:dark:bg-dark-900 file:outline-stone-900 file:dark:outline-blue-500 file:p-6 p-3 file:rounded-full file:border-0 file:outline file:outline-[4px] file:hover:outline-[6px] file:dark:outline-[3px] file:dark:hover:outline-[5px] file:mr-6 file:text-stone-50 file:text-xl file:font-bold file:transition-all file:ease-in-out file:duration-100"
               onChange={async (e) => {
                 e.preventDefault();
                 let oldPhotos = { ...photos };
@@ -128,6 +128,7 @@ export default function AddContent({ userUID }) {
                 // console.log(file)
                 EXIF.getData(e.target.files[0], async () => {
                   exd = EXIF.getAllTags(e.target.files[0]);
+                  // console.log(exd);
                   let fileData = {
                     nameComplete: file.name,
                     name: file.name.split(".")[0],
@@ -185,32 +186,13 @@ export default function AddContent({ userUID }) {
               ) || Object.keys(photos).some((key) => !checkPhoto(photos[key]))
             }
             type="submit"
-            hover="outline-[6px]"
             width="w-fit"
+            height="h-fit"
+            accentColor="blue-600"
+            darkAccentColor="blue-500"
           >
-            Load
+            Upload
           </Button>
-          {/* {Object.keys(photos).every((key) => photos[key].progress === 100) ||
-          Object.keys(photos).some((key) => !checkPhoto(photos[key])) ? (
-            <button
-              type={"submit"}
-              disabled
-              className={
-                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 dark:bg-dark-900 rounded-full"
-              }
-            >
-              Carica
-            </button>
-          ) : (
-            <button
-              type={"submit"}
-              className={
-                "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 dark:bg-dark-900 dark:hover:bg-dark-700 rounded-full"
-              }
-            >
-              Carica
-            </button>
-          )} */}
         </form>
         {Object.keys(photos).map((pk, i) => {
           return (

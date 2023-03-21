@@ -10,11 +10,8 @@ export default function NavBarAddContent({ close, profileArea, user }) {
         onClick={close}
         accentColor="red-600"
         darkAccentColor="red-500"
-        darkBaseColor="dark-900"
-        baseColor="stone-900"
         height="h-auto"
         width="w-fit"
-        hover="outline-[6px]"
       >
         Close
       </Button>

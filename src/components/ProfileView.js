@@ -49,7 +49,9 @@ export default function ProfileView({ userUID, selectPhoto }) {
         <ProfilePic
           seed={UID}
           heightBased
-          border={" border-2 border-stone-900 dark:border-dark-600 "}
+          border={
+            " border-2 border-stone-900 dark:border-dark-600 "
+          }
         />
         <div className="flex flex-col items-start justify-evenlty gap-2">
           <p className="text-4xl font-semibold ">
