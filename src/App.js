@@ -11,6 +11,8 @@ import ErrorPage from "./components/ErrorPage";
 import ProfileView from "./components/ProfileView";
 import AddContent from "./AddContent";
 import Login from "./Login";
+import { formatStyle } from "./utils/utils";
+import ProfileSettings from "./ProfileSettings";
 
 function App() {
   const navigate = useNavigate();
@@ -73,14 +75,22 @@ function App() {
             blocked={location.pathname !== "/"}
             mapLocation={mapLocation}
           />
+          {location.pathname !== "/" ? (
+            <div
+              className="absolute inset-0 w-full h-[10vh] bg-transparent"
+              onClick={() => navigate("/")}
+            ></div>
+          ) : (
+            <></>
+          )}
           <div
-            className={
-              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 " +
+            className={formatStyle([
+              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 ",
               classNames({
                 "h-[90vh]": location.pathname !== "/",
                 "h-[10vh]": location.pathname === "/",
-              })
-            }
+              }),
+            ])}
           >
             <Routes>
               <Route
@@ -126,6 +136,14 @@ function App() {
               <Route
                 path="addContent"
                 element={<AddContent userUID={loggedUser} />}
+              />
+              <Route
+                path="addContent"
+                element={<AddContent userUID={loggedUser} />}
+              />
+              <Route
+                path="profileSettings"
+                element={<ProfileSettings userUID={loggedUser} />}
               />
               <Route path="*" element={<ErrorPage />} />
             </Routes>
