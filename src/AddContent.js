@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Icons from "./components/Icons";
 
 import piexif from "piexifjs";
+import { FileUploader } from "react-drag-drop-files";
 import PhotoDataViewer from "./components/PhotoDataViewer";
 import NavBarGeneric from "./components/NavBars/NavBarGeneric";
 import { useNavigate } from "react-router-dom";
@@ -29,10 +30,8 @@ function extractExif(exif) {
   ) => {
     if (!Array.isArray(data)) return data + "";
     let [numeratore, denominatore] = data;
-    console.log([numeratore, denominatore]);
     denominatore = numeratore >= 10 ? denominatore / 10 : denominatore;
     numeratore = numeratore >= 10 ? numeratore / 10 : numeratore;
-    console.log([numeratore, denominatore]);
     if (numeratore > denominatore && isTime) return `${numeratore}`;
     if (isFraction) return `${numeratore}/${denominatore}`;
     else
@@ -56,7 +55,12 @@ function extractExif(exif) {
     cameraSettings: {
       ISO: exifToString(exif["Exif"][piexif.ExifIFD.ISOSpeedRatings]),
       aperture: exifToString(exif["Exif"][piexif.ExifIFD.FNumber]),
-      focalLength: exifToString(exif["Exif"][piexif.ExifIFD.FocalLength], false, false, true),
+      focalLength: exifToString(
+        exif["Exif"][piexif.ExifIFD.FocalLength],
+        false,
+        false,
+        true
+      ),
       shutterSpeed: exifToString(
         exif["Exif"][piexif.ExifIFD.ExposureTime],
         true,
@@ -67,6 +71,8 @@ function extractExif(exif) {
 
   return res;
 }
+
+const fileTypes = ["JPG", "PNG", "GIF"];
 
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
@@ -173,19 +179,16 @@ export default function AddContent({ userUID }) {
           className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 dark:bg-dark-800 z-[100] p-4"
         >
           <div className="w-fit h-full flex flex-row items-center justify-start gap-6">
-            <input
-              type={"file"}
-              accept=".jpg, .png, .heif, .heic"
-              className="file:bg-blue-600 file:dark:bg-dark-900 file:outline-stone-900 file:dark:outline-blue-500 file:p-6 p-3 file:rounded-full file:border-0 file:outline file:outline-[4px] file:hover:outline-[6px] file:dark:outline-[3px] file:dark:hover:outline-[5px] file:mr-6 file:text-stone-50 file:text-xl file:font-bold file:transition-all file:ease-in-out file:duration-100"
-              onChange={async (e) => {
-                e.preventDefault();
+            <FileUploader
+              name="file"
+              types={fileTypes}
+              handleChange={async (fileIn) => {
                 let oldPhotos = { ...photos };
-                let file = e.target.files[0];
+                let file = fileIn;
 
                 let base64 = await blobToBase64(file);
                 let exif = piexif.load(base64);
                 let exifReadable = extractExif(exif);
-                console.log(exifReadable);
 
                 let fileData = {
                   nameComplete: file.name,
@@ -193,7 +196,7 @@ export default function AddContent({ userUID }) {
                   type: file.name.split(".")[1],
                   creationDate: exifReadable.dateTime.date,
                   creationTime: exifReadable.dateTime.time,
-                  fileFromSource: await compressImage(e.target.files[0], {
+                  fileFromSource: await compressImage(fileIn, {
                     quality: 0.5,
                   }),
                 };
@@ -208,7 +211,7 @@ export default function AddContent({ userUID }) {
                   model: exifReadable.camera.model,
                 };
                 let photo = {
-                  URL: URL.createObjectURL(e.target.files[0]),
+                  URL: URL.createObjectURL(fileIn),
                   file: fileData,
                   exif: fileExif,
                   camera: fileCamera,
@@ -219,7 +222,19 @@ export default function AddContent({ userUID }) {
                 oldPhotos[fileData.nameComplete] = { ...photo };
                 setPhotos(oldPhotos);
               }}
-            ></input>
+            >
+              <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-blue-500 dark-outline-blue-500">
+                <p classname="text-stone-900 dark:text-stone-50">
+                  Drag photo or click to upload...
+                </p>
+                <Icons
+                  icon="image"
+                  color="stroke-stone-900 dark:stroke-stone-50"
+                  styling={{ w: "auto", h: "2rem", strokeWidth: "1.5px" }}
+                />
+              </div>
+            </FileUploader>
+
             <p className=" italic font-medium">
               If the button doesn't work, refresh page {"<"}3
             </p>
