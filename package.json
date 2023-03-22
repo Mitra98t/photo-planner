@@ -9,6 +9,7 @@
     "classnames": "^2.3.2",
     "dotenv": "^16.0.3",
     "firebase": "^9.17.1",
+    "fuse.js": "^6.6.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "piexifjs": "^1.0.6",
