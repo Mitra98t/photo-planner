@@ -4,6 +4,7 @@ import { formatStyle } from "../utils/utils";
 export default function Button({
   children,
   onClick,
+  onDoubleClick = () => {},
   disabled = false,
   baseColor = "stone-900",
   darkBaseColor = "dark-900",
@@ -57,6 +58,7 @@ export default function Button({
           : "hover:outline-[6px] dark:hover:outline-[5px]",
       ])}
       onClick={disabled ? () => {} : onClick}
+      onDoubleClick={disabled ? () => {} : onDoubleClick}
       disabled={disabled}
       type={type}
     >

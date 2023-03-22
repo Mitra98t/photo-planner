@@ -10,6 +10,9 @@ export default function MapCmp({
   setMapLocation,
   mapLocation,
   userSettings,
+  triggerMapLoad,
+  setTriggerMapLoad,
+  setOldBounds,
 }) {
   // useEffect(() => {
   //   //TODO: Fix automatic position, its a bit off
@@ -21,55 +24,29 @@ export default function MapCmp({
 
   const [photosInLocation, setPhotosInLocation] = useState([]);
   useEffect(() => {
-    let timeout;
-    //TODO: trovare il modo di mostrare le immagini
-    if (photosInLocation.length == 0) {
-      db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => {
-        let photosToLoad = [];
-        let dbPhotos = v.sort(function () {
-          return Math.random() - 0.5;
-        });
-        for (let i = 0; i < dbPhotos.length; i++) {
-          let count = 0;
-          for (let j = 0; j < photosToLoad.length; j++) {
-            if (
-              photosToLoad[j].lat == dbPhotos[i].lat &&
-              photosToLoad[j].lng == dbPhotos[i].lng
-            )
-              count++;
-          }
-          if (count == 0) photosToLoad.push(dbPhotos[i]);
-        }
-        setPhotosInLocation(photosToLoad);
+    if (photosInLocation.length > 0 && !triggerMapLoad) return;
+    setTriggerMapLoad(false);
+    db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => {
+      let photosToLoad = [];
+      let dbPhotos = v.sort(function () {
+        return Math.random() - 0.5;
       });
-    } else {
-      timeout = setTimeout(() => {
-        if (!bounds.hasOwnProperty("ne") || !bounds.hasOwnProperty("sw"))
-          return;
-        db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => {
-          let photosToLoad = [];
-          let dbPhotos = v.sort(function () {
-            return Math.random() - 0.5;
-          });
-          for (let i = 0; i < dbPhotos.length; i++) {
-            let count = 0;
-            for (let j = 0; j < photosToLoad.length; j++) {
-              if (
-                photosToLoad[j].lat == dbPhotos[i].lat &&
-                photosToLoad[j].lng == dbPhotos[i].lng
-              )
-                count++;
-            }
-            if (count == 0) photosToLoad.push(dbPhotos[i]);
-          }
-          setPhotosInLocation(photosToLoad);
-        });
-      }, 5000);
-    }
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [bounds]);
+      for (let i = 0; i < dbPhotos.length; i++) {
+        let count = 0;
+        for (let j = 0; j < photosToLoad.length; j++) {
+          if (
+            photosToLoad[j].lat == dbPhotos[i].lat &&
+            photosToLoad[j].lng == dbPhotos[i].lng
+          )
+            count++;
+        }
+        if (count == 0) photosToLoad.push(dbPhotos[i]);
+      }
+      setPhotosInLocation(photosToLoad);
+      setOldBounds(bounds);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bounds, triggerMapLoad]);
 
   return (
     <div className="w-full h-full notAnimated">
