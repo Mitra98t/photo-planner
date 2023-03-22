@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 
 import { deleteObject, ref } from "firebase/storage";
+import Fuse from "fuse.js";
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -397,12 +398,14 @@ export class DBManager {
     querySnapshot.forEach((doc) => {
       res.push({ ID: doc.id, ...doc.data() });
     });
-    res = res.filter((r) =>
-      r.username.toLowerCase().startsWith(displayName.toLowerCase())
-    );
-    res = res.slice(0, 8);
 
-    return Promise.resolve(res);
+    let fuse = new Fuse(res, {
+      keys: ["username"],
+    });
+
+    const result = fuse.search(displayName).map(r => r.item);
+
+    return Promise.resolve(result.slice(0, 5));
   }
 
   static async getChangelogComplete() {
