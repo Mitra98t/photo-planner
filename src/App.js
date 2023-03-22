@@ -20,6 +20,8 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [bounds, setBounds] = useState({});
+  const [oldBounds, setOldBounds] = useState(null);
+  const [triggerMapLoad, setTriggerMapLoad] = useState(false);
   const [mapLocation, setMapLocation] = useState({
     coords: [43.72077871691476, 10.407882154565954],
     zoom: 15,
@@ -106,9 +108,14 @@ function App() {
           </div>
           <MapCmp
             setBounds={setBounds}
+            bounds={bounds}
             blocked={location.pathname !== "/"}
+            setMapLocation={setMapLocation}
             mapLocation={mapLocation}
             userSettings={settings}
+            setOldBounds={setOldBounds}
+            triggerMapLoad={triggerMapLoad}
+            setTriggerMapLoad={setTriggerMapLoad}
           />
           {location.pathname !== "/" ? (
             <div
@@ -138,6 +145,15 @@ function App() {
                         searchArea={() => navigate("home")}
                         profileArea={() => navigate(`profile/${loggedUser}`)}
                         setMapLocation={setMapLocation}
+                        setTriggerMapLoad={setTriggerMapLoad}
+                        notify={
+                          oldBounds != null &&
+                          !(
+                            oldBounds &&
+                            oldBounds.ne.every((c, i) => bounds.ne[i] == c) &&
+                            oldBounds.sw.every((c, i) => bounds.sw[i] == c)
+                          )
+                        }
                       />
                     </div>
                   </>

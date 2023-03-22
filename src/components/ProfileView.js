@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import Button from "../elements/Button";
 import { DBManager as db } from "../utils/DBManager";
 import { filterPhoto } from "../utils/utils";
+import Icons from "./Icons";
 import PhotoGallery from "./PhotoGallery";
 import ProfilePic from "./ProfilePic";
 
@@ -20,7 +26,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
     db.getSettingsByUID(UID)
       .then((r) => setcurrUserSettings(r))
       .catch((e) => {});
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -77,7 +83,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
             <></>
           )}
           {personal ? (
-            <div className="flex items-center justify-evenly w-full h-fit gap-2 ">
+            <div className="flex items-center justify-evenly w-full h-fit gap-4 ">
               <Button
                 paddings="py-1 px-3"
                 width="w-fit"
@@ -88,6 +94,28 @@ export default function ProfileView({ userUID, selectPhoto }) {
                 onClick={() => navigate("/profileSettings")}
               >
                 Profile Settings
+              </Button>
+              <Button
+                paddings="py-1 px-3"
+                width="w-fit"
+                height="h-fit"
+                additional="duration-75  flex flex-row items-center justify-start gap-2"
+                text="text-base"
+                font="font-normal"
+                accentColor="red-600"
+                darkAccentColor="red-500"
+                onClick={() => {
+                  localStorage.removeItem("uid");
+
+                  window.location.reload();
+                }}
+              >
+                <p>Logout</p>
+                <Icons
+                  icon="out"
+                  color="stroke-stone-50"
+                  styling={{ w: "1rem", h: "auto", strokeWidth: "1.5px" }}
+                />
               </Button>
             </div>
           ) : (
