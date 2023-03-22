@@ -106,7 +106,9 @@ function App() {
           </div>
           <MapCmp
             setBounds={setBounds}
+            bounds={bounds}
             blocked={location.pathname !== "/"}
+            setMapLocation={setMapLocation}
             mapLocation={mapLocation}
             userSettings={settings}
           />
