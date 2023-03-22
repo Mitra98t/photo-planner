@@ -91,19 +91,6 @@ export default function ProfileView({ userUID, selectPhoto }) {
                 text="text-base"
                 font="font-normal"
                 additional="duration-75"
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                Show Locations
-              </Button>
-              <Button
-                paddings="py-1 px-3"
-                width="w-fit"
-                height="h-fit"
-                text="text-base"
-                font="font-normal"
-                additional="duration-75"
                 onClick={() => navigate("/profileSettings")}
               >
                 Profile Settings
