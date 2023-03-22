@@ -417,7 +417,7 @@ export class DBManager {
 
     if (res.length <= 0) return Promise.reject("missing logs");
 
-    res = res.sort((a, b) => a.version - b.version);
+    res = res.sort((a, b) => b.version.localeCompare(a.version));
 
     return Promise.resolve(res);
   }
@@ -434,7 +434,7 @@ export class DBManager {
 
     if (res.length <= 0) return Promise.reject("missing logs");
 
-    let toGive = res.sort((a, b) => a.version - b.version)[0];
+    let toGive = res.sort((a, b) => b.version.localeCompare(a.version))[0];
 
     return Promise.resolve(toGive);
   }

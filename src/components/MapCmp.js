@@ -27,7 +27,7 @@ export default function MapCmp({
     if (photosInLocation.length > 0 && !triggerMapLoad) return;
     setTriggerMapLoad(false);
     db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => {
-      let photosToLoad = [];
+      let photosToLoad = [...photosInLocation];
       let dbPhotos = v.sort(function () {
         return Math.random() - 0.5;
       });
