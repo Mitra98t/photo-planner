@@ -21,7 +21,12 @@ function blobToBase64(blob) {
 }
 
 function extractExif(exif) {
-  const exifToString = (data, isFraction = false, isTime = false) => {
+  const exifToString = (
+    data,
+    isFraction = false,
+    isTime = false,
+    round = false
+  ) => {
     if (!Array.isArray(data)) return data + "";
     let [numeratore, denominatore] = data;
     console.log([numeratore, denominatore]);
@@ -30,7 +35,12 @@ function extractExif(exif) {
     console.log([numeratore, denominatore]);
     if (numeratore > denominatore && isTime) return `${numeratore}`;
     if (isFraction) return `${numeratore}/${denominatore}`;
-    else return `${numeratore / denominatore}`;
+    else
+      return `${
+        round
+          ? Math.round(numeratore / denominatore)
+          : numeratore / denominatore
+      }`;
   };
 
   const dateTimeOriginal = exif["Exif"][piexif.ExifIFD.DateTimeOriginal];
@@ -46,11 +56,11 @@ function extractExif(exif) {
     cameraSettings: {
       ISO: exifToString(exif["Exif"][piexif.ExifIFD.ISOSpeedRatings]),
       aperture: exifToString(exif["Exif"][piexif.ExifIFD.FNumber]),
-      focalLength: exifToString(exif["Exif"][piexif.ExifIFD.FocalLength]),
+      focalLength: exifToString(exif["Exif"][piexif.ExifIFD.FocalLength], false, false, true),
       shutterSpeed: exifToString(
         exif["Exif"][piexif.ExifIFD.ExposureTime],
         true,
-        true,
+        true
       ),
     },
   };
@@ -121,6 +131,7 @@ export default function AddContent({ userUID }) {
     for (const pk in photosToUpload) {
       if (Object.hasOwnProperty.call(photosToUpload, pk)) {
         const uuid = uuidv4(); // Genera un nuovo UUID v4
+        if (photosToUpload[pk].hasOwnProperty("progress")) continue;
 
         let res = await upImage(
           photosToUpload[pk].file.fileFromSource,
