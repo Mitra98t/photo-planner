@@ -85,7 +85,7 @@ function App() {
           ) : (
             <></>
           )}
-          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[500] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
+          {/* <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[500] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
             <span className="font-semibold text-base">It's a Beta be kind</span>
             <button
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
@@ -105,7 +105,7 @@ function App() {
             >
               V. {lastChangeLog && lastChangeLog.version}
             </button>
-          </div>
+          </div> */}
           <MapCmp
             setBounds={setBounds}
             bounds={bounds}
@@ -130,7 +130,7 @@ function App() {
               "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 ",
               classNames({
                 "h-[90vh]": location.pathname !== "/",
-                "h-[10vh]": location.pathname === "/",
+                "h-[20vh] sm:h-[10vh]": location.pathname === "/",
               }),
             ])}
           >

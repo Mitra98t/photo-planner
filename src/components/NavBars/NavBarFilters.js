@@ -3,6 +3,7 @@ import PopupMenu from "../PopupMenu";
 import Icons from "../Icons";
 import { DBManager as db } from "../../utils/DBManager";
 import Button from "../../elements/Button";
+import { Default } from "../../utils/utils";
 
 export default function NavBarFilters({ close, options, setOptions }) {
   const [wichMenu, setWichMenu] = useState("");
@@ -13,9 +14,10 @@ export default function NavBarFilters({ close, options, setOptions }) {
   }, []);
 
   return (
-    <div className="w-full h-full rounded-t-3xl text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 flex flex-row-reverse items-center justify-between px-12 ">
-      <div className="w-fit flex items-center justify-start gap-1 divide-x-2 dark:divide-dark-700">
+    <div className="w-full h-full rounded-t-3xl text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 flex flex-row-reverse items-center justify-between px-3 md:px-12 ">
+      <div className="w-full md:w-fit flex items-center justify-start gap-1 divide-x-2 dark:divide-dark-700">
         <button
+          className="h-[70%]"
           onClick={() =>
             setOptions({
               weather: "",
@@ -34,16 +36,16 @@ export default function NavBarFilters({ close, options, setOptions }) {
             icon={"filter"}
             color={" stroke-stone-900 dark:stroke-stone-50"}
             styling={{
-              w: "2.5rem",
-              h: "auto",
+              w: "auto",
+              h: "2rem",
               strokeWidth: "2px",
             }}
           />
         </button>
-        <div className="flex flex-col items-start justify-evenly gap-1 cursor-pointer p-2  ">
-          <p className="text-xl font-bold">Weather</p>
+        <div className="flex flex-col items-start justify-between h-full gap-1 cursor-pointer p-2  ">
+          <p className="text-title">Weather</p>
           <select
-            className="focus:outline-stone-900 rounded-lg bg-stone-50 dark:bg-dark-800 w-fit py-2 "
+            className="focus:outline-stone-900 text-paragraph rounded-lg bg-stone-50 dark:bg-dark-800 w-fit max-w-[20vw] py-2 "
             value={options.weather === "" ? "any" : options.weather}
             onChange={(e) => {
               let oldOptions = { ...options };
@@ -66,18 +68,18 @@ export default function NavBarFilters({ close, options, setOptions }) {
           </select>
         </div>
         <div
-          className="flex flex-col items-start justify-evenly gap-1 cursor-pointer relative p-2 "
+          className="flex flex-col items-start justify-between h-full gap-1 cursor-pointer relative p-2 "
           onClick={() => setWichMenu(() => "time")}
         >
-          <p className="text-xl font-bold">Time</p>
-          <p>
+          <p className="text-title">Time</p>
+          <p className="text-paragraph">
             From {options.time.from === "" ? "any" : options.time.from} to{" "}
             {options.time.to === "" ? "any" : options.time.to}
           </p>
           <PopupMenu hidden={wichMenu !== "time"} close={() => setWichMenu("")}>
-            <div className="w-full h-fit pr-6">
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
-                <p>From:</p>
+            <div className="w-full h-fitpr-6">
+              <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
+                <p className="">From:</p>
                 <input
                   onChange={(e) => {
                     let oldOpt = { ...options };
@@ -91,8 +93,8 @@ export default function NavBarFilters({ close, options, setOptions }) {
                   }
                 />
               </div>
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
-                <p>To:</p>
+              <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
+                <p className="">To:</p>
                 <input
                   onChange={(e) => {
                     let oldOpt = { ...options };
@@ -110,11 +112,11 @@ export default function NavBarFilters({ close, options, setOptions }) {
           </PopupMenu>
         </div>
         <div
-          className="flex flex-col items-start justify-evenly gap-3 cursor-pointer relative p-2"
+          className="flex flex-col items-start justify-between h-full gap-1 cursor-pointer relative p-2"
           onClick={() => setWichMenu(() => "period")}
         >
-          <p className="text-xl font-bold">Period</p>
-          <p>
+          <p className="text-title">Period</p>
+          <p className="text-paragraph">
             From {options.period.from === "" ? "any" : options.period.from} to{" "}
             {options.period.to === "" ? "any" : options.period.to}
           </p>
@@ -158,15 +160,17 @@ export default function NavBarFilters({ close, options, setOptions }) {
         </div>
       </div>
       <div className="w-fit h-full flex flex-row items-center justify-end gap-8">
-        <Button
-          onClick={close}
-          accentColor="red-600"
-          darkAccentColor="red-500"
-          height="h-auto"
-          hover="outline-[6px]"
-        >
-          Close
-        </Button>
+        <Default>
+          <Button
+            onClick={close}
+            accentColor="red-600"
+            darkAccentColor="red-500"
+            height="h-[70%]"
+            hover="outline-[6px]"
+          >
+            Close
+          </Button>
+        </Default>
       </div>
     </div>
   );

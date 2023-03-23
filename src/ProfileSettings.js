@@ -117,18 +117,21 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
         >
           Save
         </Button>
-
+        <p className="text-paragraph italic">
+          Monochromatic Maps doesn't work on Safari
+        </p>
         <ToastContainer
           position="top-center"
-          autoClose={5000}
+          autoClose={1500}
           hideProgressBar={false}
+          limit={1}
           newestOnTop={false}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="dark"
+          theme={currSettings.theme}
         />
       </div>
     </div>

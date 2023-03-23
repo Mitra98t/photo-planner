@@ -2,9 +2,10 @@ import React from "react";
 import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
 import Button from "../../elements/Button";
-import { formatStyle } from "../../utils/utils";
+import { Default, Desktop, formatStyle, Mobile } from "../../utils/utils";
 import Icons from "../Icons";
 import { ToastContainer } from "react-toastify";
+import MediaQuery from "react-responsive";
 
 export default function NavBarMap({
   profileArea,
@@ -27,8 +28,8 @@ export default function NavBarMap({
   };
 
   return (
-    <div className="w-full h-full dark:bg-dark-800 bg-stone-50 rounded-t-3xl gap-8 flex flex-row items-center justify-between px-12">
-      <div className="h-full flex-1 flex flex-row items-center justify-start">
+    <div className="w-full h-full dark:bg-dark-800 bg-stone-50 rounded-t-3xl flex flex-col sm:flex-row items-center justify-envenly gap-4 sm:gap-8 sm:justify-between px-12 pt-4 md:pt-0">
+      <div className="h-full w-full flex-1 flex flex-row items-center justify-start">
         <Autocomplete
           handleSubmit={handleSearchSubmit}
           topList
@@ -43,27 +44,33 @@ export default function NavBarMap({
       </div>
       <div className="flex-1 h-[70%] w-full flex flex-row gap-4">
         <div
-          className={formatStyle([
-            notify ? "basis-3/4" : "basis-full",
-            "h-full",
-          ])}
+          className={formatStyle([notify ? "basis-3/4" : "w-full", "h-full"])}
         >
           <Button
             onClick={searchArea}
             accentColor="green-300"
             darkAccentColor="cyan-500"
-            additional=""
+            additional="aspect-square md:aspect-auto"
             height="h-full"
             width="w-full"
             textColor="text-stone-900 dark:text-stone-50"
-            // paddings="py-3"
+            paddings=" md:px-6 md:py-4"
           >
-            Search Area
+            <Default>
+              <p>Search Area</p>
+            </Default>
+            <Mobile>
+              <Icons
+                icon="search"
+                color="stroke-stone-900 dark:stroke-stone-50"
+                styling={{ h: "2rem", w: "auto", strokeWidth: "1.5px" }}
+              />
+            </Mobile>
           </Button>
         </div>
         <div
           className={formatStyle([
-            notify ? "w-auto aspect-square opacity-100" : "w-0 opacity-0",
+            notify ? "w-auto aspect-square opacity-100 " : "w-0 opacity-0",
             "h-full",
           ])}
         >
@@ -73,53 +80,45 @@ export default function NavBarMap({
             darkAccentColor="cyan-500"
             height="h-full"
             width={formatStyle([notify ? "w-full" : "w-0"])}
-            paddings="p-4"
+            paddings=""
             additional="group"
           >
             <Icons
               icon="refresh"
-              color="stroke-stone-900 dark:stroke-stone-50 group-hover:animate-spin duration-75"
-              styling={{ w: "3rem", h: "auto", strokeWidth: "1.5px" }}
+              color="stroke-stone-900 dark:stroke-stone-50"
+              styling={{ h: "2rem", w: "auto", strokeWidth: "1.5px" }}
             />
           </Button>
-          <ToastContainer />
         </div>
-        {
-          // <>
-          //   <div
-          //     className={formatStyle([
-          //       "absolute top-0 right-0 w-5 h-5 dark:bg-cyan-500 bg-stone-900 rounded-full",
-          //     ])}
-          //   ></div>
-          //   <div
-          //     className={formatStyle([
-          //       "absolute top-0 right-0 w-5 h-5 dark:bg-cyan-500 bg-stone-900 rounded-full animate-ping",
-          //     ])}
-          //   ></div>
-          // </>
-        }
+        <Mobile>
+          <div className=" h-full flex-1 flex items-center justify-end  gap-12">
+            <button
+              onClick={profileArea}
+              className={"h-full w-full aspect-square rounded-full"}
+            >
+              <ProfilePic
+                seed={user ? user : ""}
+                heightBased
+                border=" border-2 border-stone-900 dark:border-dark-600 "
+              />
+            </button>
+          </div>
+        </Mobile>
       </div>
-      <div className=" h-3/5 flex-1 flex items-center justify-end  gap-12">
-        <button
-          href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
-          onClick={() =>
-            window.open(
-              "https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut",
-              "_blank"
-            )
-          }
-          className="font-semibold text-lg text-stone-900 dark:text-stone-50 hover:scale-110 "
-        >
-          Feedback and Ideas
-        </button>
-        <button onClick={profileArea} className={"h-full w-fit rounded-full"}>
-          <ProfilePic
-            seed={user ? user : ""}
-            heightBased
-            border=" border-2 border-stone-900 dark:border-dark-600 "
-          />
-        </button>
-      </div>
+      <Default>
+        <div className=" h-[70%] flex-1 flex flex-row items-center justify-end gap-12">
+          <button
+            onClick={profileArea}
+            className={"h-full w-fit aspect-square rounded-full"}
+          >
+            <ProfilePic
+              seed={user ? user : ""}
+              heightBased
+              border=" border-2 border-stone-900 dark:border-dark-600 "
+            />
+          </button>
+        </div>
+      </Default>
     </div>
   );
 }

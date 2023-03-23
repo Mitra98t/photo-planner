@@ -2,11 +2,19 @@ import React from "react";
 
 export default function Icons({
   icon,
-  color = " stroke-stone-900 ",
+  color = " stroke-stone-900 dark:stroke-stone-50 ",
   styling = { w: "5rem", h: "auto", strokeWidth: "2px" },
 }) {
   const getIcon = (icon) => {
     switch (icon) {
+      case "search":
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        );
       case "image":
         return (
           <path
