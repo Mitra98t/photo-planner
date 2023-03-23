@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
-import { checkPhoto } from "./utils/utils";
+import { checkPhoto, Default, Mobile } from "./utils/utils";
 import Button from "./elements/Button";
 
 function blobToBase64(blob) {
@@ -164,7 +164,7 @@ export default function AddContent({ userUID }) {
   };
 
   return (
-    <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] pb-4 ">
+    <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         {/* <NavBarHome close={() => {}} /> */}
         <NavBarGeneric
@@ -173,12 +173,12 @@ export default function AddContent({ userUID }) {
           user={userUID}
         />
       </div>
-      <div className="w-full h-full flex flex-col items-center justify-start gap-10 px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600">
+      <div className="w-full h-full flex flex-col items-center justify-start gap-10 md:px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 pb-8">
         <form
           onSubmit={handleSubmit}
           className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 dark:bg-dark-800 z-[100] p-4"
         >
-          <div className="w-fit h-full flex flex-row items-center justify-start gap-6">
+          <div className="w-fit h-full flex flex-col md:flex-row items-center justify-start gap-6">
             <FileUploader
               name="file"
               types={fileTypes}
@@ -235,30 +235,32 @@ export default function AddContent({ userUID }) {
               </div>
             </FileUploader>
 
-            <p className=" italic font-medium">
+            <p className=" italic font-medium text-sm md:text-base">
               If the button doesn't work, refresh page {"<"}3
             </p>
           </div>
-          <Button
-            disabled={
-              Object.keys(photos).every(
-                (key) => photos[key].progress === 100
-              ) || Object.keys(photos).some((key) => !checkPhoto(photos[key]))
-            }
-            type="submit"
-            width="w-fit"
-            height="h-fit"
-            accentColor="blue-600"
-            darkAccentColor="blue-500"
-          >
-            Upload
-          </Button>
+          <Default>
+            <Button
+              disabled={
+                Object.keys(photos).every(
+                  (key) => photos[key].progress === 100
+                ) || Object.keys(photos).some((key) => !checkPhoto(photos[key]))
+              }
+              type="submit"
+              width="w-fit"
+              height="h-fit"
+              accentColor="blue-600"
+              darkAccentColor="blue-500"
+            >
+              Upload
+            </Button>
+          </Default>
         </form>
         {Object.keys(photos).map((pk, i) => {
           return (
             <div
               key={pk}
-              className="w-full h-fit grid grid-cols-2 relative pt-[7vh] "
+              className="w-full h-fit grid grid-cols-1 md:grid-cols-2 relative pt-[7vh] "
             >
               <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 dark:bg-dark-800 z-[90] flex items-center justify-between px-4">
                 <div className=" w-full h-full flex flex-row items-center justify-start gap-3">
@@ -322,13 +324,13 @@ export default function AddContent({ userUID }) {
               </div>
               {photos[pk].visible ? (
                 <>
-                  <div className="w-full h-full flex items-center justify-center relative">
+                  <div className="w-full h-full px-4 md:px-0 flex items-center justify-center relative">
                     {loadingRender(photos[pk].progress)}
                     <img
                       src={photos[pk].URL}
                       alt={"added" + i}
                       className={
-                        "h-[44vh] overflow-hidden object-cover border-4 rounded-md border-stone-900 dark:border-dark-600"
+                        "h-fit md:h-[44vh] object-scale-down overflow-hidden md:object-cover  border-4 rounded-md border-stone-900 dark:border-dark-600"
                       }
                     />
                   </div>
@@ -347,6 +349,22 @@ export default function AddContent({ userUID }) {
             </div>
           );
         })}
+        <Mobile>
+          <Button
+            disabled={
+              Object.keys(photos).every(
+                (key) => photos[key].progress === 100
+              ) || Object.keys(photos).some((key) => !checkPhoto(photos[key]))
+            }
+            type="submit"
+            width="w-fit"
+            height="h-fit"
+            accentColor="blue-600"
+            darkAccentColor="blue-500"
+          >
+            Upload
+          </Button>
+        </Mobile>
       </div>
     </div>
   );

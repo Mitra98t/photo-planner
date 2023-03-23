@@ -23,3 +23,17 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+
+.text-titolone {
+  @apply text-xl font-semibold md:text-4xl  ;
+}
+
+.text-title {
+  @apply text-base font-semibold md:text-xl md:font-bold ;
+}
+.text-paragraph-large {
+  @apply text-base font-normal md:text-xl ;
+}
+.text-paragraph {
+  @apply text-xs font-normal md:text-base ;
+}

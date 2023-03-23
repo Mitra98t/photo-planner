@@ -21,7 +21,15 @@ export default function MapCmp({
   //     (p) => setCoords([43.72077871691476, 10.407882154565954])
   //   );
   // }, []);
-
+  const [isSafari, setIsSafari] = useState(
+    /constructor/i.test(window.HTMLElement) ||
+      (function (p) {
+        return p.toString() === "[object SafariRemoteNotification]";
+      })(
+        !window["safari"] ||
+          (typeof safari !== "undefined" && window["safari"].pushNotification)
+      )
+  );
   const [photosInLocation, setPhotosInLocation] = useState([]);
   useEffect(() => {
     if (photosInLocation.length > 0 && !triggerMapLoad) return;
@@ -127,7 +135,7 @@ export default function MapCmp({
           // </Marker>
         ))}
       </Map>
-      {userSettings && userSettings.monochromaticMaps ? (
+      {userSettings && userSettings.monochromaticMaps && !isSafari ? (
         <div className="w-full h-screen absolute inset-0 bg-green-600 dark:bg-dark-800 pointer-events-none mix-blend-hue " />
       ) : (
         <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " />

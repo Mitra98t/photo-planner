@@ -27,7 +27,7 @@ export default function PictureView({ picture, close, userUID }) {
     <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-stone-900">
       <div
         ref={main}
-        className="w-[80vw] h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-3xl flex flex-row items-center justify-evenly overflow-hidden shadow-area relative"
+        className="w-[80vw] h-[90vh] md:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-3xl flex flex-col md:flex-row items-center justify-start md:justify-evenly overflow-hidden shadow-area relative"
       >
         {picture.authorUID === userUID ? (
           <button
@@ -47,7 +47,7 @@ export default function PictureView({ picture, close, userUID }) {
         ) : (
           <></>
         )}
-        <div className=" w-[70%] h-full whitespace-nowrap p-8 flex items-center justify-center relative group">
+        <div className="w-11/12 md:w-[70%] h-full whitespace-nowrap p-8 flex items-center justify-center relative group">
           <div className="w-fit h-full ">
             <img
               src={picture.URL}

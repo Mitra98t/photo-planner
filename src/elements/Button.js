@@ -47,7 +47,7 @@ export default function Button({
   return (
     <button
       className={formatStyle([
-        "rounded-full outline outline-[4px] dark:outline-[3px] focus:outline-[6px] dark:focus:outline-[5px] flex flex-row items-center justify-center relative overflow-hidden group",
+        "rounded-full outline outline-[2px] md:outline-[4px] dark:outline-[1.5px] dark:md:outline-[3px] focus:md:outline-[6px] dark:focus:md:outline-[5px] focus:outline-[4px] dark:focus:outline-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
         baseColors,
         accentColors,
         textStyle,

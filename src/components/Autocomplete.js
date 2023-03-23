@@ -133,7 +133,7 @@ export default function Autocomplete({
         className={
           "focus:outline-stone-900 dark:focus:outline-stone-50 rounded-lg bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 dark:placeholder:text-dark-500 w-full " +
           classNames({
-            " text-2xl p-3 ": large,
+            " text-lg md:text-2xl p-3 ": large,
             " text-base p-2 ": !large,
           })
         }
@@ -186,7 +186,7 @@ function suggestions(
           "  ": !fixed,
           " fixed ": fixed,
         }) +
-        " flex rounded-lg  h-fit overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50 max-w-[30vw] "
+        " flex rounded-lg  h-fit lg:max-w-[30vw] md:max-w-[50vw] max-w-[80vw] overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50  "
       }
     >
       {filteredSuggestions.map((suggestion, index) => {
