@@ -51,7 +51,7 @@ export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
           setOptions={setOptions}
         />
       </div>
-      <div className="w-full h-fit overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 px-8 ">
+      <div className="w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 px-8 ">
         {photoToShow && photoToShow.length === 0 ? (
           <p className="text-stone-500 dark:text-dark-500 font-bold text-2xl ml-10 mt-10">
             No photos here... -_-
