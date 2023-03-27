@@ -2,10 +2,8 @@ import React from "react";
 import ProfilePic from "../ProfilePic";
 import Autocomplete from "../Autocomplete";
 import Button from "../../elements/Button";
-import { Default, Desktop, formatStyle, Mobile } from "../../utils/utils";
+import { Default, formatStyle, Mobile } from "../../utils/utils";
 import Icons from "../Icons";
-import { ToastContainer } from "react-toastify";
-import MediaQuery from "react-responsive";
 
 export default function NavBarMap({
   profileArea,
@@ -25,6 +23,17 @@ export default function NavBarMap({
         sw: [foundLoc.boundry[0], foundLoc.boundry[2]],
       },
     });
+    localStorage.setItem(
+      "mapLocation",
+      JSON.stringify({
+        coords: [foundLoc.lat, foundLoc.lng],
+        zoom: foundLoc.zoom,
+        bounds: {
+          ne: [foundLoc.boundry[1], foundLoc.boundry[3]],
+          sw: [foundLoc.boundry[0], foundLoc.boundry[2]],
+        },
+      })
+    );
   };
 
   return (

@@ -8,6 +8,7 @@ import Voting from "./Voting";
 export default function PictureView({ picture, close, userUID }) {
   const main = useRef(null);
   const [author, setAuthor] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const navigate = useNavigate();
 
   const handleClickOutside = (e) => {
@@ -49,13 +50,35 @@ export default function PictureView({ picture, close, userUID }) {
         )}
         <div className="w-11/12 md:w-[70%] h-full whitespace-nowrap p-8 flex items-center justify-center relative group">
           <div className="w-fit h-full ">
+            {/* <img
+          style={this.state.loaded ? {} : {display: 'none'}}
+          src={this.props.src}
+          onLoad={() => this.setState({loaded: true})}
+        /> */}
+            {picture.hasOwnProperty("smallURL") ? (
+              <img
+                // style={this.state.loaded ? {} : { display: "none" }}
+                src={picture.smallURL}
+                alt="random img"
+                style={{
+                  filter: "drop-shadow(-5px 5px 10px #00000080)",
+                  display: !isLoaded ? "block" : "none",
+                }}
+                className={"h-full object-contain"}
+              />
+            ) : (
+              <></>
+            )}
             <img
+              // style={this.state.loaded ? {} : { display: "none" }}
               src={picture.URL}
               alt="random img"
               style={{
                 filter: "drop-shadow(-5px 5px 10px #00000080)",
+                display: isLoaded ? "block" : "none",
               }}
               className={"h-full object-contain"}
+              onLoad={() => setIsLoaded(true)}
             />
           </div>
         </div>

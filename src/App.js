@@ -22,12 +22,15 @@ function App() {
   const [bounds, setBounds] = useState({});
   const [oldBounds, setOldBounds] = useState(null);
   const [triggerMapLoad, setTriggerMapLoad] = useState(false);
-  const [mapLocation, setMapLocation] = useState({
-    coords: [43.72077871691476, 10.407882154565954],
-    zoom: 15,
-    bounds: { ne: [], sw: [] },
-  });
-
+  const [mapLocation, setMapLocation] = useState(
+    !localStorage.getItem("mapLocation")
+      ? {
+          coords: [43.72077871691476, 10.407882154565954],
+          zoom: 15,
+          bounds: { ne: [], sw: [] },
+        }
+      : JSON.parse(localStorage.getItem("mapLocation"))
+  );
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null
   );
@@ -47,12 +50,6 @@ function App() {
   useEffect(() => {
     if (loggedUser == null) return;
     db.getSettingsByUID(loggedUser).then((r) => setSettings(r));
-    // console.log(loggedUser);
-    // db.getUserInformationByUID(loggedUser)
-    //   .then((v) => {
-    //     setUser(v);
-    //   })
-    //   .catch((err) => {});
   }, [loggedUser]);
 
   useEffect(() => {
@@ -85,7 +82,7 @@ function App() {
           ) : (
             <></>
           )}
-          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[500] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
+          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[50] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
             <span className="font-semibold text-base">It's a Beta be kind</span>
             <button
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
@@ -150,8 +147,8 @@ function App() {
                           oldBounds != null &&
                           !(
                             oldBounds &&
-                            oldBounds.ne.every((c, i) => bounds.ne[i] == c) &&
-                            oldBounds.sw.every((c, i) => bounds.sw[i] == c)
+                            oldBounds.ne.every((c, i) => bounds.ne[i] === c) &&
+                            oldBounds.sw.every((c, i) => bounds.sw[i] === c)
                           )
                         }
                       />

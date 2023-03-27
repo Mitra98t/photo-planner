@@ -3,7 +3,13 @@ import { DBManager as db } from "../utils/DBManager";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
 
-export default function Image({ userUID, image, hideAuthor, clickCallback }) {
+export default function Image({
+  userUID,
+  image,
+  hideAuthor,
+  clickCallback,
+  lowQuality = false,
+}) {
   const [author, setAuthor] = useState(null);
 
   useEffect(() => {
@@ -41,12 +47,14 @@ export default function Image({ userUID, image, hideAuthor, clickCallback }) {
       </div>
 
       <img
-        src={image.URL}
+        src={
+          lowQuality && image.hasOwnProperty("smallURL")
+            ? image.smallURL
+            : image.URL
+        }
         alt="random img"
         // className={" max-h-full min-w-full object-cover align-bottom "}
-        className={
-          " h-full w-full object-cover align-bottom "
-        }
+        className={" h-full w-full object-cover align-bottom "}
       />
     </>
   );

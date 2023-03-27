@@ -144,10 +144,17 @@ export default function AddContent({ userUID }) {
           uuid,
           pk
         );
+        let resSmall = await upImage(
+          photosToUpload[pk].file.smallFileFromSource,
+          uuid + "_small",
+          pk
+        );
         let resourceName = uuid;
         let url = await getDownloadURL(res.ref);
+        let smallUrl = await getDownloadURL(resSmall.ref);
 
         photosToUpload[pk].URL = url;
+        photosToUpload[pk].smallURL = smallUrl;
 
         DBManager.addPhoto(
           {
@@ -198,6 +205,9 @@ export default function AddContent({ userUID }) {
                   creationTime: exifReadable.dateTime.time,
                   fileFromSource: await compressImage(fileIn, {
                     quality: 0.5,
+                  }),
+                  smallFileFromSource: await compressImage(fileIn, {
+                    quality: 0.1,
                   }),
                 };
                 let fileExif = {

@@ -41,6 +41,7 @@ export default function PhotoGallery({
                 clickCallback={photoClick}
                 image={p}
                 hideAuthor={hideAuthor}
+                lowQuality
               />
             </li>
           ))}

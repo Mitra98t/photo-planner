@@ -219,6 +219,7 @@ export class DBManager {
     return Promise.resolve(
       setDoc(doc(db, "photos", photoName), {
         URL: photo.URL,
+        smallURL: photo.smallURL,
         authorUID: photo.authorUID,
         fileData: {
           fileName: photo.file.nameComplete,
@@ -280,9 +281,11 @@ export class DBManager {
 
   static async removeImage(imageID) {
     const imageRef = ref(storage, imageID);
+    const imageRefSmall = ref(storage, imageID + "_small");
 
     // Delete the file
     let deleteImageRes = await deleteObject(imageRef);
+    let deleteImageResSmall = await deleteObject(imageRefSmall);
 
     let deleteDocRes = await deleteDoc(doc(db, "photos", imageID));
     let deleteVotesRes = await deleteDoc(doc(db, "votes", imageID));
@@ -290,6 +293,7 @@ export class DBManager {
     return Promise.resolve({
       ...deleteDocRes,
       ...deleteImageRes,
+      ...deleteImageResSmall,
       ...deleteVotesRes,
     });
   }
@@ -403,7 +407,7 @@ export class DBManager {
       keys: ["username"],
     });
 
-    const result = fuse.search(displayName).map(r => r.item);
+    const result = fuse.search(displayName).map((r) => r.item);
 
     return Promise.resolve(result.slice(0, 5));
   }
