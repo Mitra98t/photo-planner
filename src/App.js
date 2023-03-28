@@ -20,7 +20,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [bounds, setBounds] = useState({});
-  const [oldBounds, setOldBounds] = useState(null);
+  const [oldBounds, setOldBounds] = useState([]);
   const [triggerMapLoad, setTriggerMapLoad] = useState(false);
   const [mapLocation, setMapLocation] = useState(
     !localStorage.getItem("mapLocation")
@@ -144,11 +144,13 @@ function App() {
                         setMapLocation={setMapLocation}
                         setTriggerMapLoad={setTriggerMapLoad}
                         notify={
-                          oldBounds != null &&
-                          !(
-                            oldBounds &&
-                            oldBounds.ne.every((c, i) => bounds.ne[i] === c) &&
-                            oldBounds.sw.every((c, i) => bounds.sw[i] === c)
+                          oldBounds.length !== 0 &&
+                          !oldBounds.some(
+                            (b) =>
+                              b.ne[0] >= bounds.ne[0] &&
+                              b.ne[1] >= bounds.ne[1] &&
+                              b.sw[0] <= bounds.sw[0] &&
+                              b.sw[1] <= bounds.sw[1]
                           )
                         }
                       />

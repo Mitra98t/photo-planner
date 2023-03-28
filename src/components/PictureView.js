@@ -83,7 +83,7 @@ export default function PictureView({ picture, close, userUID }) {
           </div>
         </div>
         <div className="flex-grow h-full whitespace-nowrap py-8 pr-8 flex flex-col items-start justify-start gap-8 overflow-y-scroll overflow-x-hidden relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600">
-          <div className="w-full h-[12%] flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 pb-4">
+          <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 pb-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
               className="flex items-center justify-start gap-2 h-full cursor-pointer"
