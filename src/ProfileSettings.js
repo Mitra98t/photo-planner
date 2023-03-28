@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Icons from "./components/Icons";
 import { useNavigate } from "react-router-dom";
 import NavBarGeneric from "./components/NavBars/NavBarGeneric";
+import { camelToNormal } from "./utils/utils";
 
 export default function ProfileSettings({ userUID, settings, setSettings }) {
   const navigate = useNavigate();
@@ -65,7 +66,9 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
                       className="flex flex-row items-center justify-start gap-2"
                       key={s}
                     >
-                      <span className="text-xl font-semibold ">{s}: </span>
+                      <span className="text-xl font-semibold ">
+                        {camelToNormal(s)}:{" "}
+                      </span>
                       <button
                         onClick={handleThemeSwitch}
                         className="focus:scale-110 hover:scale-110 focus:outline-none"
@@ -92,7 +95,9 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
                       className="flex flex-row items-center justify-start gap-2"
                       key={s}
                     >
-                      <span className="text-xl font-semibold ">{s}: </span>
+                      <span className="text-xl font-semibold ">
+                        {camelToNormal(s)}:{" "}
+                      </span>
                       <Toggle
                         width="w-10"
                         height="h-6"

@@ -162,18 +162,57 @@ export default function AddContent({ userUID }) {
           },
           resourceName
         );
-        // await setDoc(doc(db, "Documents", id) /* Content */);
       }
     }
+  };
 
-    // setPage("home");
-    // setModifyDoc(null);
+  const addFileLocal = async (fileIn) => {
+    let oldPhotos = { ...photos };
+    let file = fileIn;
+
+    let base64 = await blobToBase64(file);
+    let exif = piexif.load(base64);
+    let exifReadable = extractExif(exif);
+
+    let fileData = {
+      nameComplete: file.name,
+      name: file.name.split(".")[0],
+      type: file.name.split(".")[1],
+      creationDate: exifReadable.dateTime.date,
+      creationTime: exifReadable.dateTime.time,
+      fileFromSource: await compressImage(fileIn, {
+        quality: 0.5,
+      }),
+      smallFileFromSource: await compressImage(fileIn, {
+        quality: 0.1,
+      }),
+    };
+    let fileExif = {
+      shutterSpeed: exifReadable.cameraSettings.shutterSpeed,
+      aperture: exifReadable.cameraSettings.aperture,
+      focalLength: exifReadable.cameraSettings.focalLength,
+      ISO: exifReadable.cameraSettings.ISO,
+    };
+    let fileCamera = {
+      make: exifReadable.camera.make,
+      model: exifReadable.camera.model,
+    };
+    let photo = {
+      URL: URL.createObjectURL(fileIn),
+      file: fileData,
+      exif: fileExif,
+      camera: fileCamera,
+      authorUID: userUID,
+      weather: {},
+      visible: true,
+    };
+    oldPhotos[fileData.nameComplete] = { ...photo };
+    setPhotos(oldPhotos);
   };
 
   return (
     <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
-        {/* <NavBarHome close={() => {}} /> */}
         <NavBarGeneric
           close={() => navigate("/")}
           profileArea={() => navigate(`/profile/${userUID}`)}
@@ -189,49 +228,7 @@ export default function AddContent({ userUID }) {
             <FileUploader
               name="file"
               types={fileTypes}
-              handleChange={async (fileIn) => {
-                let oldPhotos = { ...photos };
-                let file = fileIn;
-
-                let base64 = await blobToBase64(file);
-                let exif = piexif.load(base64);
-                let exifReadable = extractExif(exif);
-
-                let fileData = {
-                  nameComplete: file.name,
-                  name: file.name.split(".")[0],
-                  type: file.name.split(".")[1],
-                  creationDate: exifReadable.dateTime.date,
-                  creationTime: exifReadable.dateTime.time,
-                  fileFromSource: await compressImage(fileIn, {
-                    quality: 0.5,
-                  }),
-                  smallFileFromSource: await compressImage(fileIn, {
-                    quality: 0.1,
-                  }),
-                };
-                let fileExif = {
-                  shutterSpeed: exifReadable.cameraSettings.shutterSpeed,
-                  aperture: exifReadable.cameraSettings.aperture,
-                  focalLength: exifReadable.cameraSettings.focalLength,
-                  ISO: exifReadable.cameraSettings.ISO,
-                };
-                let fileCamera = {
-                  make: exifReadable.camera.make,
-                  model: exifReadable.camera.model,
-                };
-                let photo = {
-                  URL: URL.createObjectURL(fileIn),
-                  file: fileData,
-                  exif: fileExif,
-                  camera: fileCamera,
-                  authorUID: userUID,
-                  weather: {},
-                  visible: true,
-                };
-                oldPhotos[fileData.nameComplete] = { ...photo };
-                setPhotos(oldPhotos);
-              }}
+              handleChange={addFileLocal}
             >
               <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-blue-500 dark-outline-blue-500">
                 <p classname="text-stone-900 dark:text-stone-50">

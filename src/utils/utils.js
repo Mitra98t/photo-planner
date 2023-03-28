@@ -1,4 +1,4 @@
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from "react-responsive";
 
 /**
  * Raccolta dei weather codes usati da openweather
@@ -233,20 +233,29 @@ export function formatStyle(styles) {
   return styles.join(" ");
 }
 
-
 export const Desktop = ({ children }) => {
-  const isDesktop = useMediaQuery({ minWidth: 992 })
-  return isDesktop ? children : null
-}
+  const isDesktop = useMediaQuery({ minWidth: 992 });
+  return isDesktop ? children : null;
+};
 export const Tablet = ({ children }) => {
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
-  return isTablet ? children : null
-}
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  return isTablet ? children : null;
+};
 export const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 })
-  return isMobile ? children : null
-}
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  return isMobile ? children : null;
+};
 export const Default = ({ children }) => {
-  const isNotMobile = useMediaQuery({ minWidth: 768 })
-  return isNotMobile ? children : null
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+  return isNotMobile ? children : null;
+};
+
+//function that given a string in camel notation returns a string of different words separated by spaces with only the first letter of the first word capitalized
+export function camelToNormal(str) {
+  let result = str.replace(/([A-Z])/g, " $1");
+  result = result.split(" ");
+  result = result.map((w, i) =>
+    i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w.toLowerCase()
+  );
+  return result.join(" ");
 }

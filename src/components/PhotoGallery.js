@@ -22,7 +22,7 @@ export default function PhotoGallery({
         >
           <Icons
             icon={"plus"}
-            color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-200 stroke-[1.5px] md:stroke-[2px] "
+            color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-75 stroke-[1.5px] md:stroke-[2px] "
           />
         </li>
       ) : (
