@@ -47,11 +47,12 @@ export default function Image({
       </div>
 
       <img
-        src={
-          lowQuality && image.hasOwnProperty("smallURL")
-            ? image.smallURL
-            : image.URL
-        }
+      src={image.URL}
+        // src={
+        //   lowQuality && image.hasOwnProperty("smallURL")
+        //     ? image.smallURL
+        //     : image.URL
+        // }
         alt="random img"
         // className={" max-h-full min-w-full object-cover align-bottom "}
         className={" h-full w-full object-cover align-bottom "}
