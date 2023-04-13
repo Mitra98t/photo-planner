@@ -15,10 +15,13 @@ import { formatStyle } from "./utils/utils";
 import ProfileSettings from "./ProfileSettings";
 import { DBManager as db } from "./utils/DBManager";
 import ChangeLog from "./ChangeLog";
+import { useMediaQuery } from "react-responsive";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+
   const [bounds, setBounds] = useState({});
   const [oldBounds, setOldBounds] = useState([]);
   const [triggerMapLoad, setTriggerMapLoad] = useState(false);
@@ -31,9 +34,10 @@ function App() {
         }
       : JSON.parse(localStorage.getItem("mapLocation"))
   );
-  const [loggedUser, setLoggedUser] = useState(
-    localStorage.getItem("uid") ? localStorage.getItem("uid") : null
-  );
+  // const [loggedUser, setLoggedUser] = useState(
+  //   localStorage.getItem("uid") ? localStorage.getItem("uid") : null
+  // );
+  const [loggedUser, setLoggedUser] = useState("Wf9uTED91CNPZJGuIvVSex7AB4L2");
   const [settings, setSettings] = useState(
     localStorage.getItem("profileSettingsCache") === null
       ? null
@@ -72,7 +76,12 @@ function App() {
       {loggedUser == null ? (
         <Login setCurrentUser={setLoggedUser} />
       ) : (
-        <div className="w-full h-screen pb-5 animationWrapper">
+        <div
+          className="w-full pb-5 animationWrapper"
+          style={{
+            height: isPortrait ? "-webkit-fill-available" : "100vh",
+          }}
+        >
           {selectedPhoto !== null ? (
             <PictureView
               userUID={loggedUser}
@@ -82,7 +91,7 @@ function App() {
           ) : (
             <></>
           )}
-          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-[50] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
+          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-10 bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
             <span className="font-semibold text-base">It's a Beta be kind</span>
             <button
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
@@ -124,10 +133,10 @@ function App() {
           )}
           <div
             className={formatStyle([
-              "absolute bottom-0 left-0 w-full bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 ",
+              "absolute bottom-0 left-0 w-full z-20 bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 ",
               classNames({
-                "h-[90vh]": location.pathname !== "/",
-                "h-[20vh] sm:h-[10vh]": location.pathname === "/",
+                "h-[90dvh]": location.pathname !== "/",
+                "h-[20dvh] sm:h-[10dvh]": location.pathname === "/",
               }),
             ])}
           >

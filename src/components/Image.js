@@ -22,7 +22,7 @@ export default function Image({
   return (
     <>
       <div
-        className="absolute inset-0  bg-black bg-opacity-50 opacity-0 w-full h-full group-hover:opacity-100 group-focus:opacity-100 duration-75 p-4 flex flex-col justify-between items-start "
+        className="absolute inset-0  bg-black bg-opacity-50 opacity-0 w-full h-full md:group-hover:opacity-100 md:group-focus:opacity-100 duration-75 p-4 flex flex-col justify-between items-start "
         onClick={() => clickCallback(image)}
       >
         <div className="w-full h-fit flex flex-row-reverse justify-between items-start">

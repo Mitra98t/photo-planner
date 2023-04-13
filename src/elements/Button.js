@@ -26,8 +26,10 @@ export default function Button({
     "bg-" + accentColor,
   ]);
   const accentColors = formatStyle([
-    "dark:outline-" + (darkAccentColor === "" ? accentColor : darkAccentColor),
-    "outline-" + baseColor,
+    "dark:ring-" + (darkAccentColor === "" ? accentColor : darkAccentColor),
+    "ring-" + baseColor,
+    // "dark:outline-" + (darkAccentColor === "" ? accentColor : darkAccentColor),
+    // "outline-" + baseColor,
   ]);
   const textStyle = formatStyle([text, textColor, font]);
   const general = formatStyle([
@@ -47,7 +49,8 @@ export default function Button({
   return (
     <button
       className={formatStyle([
-        "rounded-full outline outline-[2px] md:outline-[4px] dark:outline-[1.5px] dark:md:outline-[3px] focus:md:outline-[6px] dark:focus:md:outline-[5px] focus:outline-[4px] dark:focus:outline-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
+        "rounded-full ring-[2px] md:ring-[4px] dark:ring-[1.5px] dark:md:ring-[3px] focus:md:ring-[6px] dark:focus:md:ring-[5px] focus:ring-[4px] dark:focus:ring-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
+        // "rounded-full outline outline-[2px] md:outline-[4px] dark:outline-[1.5px] dark:md:outline-[3px] focus:md:outline-[6px] dark:focus:md:outline-[5px] focus:outline-[4px] dark:focus:outline-[3px] flex flex-row items-center justify-center relative overflow-hidden group",
         baseColors,
         accentColors,
         textStyle,

@@ -86,7 +86,7 @@ export default function PictureView({ picture, close, userUID }) {
           <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 pb-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
-              className="flex items-center justify-start gap-2 h-full cursor-pointer"
+              className="flex items-center justify-start gap-2 h-24 cursor-pointer"
               onClick={() => {
                 close();
                 navigate(`/profile/${picture.authorUID}`);
