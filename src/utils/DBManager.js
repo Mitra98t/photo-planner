@@ -121,6 +121,13 @@ export class DBManager {
     return Promise.resolve(generateWeather());
   }
 
+  /**
+   * @description Retrive all photos based on user UID.
+   * @async
+   * @function getWeatherByTime
+   * @param {string} userUID - The user UID to retrieve the photos for.
+   * @returns {Promise} A promise that resolves with an array of photos.
+   **/
   static async getImagesByUID(userUID) {
     let res = [];
     const photoByUIDQuery = query(
@@ -136,6 +143,11 @@ export class DBManager {
     return Promise.resolve(res);
   }
 
+  /**
+   * @description Retrive all user info based on user UID.
+   * @param {string} UID - The user UID to retrive information for.
+   * @returns {Promise} A promise that resolves with an object containing user info.
+   */
   static async getUserInformationByUID(UID) {
     if (!UID) return Promise.reject("Missing user id");
     const docRef = doc(db, "users", UID);
@@ -152,9 +164,9 @@ export class DBManager {
   }
 
   /**
-   *
-   * @param {*} locationName Nome luogo da cercare
-   * @returns informations of founded location
+   * @description Get location info by location name.
+   * @param {string} locationName - name of the location to search for.
+   * @returns Location information.
    */
   static async getLocationInfoByName(locationName) {
     let locations = await JSON.parse(
@@ -187,9 +199,8 @@ export class DBManager {
 
   /**
    * Returns an array of location suggestions that start with the given `locationName`.
-   *
    * @param {string} locationName - The name of the location to search for.
-   * @returns {Promise<Array>} - A Promise that resolves to an array of location objects.
+   * @returns {Promise} - A Promise that resolves to an array of location objects.
    */
   static async getLocationSuggestinosByName(locationName) {
     let locations = await JSON.parse(
@@ -215,6 +226,12 @@ export class DBManager {
     return Promise.resolve(locations);
   }
 
+  /**
+   * @description add a photo to the database.
+   * @param {photo} photo - photo object to add to the database.
+   * @param {string} photoName - name of the photo to add to the database as ID.
+   * @returns {Promise} a promise that resolve with result of the setDoc operation.
+   */
   static async addPhoto(photo, photoName) {
     return Promise.resolve(
       setDoc(doc(db, "photos", photoName), {
@@ -251,6 +268,12 @@ export class DBManager {
     );
   }
 
+  /**
+   * @description add a user settings to the database.
+   * @param {string} userUID user UID
+   * @param {settings} settings settings object
+   * @returns {Promise} a promise that resolve to the result of the setDoc operation.
+   */
   static async addSettingsToUID(userUID, settings) {
     let upSettings = {
       monochromaticMaps: false,

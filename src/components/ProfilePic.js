@@ -8,7 +8,7 @@ export default function ProfilePic({ seed, heightBased = false, border }) {
       src={`https://api.dicebear.com/5.x/shapes/svg?seed=${seed}`}
       alt="avatar"
       className={formatStyle([
-        " rounded-full ",
+        " rounded-full object-cover ",
         border,
         classNames({
           " w-full h-auto ": !heightBased,

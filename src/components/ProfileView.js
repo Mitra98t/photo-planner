@@ -83,7 +83,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
             <></>
           )}
           {personal ? (
-            <div className="flex items-center justify-evenly w-full h-fit gap-4 mt-3">
+            <div className="flex items-center justify-evenly w-fit h-fit gap-4 mt-3">
               <Button
                 paddings="py-1 px-3"
                 width="w-fit"
@@ -97,7 +97,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
                 paddings="py-1 px-3"
                 width="w-fit"
                 height="h-fit"
-                additional="duration-75  flex flex-row items-center justify-start gap-2"
+                additional="duration-75 flex flex-row items-center justify-start"
                 text="text-base"
                 font="font-normal"
                 accentColor="red-600"

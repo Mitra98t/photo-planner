@@ -12,7 +12,7 @@ export default function PhotoGallery({
 }) {
   const navigate = useNavigate();
   return (
-    <ul className="w-full h-full flex justify-start items-start flex-wrap gap-1 md:gap-2 px-1 md:px-4 ">
+    <ul className="w-full h-fit flex justify-start items-start flex-wrap gap-1 md:gap-2 px-1 md:px-4 ">
       {personalProfile ? (
         <li
           key={"addImage"}
@@ -22,7 +22,7 @@ export default function PhotoGallery({
         >
           <Icons
             icon={"plus"}
-            color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-200 stroke-[1.5px] md:stroke-[2px] "
+            color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-75 stroke-[1.5px] md:stroke-[2px] "
           />
         </li>
       ) : (
@@ -34,7 +34,7 @@ export default function PhotoGallery({
           .map((p) => (
             <li
               key={p.id}
-              className="h-[15vh] md:h-[35vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl dark:border-2 dark:border-dark-600"
+              className="h-[15vh] max-w-[40vw] md:max-w-full md:h-[35vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl dark:border-2 dark:border-dark-600"
             >
               <Image
                 userUID={userUID}

@@ -39,7 +39,7 @@ export default function MapCmp({
         if (count === 0) photosToLoad.push(dbPhotos[i]);
       }
       setPhotosInLocation(photosToLoad);
-      setOldBounds(bounds);
+      setOldBounds((b) => [...b, bounds]);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bounds, triggerMapLoad]);

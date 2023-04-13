@@ -77,7 +77,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
             {options.time.to === "" ? "any" : options.time.to}
           </p>
           <PopupMenu hidden={wichMenu !== "time"} close={() => setWichMenu("")}>
-            <div className="w-full h-fitpr-6">
+            <div className="w-full h-fit pr-6">
               <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
                 <p className="">From:</p>
                 <input

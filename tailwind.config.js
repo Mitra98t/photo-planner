@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  important: true,
+  // important: true,
   darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -24,8 +24,8 @@ module.exports = {
     {
       // pattern:
       //   /(?:((?:bg|border|text|outline)-\w+-[1-9]00)|(outline-\[\d+px\]))/,
-      pattern: /(bg|border|text|outline)-\w+-[1-9]00/,
-      variants: ["dark", "dark:hover", "hover"],
+      pattern: /(bg|border|text|outline|ring)-\w+-[1-9]00/,
+      variants: ["dark", "dark:hover", "hover", "focus", "dark:focus"],
     },
   ],
 };
