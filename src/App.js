@@ -34,10 +34,9 @@ function App() {
         }
       : JSON.parse(localStorage.getItem("mapLocation"))
   );
-  // const [loggedUser, setLoggedUser] = useState(
-  //   localStorage.getItem("uid") ? localStorage.getItem("uid") : null
-  // );
-  const [loggedUser, setLoggedUser] = useState("Wf9uTED91CNPZJGuIvVSex7AB4L2");
+  const [loggedUser, setLoggedUser] = useState(
+    localStorage.getItem("uid") ? localStorage.getItem("uid") : null
+  );
   const [settings, setSettings] = useState(
     localStorage.getItem("profileSettingsCache") === null
       ? null
@@ -79,7 +78,7 @@ function App() {
         <div
           className="w-full pb-5 animationWrapper"
           style={{
-            height: isPortrait ? "-webkit-fill-available" : "100vh",
+            height: isPortrait ? "100dvh" : "100vh",
           }}
         >
           {selectedPhoto !== null ? (
