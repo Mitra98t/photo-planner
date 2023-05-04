@@ -24,7 +24,9 @@ function App() {
 
   const [bounds, setBounds] = useState({});
   const [oldBounds, setOldBounds] = useState([]);
+
   const [triggerMapLoad, setTriggerMapLoad] = useState(false);
+  
   const [mapLocation, setMapLocation] = useState(
     !localStorage.getItem("mapLocation")
       ? {
@@ -34,17 +36,20 @@ function App() {
         }
       : JSON.parse(localStorage.getItem("mapLocation"))
   );
+
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem("uid") ? localStorage.getItem("uid") : null
   );
+
   const [settings, setSettings] = useState(
     localStorage.getItem("profileSettingsCache") === null
       ? null
       : JSON.parse(localStorage.getItem("profileSettingsCache"))
   );
+
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  
   const [lastChangeLog, setLastChangeLog] = useState(null);
-  // const [startPos, setStartPos] = useState([43.72073, 10.4076]);
 
   useEffect(() => {
     db.getLastChangelog().then((r) => setLastChangeLog(r));
