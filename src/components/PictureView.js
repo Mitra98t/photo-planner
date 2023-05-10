@@ -4,7 +4,7 @@ import { DBManager as db } from "../utils/DBManager";
 import Icons from "./Icons";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
-import { Tablet } from "../utils/utils";
+import { Mobile, Tablet } from "../utils/utils";
 import Button from "../elements/Button";
 
 export default function PictureView({ picture, close, userUID }) {
@@ -53,6 +53,17 @@ export default function PictureView({ picture, close, userUID }) {
             />
           </button>
         </Tablet>
+        <Mobile>
+          <button
+            className="absolute top-5 left-2 w-fit h-fit z-[60]"
+            onClick={close}
+          >
+            <Icons
+              icon={"previous"}
+              styling={{ w: "2rem", h: "auto", strokeWidth: "2px" }}
+            />
+          </button>
+        </Mobile>
         {picture.authorUID === userUID ? (
           <button
             className="absolute bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
