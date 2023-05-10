@@ -24,19 +24,20 @@ export default function ChangeLog({ userUID }) {
         />
       </div>
       <div className="flex flex-col items-center justify-start gap-4 w-full h-full overflow-y-scroll pb-8">
-        {changeLogs.map((c) => (
+        {changeLogs.map((c, i) => (
           <div
-            key={c.ID}
+            key={`${c.ID}-${i}`}
             className="w-full h-fit flex flex-row items-center justify-start"
           >
             <div className="basis-1/4 h-fit p-4 text-xl font-semibold flex flex-row-reverse gap-3 items-center justify-start border-r-2 border-stone-500 dark:border-dark-600 ">
               <p className="h-fit">V. {c.version}</p>
               {c.hasOwnProperty("tags") &&
-                c.tags.map((t) => {
+                c.tags.map((t, i) => {
                   switch (t.toLowerCase()) {
                     case "wow":
                       return (
                         <Icons
+                          key={i}
                           styling={{ h: "2rem", w: "auto", strokeWidth: "2px" }}
                           color="stroke-blue-500 dark:stroke-cyan-500"
                           icon="bolt"
@@ -45,6 +46,7 @@ export default function ChangeLog({ userUID }) {
                     case "milestone":
                       return (
                         <Icons
+                          key={i}
                           styling={{ h: "2rem", w: "auto", strokeWidth: "2px" }}
                           color="stroke-amber-500 dark:stroke-yellow-500"
                           icon="star"

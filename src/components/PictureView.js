@@ -4,7 +4,7 @@ import { DBManager as db } from "../utils/DBManager";
 import Icons from "./Icons";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
-import { Mobile } from "../utils/utils";
+import { Tablet } from "../utils/utils";
 import Button from "../elements/Button";
 
 export default function PictureView({ picture, close, userUID }) {
@@ -16,11 +16,7 @@ export default function PictureView({ picture, close, userUID }) {
 
   const handleClickOutside = (e) => {
     e.preventDefault();
-    if (
-      main.current != null &&
-      !main.current.contains(e.target)
-    )
-      close();
+    if (main.current != null && !main.current.contains(e.target)) close();
   };
 
   useEffect(() => {
@@ -44,9 +40,9 @@ export default function PictureView({ picture, close, userUID }) {
       )}
       <div
         ref={main}
-        className="w-full md:w-[80vw] h-full md:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 md:rounded-3xl flex flex-col md:flex-row items-center justify-start md:justify-evenly overflow-hidden shadow-area relative"
+        className="w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area relative overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600"
       >
-        <Mobile>
+        <Tablet>
           <button
             className="absolute top-5 left-2 w-fit h-fit z-[60]"
             onClick={close}
@@ -56,7 +52,7 @@ export default function PictureView({ picture, close, userUID }) {
               styling={{ w: "2rem", h: "auto", strokeWidth: "2px" }}
             />
           </button>
-        </Mobile>
+        </Tablet>
         {picture.authorUID === userUID ? (
           <button
             className="absolute bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
@@ -86,7 +82,7 @@ export default function PictureView({ picture, close, userUID }) {
             onLoad={() => setIsLoaded(true)}
           />
         </div>
-        <div className="flex-grow h-full w-full md:w-auto whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
+        <div className="flex-grow h-full w-full md:w-[70%] whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
           <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 py-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
@@ -108,15 +104,12 @@ export default function PictureView({ picture, close, userUID }) {
               </p>
             </div>
           </div>
-          <div className="w-full h-full overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 flex flex-col items-start justify-start gap-4 md:gap-8">
+          <div className="w-full h-full flex flex-col items-start justify-start gap-4 md:gap-8">
             <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
               <p>Date: {picture.fileData.creationDate}</p>
               <p>Hour: {picture.fileData.creationTime}</p>
               <p>Position: {picture.location}</p>
               <p>Weather: {picture.weather.weather}</p>
-              {/* <p>
-              Coordinates: {picture.lat}, {picture.lng}
-            </p> */}
             </div>
             <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
               <p>Make: {picture.camera.make}</p>

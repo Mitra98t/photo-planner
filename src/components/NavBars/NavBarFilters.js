@@ -55,10 +55,13 @@ export default function NavBarFilters({ close, options, setOptions }) {
           >
             <option value={""}>Any</option>
             {weatherCodes &&
-              Object.keys(weatherCodes).map((section) => (
-                <optgroup label={section}>
-                  {Object.keys(weatherCodes[section]).map((code) => (
-                    <option value={weatherCodes[section][code]}>
+              Object.keys(weatherCodes).map((section, i) => (
+                <optgroup label={section} key={`section-${i}`}>
+                  {Object.keys(weatherCodes[section]).map((code, i) => (
+                    <option
+                      value={weatherCodes[section][code]}
+                      key={`code-${i}`}
+                    >
                       {weatherCodes[section][code]}
                     </option>
                   ))}

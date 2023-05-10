@@ -89,6 +89,8 @@ export class DBManager {
   }
 
   static async getImgsAtCoords(ne, sw) {
+    if (!ne || !sw) return Promise.reject("missing coords");
+
     let res = [];
     //TODO usare query, non filter
     const coordQuery = query(collection(db, "photos"));
