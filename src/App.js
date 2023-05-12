@@ -18,6 +18,7 @@ import ChangeLog from "./ChangeLog";
 import { useMediaQuery } from "react-responsive";
 
 function App() {
+
   const navigate = useNavigate();
   const location = useLocation();
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
