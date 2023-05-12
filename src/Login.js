@@ -3,6 +3,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "./firebase.js";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+import SampleWallpaper from "./components/SampleWallpaper.js";
 
 const provider = new GoogleAuthProvider();
 
@@ -30,18 +31,21 @@ export default function Login({ setCurrentUser }) {
       });
   };
   return (
-    <div className="w-full h-screen bg-stone-200 flex items-center justify-center">
-      <div className="w-fit h-fit p-8 rounded-xl shadow-lg flex flex-col items-start justify-evenly gap-4 bg-stone-50">
-        <p className="text-3xl font-bold text-stone-900">Login</p>
-        <button
-          onClick={() => modalSignIn()}
-          className={
-            "whitespace-nowrap p-4 text-xl text-stone-50 bg-stone-900 hover:bg-stone-700 rounded-lg"
-          }
-        >
-          Sign in with Google
-        </button>
+    <>
+      <SampleWallpaper></SampleWallpaper>
+      <div className="absolute inset-0 w-full h-screen bg-transparent  flex items-center justify-center">
+        <div className="w-fit h-fit p-8 rounded-xl shadow-lg flex flex-col items-start justify-evenly gap-4 bg-stone-800">
+          <p className="text-3xl font-bold text-stone-50">Login</p>
+          <button
+            onClick={() => modalSignIn()}
+            className={
+              "whitespace-nowrap p-4 text-xl text-stone-900 bg-stone-50 hover:bg-stone-300 rounded-lg"
+            }
+          >
+            Sign in with Google
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

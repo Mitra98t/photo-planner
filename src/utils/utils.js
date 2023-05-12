@@ -259,3 +259,11 @@ export function camelToNormal(str) {
   );
   return result.join(" ");
 }
+
+export function randomColor() {
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += Math.floor(Math.random() * 16).toString(16);
+  }
+  return color;
+}
