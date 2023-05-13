@@ -6,7 +6,8 @@ self.addEventListener("install", (evt) => {
   evt.waitUntil(
     caches.open(staticCacheName).then((cache) => {
       console.log("caching shell assets");
-      cache.addAll(["/", "/index.html"]);
+      cache.addAll(["/", "/fallback.html"]);
+      // cache.addAll(["/", "/index.html", "/fallback.html"]);
     })
   );
 });
@@ -20,7 +21,7 @@ self.addEventListener("fetch", function (event) {
         cache.put(event.request.url, res.clone());
         return res;
       } catch (error) {
-        return caches.match(event.request);
+        return caches.match("/fallback.html");
       }
     })()
   );
