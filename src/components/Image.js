@@ -11,6 +11,7 @@ export default function Image({
   lowQuality = false,
 }) {
   const [author, setAuthor] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     db.getUserInformationByUID(image.authorUID).then((r) => {
@@ -46,8 +47,32 @@ export default function Image({
         </div>
       </div>
 
+      {image.hasOwnProperty("smallURL") && lowQuality ? (
+        <img
+          src={image.smallURL}
+          alt="random img"
+          style={{
+            filter: "drop-shadow(-5px 5px 10px #00000080)",
+            display: !isLoaded ? "block" : "none",
+          }}
+          className={"h-full w-full object-cover align-bottom"}
+        />
+      ) : (
+        <> </>
+      )}
       <img
-      src={image.URL}
+        // style={this.state.loaded ? {} : { display: "none" }}
+        src={image.URL}
+        alt="random img"
+        style={{
+          filter: "drop-shadow(-5px 5px 10px #00000080)",
+          display: isLoaded ? "block" : "none",
+        }}
+        className={"h-full w-full object-cover align-bottom"}
+        onLoad={() => setIsLoaded(true)}
+      />
+      {/* <img
+        src={image.URL}
         // src={
         //   lowQuality && image.hasOwnProperty("smallURL")
         //     ? image.smallURL
@@ -56,7 +81,7 @@ export default function Image({
         alt="random img"
         // className={" max-h-full min-w-full object-cover align-bottom "}
         className={" h-full w-full object-cover align-bottom "}
-      />
+      /> */}
     </>
   );
 }
