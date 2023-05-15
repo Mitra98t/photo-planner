@@ -26,6 +26,7 @@ export default function SampleWallpaper() {
     db.getImageSample(50).then((res) => {
       console.log(res.length);
       console.log(res);
+      res = shuffle(res);
       let photos = [];
       let cols = 4;
       let photosByCol = Math.floor(res.length / cols);
@@ -47,7 +48,7 @@ export default function SampleWallpaper() {
               key={i}
               className="flex flex-col items-center justify-start gap-2"
             >
-              {shuffle(coll).map((photo, j) => (
+              {coll.map((photo, j) => (
                 <img
                   style={{
                     backgroundColor: randomColor(),
@@ -55,7 +56,7 @@ export default function SampleWallpaper() {
                   className="rounded-xl"
                   key={`${i}-${j}`}
                   alt={`img${j}col${i}`}
-                  src={photo.URL}
+                  src={photo.smallURL}
                 ></img>
               ))}
             </div>
