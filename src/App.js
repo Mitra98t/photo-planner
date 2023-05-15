@@ -16,9 +16,10 @@ import ProfileSettings from "./ProfileSettings";
 import { DBManager as db } from "./utils/DBManager";
 import ChangeLog from "./ChangeLog";
 import { useMediaQuery } from "react-responsive";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 function App() {
-
   const navigate = useNavigate();
   const location = useLocation();
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
@@ -27,7 +28,7 @@ function App() {
   const [oldBounds, setOldBounds] = useState([]);
 
   const [triggerMapLoad, setTriggerMapLoad] = useState(false);
-  
+
   const [mapLocation, setMapLocation] = useState(
     !localStorage.getItem("mapLocation")
       ? {
@@ -38,9 +39,17 @@ function App() {
       : JSON.parse(localStorage.getItem("mapLocation"))
   );
 
-  const [loggedUser, setLoggedUser] = useState(
-    localStorage.getItem("uid") ? localStorage.getItem("uid") : null
-  );
+  const [loggedUser, setLoggedUser] = useState(null);
+
+  useEffect(() => {
+    const authChange = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedUser(user.uid);
+      } else {
+        setLoggedUser(null);
+      }
+    });
+  }, []);
 
   const [settings, setSettings] = useState(
     localStorage.getItem("profileSettingsCache") === null
@@ -49,7 +58,7 @@ function App() {
   );
 
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  
+
   const [lastChangeLog, setLastChangeLog] = useState(null);
 
   useEffect(() => {

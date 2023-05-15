@@ -1,34 +1,40 @@
 import React from "react";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  browserLocalPersistence,
+  inMemoryPersistence,
+  setPersistence,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth, db } from "./firebase.js";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import SampleWallpaper from "./components/SampleWallpaper.js";
 
-const provider = new GoogleAuthProvider();
+// const provider = new GoogleAuthProvider();
 
 export default function Login({ setCurrentUser }) {
   const navigate = useNavigate();
 
   const modalSignIn = async () => {
-    signInWithPopup(auth, provider)
-      .then(async (r) => {
-        const credentials = GoogleAuthProvider.credentialFromResult(r);
-        const token = credentials.accessToken;
-        const user = r.user;
-        await setDoc(doc(db, "users", user.uid), {
-          username: user.displayName,
-          email: user.email,
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then(async (r) => {
+          // const credentials = GoogleAuthProvider.credentialFromResult(r);
+          const user = r.user;
+          await setDoc(doc(db, "users", user.uid), {
+            username: user.displayName,
+            email: user.email,
+          });
+          setCurrentUser(user.uid);
+          navigate("/");
+        })
+        .catch((err) => {
+          // const credential = GoogleAuthProvider.credentialFromError(err);
+          console.log(err);
         });
-        setCurrentUser(user.uid);
-        localStorage.setItem("uid", user.uid);
-        localStorage.setItem("token", token);
-        navigate("/");
-      })
-      .catch((err) => {
-        // const credential = GoogleAuthProvider.credentialFromError(err);
-        console.log(err);
-      });
+    });
   };
   return (
     <>

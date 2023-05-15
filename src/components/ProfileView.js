@@ -11,6 +11,8 @@ import { filterPhoto } from "../utils/utils";
 import Icons from "./Icons";
 import PhotoGallery from "./PhotoGallery";
 import ProfilePic from "./ProfilePic";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function ProfileView({ userUID, selectPhoto }) {
   const navigate = useNavigate();
@@ -103,9 +105,8 @@ export default function ProfileView({ userUID, selectPhoto }) {
                 accentColor="red-600"
                 darkAccentColor="red-500"
                 onClick={() => {
-                  localStorage.removeItem("uid");
-
-                  window.location.reload();
+                  signOut(auth);
+                  // window.location.reload();
                 }}
               >
                 <p className="text-paragraph">Logout</p>
