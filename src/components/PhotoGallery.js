@@ -15,7 +15,7 @@ export default function PhotoGallery({
     <ul className="w-full h-fit flex justify-start items-start flex-wrap gap-1 md:gap-2 px-1 md:px-4 ">
       {personalProfile ? (
         <li
-          key={"addImage"}
+          key={"addImage--1"}
           className="flex-grow h-[15vh] md:h-[35vh] min-w-[30vw] max-w-full group bg-stone-100 dark:bg-dark-800 border-4 border-dashed border-stone-500 dark:border-dark-600 flex items-center justify-center rounded-lg md:rounded-2xl hover:bg-stone-300 dark:hover:border-dark-400 duration-100"
           role={"button"}
           onClick={() => navigate("/addContent")}
@@ -31,9 +31,9 @@ export default function PhotoGallery({
       {photoToShow &&
         photoToShow
           .sort((a, b) => b.votes - a.votes)
-          .map((p) => (
+          .map((p,i) => (
             <li
-              key={p.id}
+              key={`${p.id}-${i}`}
               className="h-[15vh] max-w-[40vw] md:max-w-full md:h-[35vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl dark:border-2 dark:border-dark-600"
             >
               <Image
@@ -45,7 +45,7 @@ export default function PhotoGallery({
               />
             </li>
           ))}
-      <li key={"lastElementGhost"} className="flex-grow-[10]"></li>
+      <li key={"lastElementGhost--2"} className="flex-grow-[10]"></li>
     </ul>
   );
 }

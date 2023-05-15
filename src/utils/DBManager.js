@@ -7,6 +7,8 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   setDoc,
   where,
@@ -89,6 +91,8 @@ export class DBManager {
   }
 
   static async getImgsAtCoords(ne, sw) {
+    if (!ne || !sw) return Promise.reject("missing coords");
+
     let res = [];
     //TODO usare query, non filter
     const coordQuery = query(collection(db, "photos"));
@@ -135,6 +139,25 @@ export class DBManager {
       where("authorUID", "==", userUID)
     );
     const querySnapshot = await getDocs(photoByUIDQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+
+    return Promise.resolve(res);
+  }
+
+  static async getImageSample(imgCount) {
+    if (!imgCount) Promise.reject("missing image count");
+
+    let res = [];
+    const photoSampleQuery = query(
+      collection(db, "photos"),
+      // orderBy("authorUID", "desc"),
+      where("smallURL", "!=", ""),
+      limit(imgCount)
+    );
+    const querySnapshot = await getDocs(photoSampleQuery);
 
     querySnapshot.forEach((doc) => {
       res.push({ ID: doc.id, ...doc.data() });

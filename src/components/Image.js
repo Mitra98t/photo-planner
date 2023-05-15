@@ -11,6 +11,7 @@ export default function Image({
   lowQuality = false,
 }) {
   const [author, setAuthor] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     db.getUserInformationByUID(image.authorUID).then((r) => {
@@ -22,7 +23,7 @@ export default function Image({
   return (
     <>
       <div
-        className="absolute inset-0  bg-black bg-opacity-50 opacity-0 w-full h-full md:group-hover:opacity-100 md:group-focus:opacity-100 duration-75 p-4 flex flex-col justify-between items-start "
+        className="absolute inset-0 bg-black bg-opacity-50 opacity-0 w-full h-full md:group-hover:opacity-100 md:group-focus:opacity-100 duration-75 p-4 flex flex-col justify-between items-start z-50"
         onClick={() => clickCallback(image)}
       >
         <div className="w-full h-fit flex flex-row-reverse justify-between items-start">
@@ -46,8 +47,32 @@ export default function Image({
         </div>
       </div>
 
+      {image.hasOwnProperty("smallURL") && lowQuality ? (
+        <img
+          src={image.smallURL}
+          alt="random img"
+          style={{
+            filter: "drop-shadow(-5px 5px 10px #00000080)",
+            display: !isLoaded ? "block" : "none",
+          }}
+          className={"h-full w-full object-cover align-bottom"}
+        />
+      ) : (
+        <> </>
+      )}
       <img
-      src={image.URL}
+        // style={this.state.loaded ? {} : { display: "none" }}
+        src={image.URL}
+        alt="random img"
+        style={{
+          filter: "drop-shadow(-5px 5px 10px #00000080)",
+          display: isLoaded ? "block" : "none",
+        }}
+        className={"h-full w-full object-cover align-bottom"}
+        onLoad={() => setIsLoaded(true)}
+      />
+      {/* <img
+        src={image.URL}
         // src={
         //   lowQuality && image.hasOwnProperty("smallURL")
         //     ? image.smallURL
@@ -56,7 +81,7 @@ export default function Image({
         alt="random img"
         // className={" max-h-full min-w-full object-cover align-bottom "}
         className={" h-full w-full object-cover align-bottom "}
-      />
+      /> */}
     </>
   );
 }

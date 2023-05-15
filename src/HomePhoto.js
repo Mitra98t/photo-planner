@@ -22,10 +22,12 @@ export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
   useEffect(() => {}, []);
 
   useEffect(() => {
-    db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => {
-      setPhotos(v);
-      setPhotoToShow(v);
-    });
+    db.getImgsAtCoords(bounds.ne, bounds.sw)
+      .then((v) => {
+        setPhotos(v);
+        setPhotoToShow(v);
+      })
+      .catch((e) => {});
   }, [bounds]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { DBManager as db } from "../utils/DBManager";
 import Icons from "./Icons";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
-import { Mobile } from "../utils/utils";
+import { Mobile, Tablet } from "../utils/utils";
 import Button from "../elements/Button";
 
 export default function PictureView({ picture, close, userUID }) {
@@ -16,11 +16,7 @@ export default function PictureView({ picture, close, userUID }) {
 
   const handleClickOutside = (e) => {
     e.preventDefault();
-    if (
-      main.current != null &&
-      !main.current.contains(e.target)
-    )
-      close();
+    if (main.current != null && !main.current.contains(e.target)) close();
   };
 
   useEffect(() => {
@@ -44,11 +40,22 @@ export default function PictureView({ picture, close, userUID }) {
       )}
       <div
         ref={main}
-        className="w-full md:w-[80vw] h-full md:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 md:rounded-3xl flex flex-col md:flex-row items-center justify-start md:justify-evenly overflow-hidden shadow-area relative"
+        className="w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area relative overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 overflow-x-hidden"
       >
+        <Tablet>
+          <button
+            className="fixed top-5 left-2 w-fit h-fit z-[60]"
+            onClick={close}
+          >
+            <Icons
+              icon={"previous"}
+              styling={{ w: "2rem", h: "auto", strokeWidth: "2px" }}
+            />
+          </button>
+        </Tablet>
         <Mobile>
           <button
-            className="absolute top-5 left-2 w-fit h-fit z-[60]"
+            className="fixed top-5 left-2 w-fit h-fit z-[60]"
             onClick={close}
           >
             <Icons
@@ -59,7 +66,7 @@ export default function PictureView({ picture, close, userUID }) {
         </Mobile>
         {picture.authorUID === userUID ? (
           <button
-            className="absolute bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
+            className="fixed bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
             onClick={() => {
               setShowConfirmation(true);
             }}
@@ -73,7 +80,7 @@ export default function PictureView({ picture, close, userUID }) {
         ) : (
           <></>
         )}
-        <div className="w-full md:w-[70%] h-full max-h-[60%] md:max-h-full whitespace-nowrap px-2 pb-4 pt-16 md:p-8 flex items-center justify-center relative group">
+        <div className="w-full md:w-[70%] h-full max-h-[60%] md:max-h-[80%] lg:max-h-full whitespace-nowrap px-2 pb-4 pt-16 md:p-8 flex items-center justify-center relative group">
           <img
             // style={this.state.loaded ? {} : { display: "none" }}
             src={picture.URL}
@@ -108,15 +115,12 @@ export default function PictureView({ picture, close, userUID }) {
               </p>
             </div>
           </div>
-          <div className="w-full h-full overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 flex flex-col items-start justify-start gap-4 md:gap-8">
+          <div className="w-full h-full flex flex-col items-start justify-start gap-4 md:gap-8">
             <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
               <p>Date: {picture.fileData.creationDate}</p>
               <p>Hour: {picture.fileData.creationTime}</p>
               <p>Position: {picture.location}</p>
               <p>Weather: {picture.weather.weather}</p>
-              {/* <p>
-              Coordinates: {picture.lat}, {picture.lng}
-            </p> */}
             </div>
             <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
               <p>Make: {picture.camera.make}</p>

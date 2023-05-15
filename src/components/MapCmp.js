@@ -40,7 +40,7 @@ export default function MapCmp({
       }
       setPhotosInLocation(photosToLoad);
       setOldBounds((b) => [...b, bounds]);
-    });
+    }).catch((e) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bounds, triggerMapLoad]);
 
@@ -71,8 +71,9 @@ export default function MapCmp({
         touchEvents={!blocked}
       >
         <ZoomControl />
-        {photosInLocation.map((image) => (
+        {photosInLocation.map((image, i) => (
           <Marker
+            key={`${image.id}-${i}`}
             width={50}
             anchor={[+image.lat, +image.lng]}
             color={"#88aacc"}
@@ -98,48 +99,6 @@ export default function MapCmp({
               );
             }}
           />
-          // <Marker
-          //   width={50}
-          //   anchor={[+image.lat, +image.lng]}
-          //   hover={true}
-          //   onClick={() => {
-          //     console.log("Ciao");
-          //     setMapLocation({
-          //       coords: [image.lat, image.lng],
-          //       zoom: 15,
-          //       bounds: {
-          //         ne: [0, 0],
-          //         sw: [0, 0],
-          //       },
-          //     });
-          //   }}
-          // >
-          //   <div
-          //     onClick={() => {
-          //       console.log("Ciao");
-          //       setMapLocation({
-          //         coords: [image.lat, image.lng],
-          //         zoom: 15,
-          //         bounds: {
-          //           ne: [0, 0],
-          //           sw: [0, 0],
-          //         },
-          //       });
-          //     }}
-          //     className="w-12 h-12 bg-red-500 shadow-md rotate-45 rounded-t-full rounded-l-full p-1 group"
-          //   >
-          //     <div className="w-full h-full rounded-full bg-amber-400 overflow-hidden -rotate-45">
-          //       {/* <img
-          //         src={image.URL}
-          //         alt="img"
-          //         // className={" max-h-full min-w-full object-cover align-bottom "}
-          //         className={
-          //           " h-full w-full object-cover align-top opacity-100 group-hover:opacity-100 hover:opacity-100  "
-          //         }
-          //       /> */}
-          //     </div>
-          //   </div>
-          // </Marker>
         ))}
       </Map>
       {userSettings && userSettings.monochromaticMaps && !isSafari ? (
