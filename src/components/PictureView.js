@@ -44,7 +44,7 @@ export default function PictureView({ picture, close, userUID }) {
       >
         <Tablet>
           <button
-            className="absolute top-5 left-2 w-fit h-fit z-[60]"
+            className="fixed top-5 left-2 w-fit h-fit z-[60]"
             onClick={close}
           >
             <Icons
@@ -55,7 +55,7 @@ export default function PictureView({ picture, close, userUID }) {
         </Tablet>
         <Mobile>
           <button
-            className="absolute top-5 left-2 w-fit h-fit z-[60]"
+            className="fixed top-5 left-2 w-fit h-fit z-[60]"
             onClick={close}
           >
             <Icons
@@ -66,7 +66,7 @@ export default function PictureView({ picture, close, userUID }) {
         </Mobile>
         {picture.authorUID === userUID ? (
           <button
-            className="absolute bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
+            className="fixed bottom-4 right-4 hover:scale-110 z-[300] duration-100 "
             onClick={() => {
               setShowConfirmation(true);
             }}
@@ -80,7 +80,7 @@ export default function PictureView({ picture, close, userUID }) {
         ) : (
           <></>
         )}
-        <div className="w-full md:w-[70%] h-full max-h-[60%] md:max-h-full whitespace-nowrap px-2 pb-4 pt-16 md:p-8 flex items-center justify-center relative group">
+        <div className="w-full md:w-[70%] h-full max-h-[60%] md:max-h-[80%] lg:max-h-full whitespace-nowrap px-2 pb-4 pt-16 md:p-8 flex items-center justify-center relative group">
           <img
             // style={this.state.loaded ? {} : { display: "none" }}
             src={picture.URL}
