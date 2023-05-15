@@ -40,7 +40,7 @@ export default function PictureView({ picture, close, userUID }) {
       )}
       <div
         ref={main}
-        className="w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area relative overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600"
+        className="w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area relative overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 overflow-x-hidden"
       >
         <Tablet>
           <button
@@ -93,7 +93,7 @@ export default function PictureView({ picture, close, userUID }) {
             onLoad={() => setIsLoaded(true)}
           />
         </div>
-        <div className="flex-grow h-full w-full md:w-[70%] whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
+        <div className="flex-grow h-full w-full md:w-auto whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
           <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 py-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
