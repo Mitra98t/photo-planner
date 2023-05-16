@@ -95,9 +95,9 @@ export default function AddContent({ userUID }) {
     );
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     // console.log(photos);
-  }, [photos]);
+  // }, [photos]);
 
   const upImage = async (file, id, pk) => {
     const name = id;

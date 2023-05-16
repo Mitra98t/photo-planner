@@ -24,8 +24,6 @@ export default function SampleWallpaper() {
 
   useEffect(() => {
     db.getImageSample(50).then((res) => {
-      console.log(res.length);
-      console.log(res);
       res = shuffle(res);
       let photos = [];
       let cols = 4;
@@ -33,7 +31,6 @@ export default function SampleWallpaper() {
       for (let i = 0; i < cols; i++) {
         photos.push(res.slice(i * photosByCol, (i + 1) * photosByCol));
       }
-      console.log(photos);
       setPhotos(photos);
     });
   }, []);

@@ -14,9 +14,9 @@ export default function PhotoDataViewer({ photo, photos, setPhotos, index }) {
   const [weatherCodes, setWeatherCodes] = useState(null);
   const [locationIsEmpty, setLocationIsEmpty] = useState(false);
 
-  useEffect(() => {
-    console.log(photos);
-  }, [photos]);
+  // useEffect(() => {
+  //   console.log(photos);
+  // }, [photos]);
 
   useEffect(() => {
     db.getWeatherCodes().then((c) => setWeatherCodes(c));
