@@ -53,38 +53,44 @@ export default function Autocomplete({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInput]);
 
-  const onClick = (e) => {
+  const onClick = (e, index) => {
     setActiveSuggestion(0);
     setFilteredSuggestions([]);
     setShowSuggestions(false);
     setSent(true);
     setUserInput(
-      (alsoUsers && userInput[0] === "@" ? "@" : "") + e.currentTarget.innerText
+      (alsoUsers && userInput[0] === "@" ? "@" : "") + e.target.innerText
     );
 
     inputField.current.focus();
     if (searchOnClick)
-      if (alsoUsers && userInput[0] === "@") searchUser();
-      else searchLocation();
+      if (alsoUsers && userInput[0] === "@") searchUser(index);
+      else searchLocation(index);
   };
 
-  const searchUser = async () => {
+  const searchUser = async (index = -1) => {
     let displayName = userInput.substring(1);
     if (clearOnSubmit) setUserInput("");
-    else setUserInput(filteredSuggestions[activeSuggestion].username);
-    let res = !!filteredSuggestions[activeSuggestion]
-      ? filteredSuggestions[activeSuggestion]
+    else
+      setUserInput(
+        filteredSuggestions[index === -1 ? activeSuggestion : index].username
+      );
+    let res = !!filteredSuggestions[index === -1 ? activeSuggestion : index]
+      ? filteredSuggestions[index === -1 ? activeSuggestion : index]
       : await db.getUsersByDisplayName(displayName)[0];
     navigate(`/profile/${res.ID}`);
   };
 
-  const searchLocation = async () => {
+  const searchLocation = async (index = -1) => {
     let locationFromInput = userInput;
     if (clearOnSubmit) setUserInput("");
-    else setUserInput(filteredSuggestions[activeSuggestion].luogo);
+    else
+      setUserInput(
+        filteredSuggestions[index === -1 ? activeSuggestion : index].luogo
+      );
     handleSubmit(
-      !!filteredSuggestions[activeSuggestion]
-        ? filteredSuggestions[activeSuggestion]
+      !!filteredSuggestions[index === -1 ? activeSuggestion : index]
+        ? filteredSuggestions[index === -1 ? activeSuggestion : index]
         : await db.getLocationInfoByName(locationFromInput)
     );
   };
@@ -206,7 +212,7 @@ function suggestions(
                 })
               }
               key={suggestion.username + index}
-              onClick={onClick}
+              onClick={(e) => onClick(e, index)}
             >
               <div className="h-[3rem] py-1">
                 <ProfilePic seed={suggestion.ID} heightBased />
@@ -226,7 +232,7 @@ function suggestions(
                 })
               }
               key={suggestion.luogo + index}
-              onClick={onClick}
+              onClick={(e) => onClick(e, index)}
             >
               {suggestion.luogo}
             </li>
