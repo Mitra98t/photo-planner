@@ -60,14 +60,16 @@ export default function ProfileView({ userUID, selectPhoto }) {
   return (
     <div
       className={
-        "w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 flex flex-col items-center justify-start gap-8"
+        "w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 flex flex-col items-center justify-start gap-8"
       }
     >
       <div className="w-full h-[10vh] md:h-[20vh] flex items-center justify-center gap-4 md:gap-8 px-2 md:px-0">
         <ProfilePic
           seed={UID}
           heightBased
-          border={" border-2 border-stone-900 dark:border-dark-600 "}
+          border={
+            " border-2 border-light-secondary dark:border-dark-secondary "
+          }
         />
         <div className="flex flex-col h-full items-start justify-center gap-0 md:gap-4 py-0 md:py-2">
           <p className="text-titolone">
@@ -78,7 +80,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
               {userInfo ? userInfo.userEmail : "..."}
             </p>
           ) : personal ? (
-            <p className="text-paragraph text-stone-700 dark:text-dark-600 ">
+            <p className="text-paragraph text-light-text dark:text-dark-text ">
               {userInfo ? "Hidden: " + userInfo.userEmail : "..."}
             </p>
           ) : (
@@ -91,30 +93,25 @@ export default function ProfileView({ userUID, selectPhoto }) {
                 width="w-fit"
                 height="h-fit"
                 additional="duration-75"
+                buttStyle="accent"
                 onClick={() => navigate("/profileSettings")}
               >
                 <p className="text-paragraph">Profile Settings</p>
               </Button>
               <Button
                 paddings="py-1 px-3"
+                buttStyle="secondary"
                 width="w-fit"
                 height="h-fit"
                 additional="duration-75 flex flex-row items-center justify-start"
                 text="text-base"
                 font="font-normal"
-                accentColor="red-600"
-                darkAccentColor="red-500"
                 onClick={() => {
                   signOut(auth);
                   // window.location.reload();
                 }}
               >
                 <p className="text-paragraph">Logout</p>
-                <Icons
-                  icon="out"
-                  color="stroke-stone-50"
-                  styling={{ w: "auto", h: "1rem", strokeWidth: "1.5px" }}
-                />
               </Button>
             </div>
           ) : (

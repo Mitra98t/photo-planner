@@ -28,7 +28,7 @@ export default function PictureView({ picture, close, userUID }) {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-stone-900">
+    <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-light-text">
       {deletePopup(
         async () => {
           await db.removeImage(picture.ID);
@@ -40,7 +40,7 @@ export default function PictureView({ picture, close, userUID }) {
       )}
       <div
         ref={main}
-        className="w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area relative overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 overflow-x-hidden"
+        className="w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area relative overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 overflow-x-hidden"
       >
         <Tablet>
           <button
@@ -94,7 +94,7 @@ export default function PictureView({ picture, close, userUID }) {
           />
         </div>
         <div className="flex-grow h-full w-full md:w-auto whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
-          <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-stone-50 dark:bg-dark-800 py-4">
+          <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-light-bg dark:bg-dark-bg py-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
               className="flex items-center justify-start gap-2 h-24 cursor-pointer"
@@ -107,7 +107,7 @@ export default function PictureView({ picture, close, userUID }) {
                 <ProfilePic
                   seed={picture.authorUID}
                   heightBased
-                  border={" border-[3px] border-stone-900 dark:border-dark-600"}
+                  border={" border-[3px] border-light-secondary dark:border-dark-secondary"}
                 />
               </div>
               <p className="text-xl font-semibold md:text-3xl md:font-bold">
@@ -146,13 +146,11 @@ function deletePopup(deleteCallBack, show, setShow) {
 
   return (
     <div className="absolute inset-0 w-full h-full bg-[#00000088] z-[70] flex flex-row items-center justify-center">
-      <div className="w-fit h-fit flex flex-col items-center justify-evenly gap-6 whitespace-nowrap bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-8 rounded-2xl">
+      <div className="w-fit h-fit flex flex-col items-center justify-evenly gap-6 whitespace-nowrap bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text p-8 rounded-2xl">
         <p className="text-3xl font-semibold">Delete image?</p>
         <div className="flex flex-row items-center justify-evenly gap-4 w-full">
           <Button
             onClick={deleteCallBack}
-            accentColor="red-600"
-            darkAccentColor="red-500"
             height="h-[70%]"
             hover="ring-[6px]"
             paddings="py-3 px-5"
@@ -161,8 +159,6 @@ function deletePopup(deleteCallBack, show, setShow) {
           </Button>
           <Button
             onClick={() => setShow(false)}
-            accentColor="blue-600"
-            darkAccentColor="blue-500"
             height="h-[70%]"
             hover="ring-[6px]"
             paddings="py-3 px-5"

@@ -22,25 +22,27 @@ export default function MapCmp({
   useEffect(() => {
     if (photosInLocation.length > 0 && !triggerMapLoad) return;
     setTriggerMapLoad(false);
-    db.getImgsAtCoords(bounds.ne, bounds.sw).then((v) => {
-      let photosToLoad = [...photosInLocation];
-      let dbPhotos = v.sort(function () {
-        return Math.random() - 0.5;
-      });
-      for (let i = 0; i < dbPhotos.length; i++) {
-        let count = 0;
-        for (let j = 0; j < photosToLoad.length; j++) {
-          if (
-            photosToLoad[j].lat === dbPhotos[i].lat &&
-            photosToLoad[j].lng === dbPhotos[i].lng
-          )
-            count++;
+    db.getImgsAtCoords(bounds.ne, bounds.sw)
+      .then((v) => {
+        let photosToLoad = [...photosInLocation];
+        let dbPhotos = v.sort(function () {
+          return Math.random() - 0.5;
+        });
+        for (let i = 0; i < dbPhotos.length; i++) {
+          let count = 0;
+          for (let j = 0; j < photosToLoad.length; j++) {
+            if (
+              photosToLoad[j].lat === dbPhotos[i].lat &&
+              photosToLoad[j].lng === dbPhotos[i].lng
+            )
+              count++;
+          }
+          if (count === 0) photosToLoad.push(dbPhotos[i]);
         }
-        if (count === 0) photosToLoad.push(dbPhotos[i]);
-      }
-      setPhotosInLocation(photosToLoad);
-      setOldBounds((b) => [...b, bounds]);
-    }).catch((e) => {});
+        setPhotosInLocation(photosToLoad);
+        setOldBounds((b) => [...b, bounds]);
+      })
+      .catch((e) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bounds, triggerMapLoad]);
 
@@ -102,7 +104,7 @@ export default function MapCmp({
         ))}
       </Map>
       {userSettings && userSettings.monochromaticMaps && !isSafari ? (
-        <div className="w-full h-screen absolute inset-0 bg-green-600 dark:bg-dark-800 pointer-events-none mix-blend-hue " />
+        <div className="w-full h-screen absolute inset-0 bg-light-primary dark:bg-dark-secondary pointer-events-none mix-blend-hue " />
       ) : (
         <div className="w-full h-screen absolute inset-0 dark:bg-dark-700 opacity-70 pointer-events-none mix-blend-difference " />
       )}

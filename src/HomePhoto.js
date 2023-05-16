@@ -43,7 +43,7 @@ export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
   return (
     <div
       className={
-        "w-full h-full relative bg-stone-50 dark:bg-dark-800 rounded-t-3xl overflow-hidden pt-[12vh] pb-4 "
+        "w-full h-full relative bg-light-bg dark:bg-dark-bg rounded-t-3xl overflow-hidden pt-[12vh] pb-4 "
       }
     >
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
@@ -55,7 +55,7 @@ export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
       </div>
       <div className="w-full h-full overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 px-8 ">
         {photoToShow && photoToShow.length === 0 ? (
-          <p className="text-stone-500 dark:text-dark-500 font-bold text-2xl ml-10 mt-10">
+          <p className="text-dark-text0 dark:text-dark-500 font-bold text-2xl ml-10 mt-10">
             No photos here... -_-
           </p>
         ) : (

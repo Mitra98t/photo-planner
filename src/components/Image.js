@@ -33,13 +33,13 @@ export default function Image({
           ) : (
             <div className="w-3/4 h-12 flex gap-2 items-center justify-start overflow-hidden">
               <ProfilePic heightBased seed={image.authorUID} border="  " />
-              <p className="text-xl text-center text-stone-50 whitespace-nowrap">
+              <p className="text-xl text-center text-dark-text whitespace-nowrap">
                 {author == null ? "..." : author.userName}
               </p>
             </div>
           )}
         </div>
-        <div className="flex flex-col items-start justify-start gap-0.5 text-stone-50 font-semibold whitespace-nowrap">
+        <div className="flex flex-col items-start justify-start gap-0.5 text-dark-text font-semibold whitespace-nowrap">
           <p>Date: {image.fileData.creationDate}</p>
           <p>Hour: {image.fileData.creationTime}</p>
           <p>Position: {image.location}</p>

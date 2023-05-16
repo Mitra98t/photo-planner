@@ -211,7 +211,7 @@ export default function AddContent({ userUID }) {
   };
 
   return (
-    <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] ">
+    <div className="w-full h-full relative bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text rounded-t-3xl overflow-hidden pt-[10vh] ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         <NavBarGeneric
           close={() => navigate("/")}
@@ -222,7 +222,7 @@ export default function AddContent({ userUID }) {
       <div className="w-full h-full flex flex-col items-center justify-start gap-10 md:px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 pb-8">
         <form
           onSubmit={handleSubmit}
-          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 dark:bg-dark-800 z-[100] p-4"
+          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-light-bg dark:bg-dark-bg z-[100] p-4"
         >
           <div className="w-fit h-full flex flex-col md:flex-row items-center justify-start gap-6">
             <FileUploader
@@ -230,8 +230,8 @@ export default function AddContent({ userUID }) {
               types={fileTypes}
               handleChange={addFileLocal}
             >
-              <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-blue-500 dark-outline-blue-500">
-                <p classname="text-stone-900 dark:text-stone-50">
+              <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-light-primary dark:outline-dark-primary">
+                <p classname="text-light-text dark:text-dark-text">
                   Drag photo or click to upload...
                 </p>
                 <Icons
@@ -256,8 +256,6 @@ export default function AddContent({ userUID }) {
               type="submit"
               width="w-fit"
               height="h-fit"
-              accentColor="blue-600"
-              darkAccentColor="blue-500"
             >
               Upload
             </Button>
@@ -269,7 +267,7 @@ export default function AddContent({ userUID }) {
               key={pk}
               className="w-full h-fit grid grid-cols-1 md:grid-cols-2 relative pt-[7vh] "
             >
-              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 dark:bg-dark-800 z-[90] flex items-center justify-between px-4">
+              <div className="absolute inset-0 h-[5vh] w-full bg-light-bg dark:bg-dark-bg z-[90] flex items-center justify-between px-4">
                 <div className=" w-full h-full flex flex-row items-center justify-start gap-3">
                   <button
                     onClick={() => {
@@ -366,8 +364,6 @@ export default function AddContent({ userUID }) {
             type="submit"
             width="w-fit"
             height="h-fit"
-            accentColor="blue-600"
-            darkAccentColor="blue-500"
           >
             Upload
           </Button>

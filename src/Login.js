@@ -40,12 +40,12 @@ export default function Login({ setCurrentUser }) {
     <>
       <SampleWallpaper></SampleWallpaper>
       <div className="absolute inset-0 w-full h-screen bg-transparent  flex items-center justify-center">
-        <div className="w-fit h-fit p-8 rounded-xl shadow-lg flex flex-col items-start justify-evenly gap-4 bg-stone-800">
-          <p className="text-3xl font-bold text-stone-50">Login</p>
+        <div className="w-fit h-fit p-8 rounded-xl shadow-lg flex flex-col items-start justify-evenly gap-4 bg-dark-bg">
+          <p className="text-3xl font-bold text-dark-text">Login</p>
           <button
             onClick={() => modalSignIn()}
             className={
-              "whitespace-nowrap p-4 text-xl text-stone-900 bg-stone-50 hover:bg-stone-300 rounded-lg"
+              "whitespace-nowrap p-4 text-xl text-light-text bg-light-bg hover:bg-stone-300 rounded-lg"
             }
           >
             Sign in with Google

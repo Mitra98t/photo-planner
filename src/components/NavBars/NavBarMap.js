@@ -37,7 +37,7 @@ export default function NavBarMap({
   };
 
   return (
-    <div className="w-full h-full dark:bg-dark-800 bg-stone-50 rounded-t-3xl flex flex-col sm:flex-row items-center justify-envenly gap-4 sm:gap-8 sm:justify-between px-12 pt-4 md:pt-0">
+    <div className="w-full h-full dark:bg-dark-bg bg-light-bg rounded-t-3xl flex flex-col sm:flex-row items-center justify-envenly gap-4 sm:gap-8 sm:justify-between px-12 pt-4 md:pt-0">
       <div className="h-full w-full flex-1 flex flex-row items-center justify-start">
         <Autocomplete
           handleSubmit={handleSearchSubmit}
@@ -56,12 +56,10 @@ export default function NavBarMap({
         >
           <Button
             onClick={searchArea}
-            accentColor="green-300"
-            darkAccentColor="cyan-500"
             additional="aspect-square md:aspect-auto"
             height="h-full"
             width="w-full"
-            textColor="text-stone-900 dark:text-stone-50"
+            textColor="text-light-text dark:text-dark-text"
             paddings=" md:px-6 md:py-4"
           >
             <Default>
@@ -70,7 +68,7 @@ export default function NavBarMap({
             <Mobile>
               <Icons
                 icon="search"
-                color="stroke-stone-900 dark:stroke-stone-50"
+                color="stroke-dark-text dark:stroke-dark-text"
                 styling={{ h: "2rem", w: "auto", strokeWidth: "1.5px" }}
               />
             </Mobile>
@@ -84,8 +82,6 @@ export default function NavBarMap({
         >
           <Button
             onClick={() => setTriggerMapLoad(true)}
-            accentColor="green-300"
-            darkAccentColor="cyan-500"
             height="h-full"
             width={formatStyle([notify ? "w-full" : "w-0"])}
             paddings=""
@@ -93,7 +89,7 @@ export default function NavBarMap({
           >
             <Icons
               icon="refresh"
-              color="stroke-stone-900 dark:stroke-stone-50"
+              color="stroke-dark-text dark:stroke-dark-text"
               styling={{ h: "2rem", w: "auto", strokeWidth: "1.5px" }}
             />
           </Button>
@@ -107,7 +103,7 @@ export default function NavBarMap({
               <ProfilePic
                 seed={user ? user : ""}
                 heightBased
-                border=" border-2 border-stone-900 dark:border-dark-600 "
+                border=" border-2 border-light-secondary dark:border-dark-secondary "
               />
             </button>
           </div>
@@ -122,7 +118,7 @@ export default function NavBarMap({
             <ProfilePic
               seed={user ? user : ""}
               heightBased
-              border=" border-2 border-stone-900 dark:border-dark-600 "
+              border=" border-2 border-light-secondary dark:border-dark-secondary "
             />
           </button>
         </div>

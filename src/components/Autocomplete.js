@@ -137,7 +137,7 @@ export default function Autocomplete({
         ref={inputField}
         autoFocus={autofocus}
         className={
-          "focus:outline-stone-900 dark:focus:outline-stone-50 rounded-lg bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 dark:placeholder:text-dark-500 w-full " +
+          "focus:outline-light-secondary dark:focus:outline-dark-secondary rounded-lg bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text dark:placeholder:text-dark-500 w-full " +
           classNames({
             " text-lg md:text-2xl p-3 ": large,
             " text-base p-2 ": !large,
@@ -192,11 +192,11 @@ function suggestions(
           "  ": !fixed,
           " fixed ": fixed,
         }) +
-        " flex rounded-lg  h-fit lg:max-w-[30vw] md:max-w-[50vw] max-w-[80vw] overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50  "
+        " flex rounded-lg  h-fit lg:max-w-[30vw] md:max-w-[50vw] max-w-[80vw] overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-dark-text  "
       }
     >
       {filteredSuggestions.map((suggestion, index) => {
-        let className = " bg-stone-50 dark:bg-dark-800 ";
+        let className = " bg-light-bg dark:bg-dark-bg ";
         if (index === activeSuggestion) {
           className = " bg-stone-300 dark:bg-dark-700 ";
         }
