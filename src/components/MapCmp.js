@@ -13,6 +13,7 @@ export default function MapCmp({
   triggerMapLoad,
   setTriggerMapLoad,
   setOldBounds,
+  searchArea,
 }) {
   // eslint-disable-next-line no-unused-vars
   const [isSafari, setIsSafari] = useState(
@@ -79,6 +80,7 @@ export default function MapCmp({
             width={50}
             anchor={[+image.lat, +image.lng]}
             color={"#88aacc"}
+            onDoubleClick={searchArea}
             onClick={() => {
               setMapLocation({
                 coords: [image.lat, image.lng],

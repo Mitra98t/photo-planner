@@ -136,6 +136,7 @@ function App() {
             setOldBounds={setOldBounds}
             triggerMapLoad={triggerMapLoad}
             setTriggerMapLoad={setTriggerMapLoad}
+            searchArea={() => navigate("/home")}
           />
           {location.pathname !== "/" ? (
             <div

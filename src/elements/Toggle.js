@@ -2,13 +2,11 @@ import React from "react";
 import { formatStyle } from "../utils/utils";
 
 export default function Toggle({
-  color = "light-accent",
   width = "w-full",
   height = "h-full",
   onClick = () => {},
   toggle = null,
 }) {
-  const colorStyle = formatStyle(["bg-" + color]);
   const dimensions = formatStyle([width, height]);
   return (
     <button
@@ -20,7 +18,7 @@ export default function Toggle({
           : toggle
           ? "justify-end"
           : "justify-start",
-        toggle ? colorStyle : "bg-light-bg0 dark:bg-dark-600",
+        toggle ? "bg-light-accent dark:bg-dark-accent" : "bg-light-bg dark:bg-dark-bg",
         dimensions,
       ])}
     >

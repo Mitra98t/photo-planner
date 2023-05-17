@@ -116,13 +116,13 @@ export default function PictureView({ picture, close, userUID }) {
             </div>
           </div>
           <div className="w-full h-full flex flex-col items-start justify-start gap-4 md:gap-8">
-            <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
+            <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-light-secondary dark:border-dark-secondary">
               <p>Date: {picture.fileData.creationDate}</p>
               <p>Hour: {picture.fileData.creationTime}</p>
               <p>Position: {picture.location}</p>
               <p>Weather: {picture.weather.weather}</p>
             </div>
-            <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
+            <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-light-secondary dark:border-dark-secondary">
               <p>Make: {picture.camera.make}</p>
               <p>Model: {picture.camera.model}</p>
               <p>ISO: {picture.cameraSettings.ISO}</p>
@@ -130,7 +130,7 @@ export default function PictureView({ picture, close, userUID }) {
               <p>Aperture: f/{picture.cameraSettings.aperture}</p>
               <p>zoom: {picture.cameraSettings.focalLength}mm</p>
             </div>
-            <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-stone-600 dark:border-dark-600">
+            <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-light-secondary dark:border-dark-secondary">
               <p>Title: {picture.fileData.name}</p>
               <p>Description: {picture.fileData.description}</p>
             </div>
