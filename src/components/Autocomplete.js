@@ -197,14 +197,14 @@ function suggestions(
     >
       {filteredSuggestions.map((suggestion, index) => {
         let className = " bg-light-bg dark:bg-dark-bg ";
-        if (index === activeSuggestion) {
-          className = " bg-stone-300 dark:bg-dark-700 ";
-        }
+        let hover = (
+          <div className="absolute inset-0 w-full h-full dark:bg-[#ffffff40] bg-[#00000040]"></div>
+        );
         if (isUser)
           return (
             <li
               className={
-                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row items-center justify-start gap-4  " +
+                "relative first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row items-center justify-start gap-4  " +
                 className +
                 classNames({
                   " text-xl ": large,
@@ -214,6 +214,7 @@ function suggestions(
               key={suggestion.username + index}
               onClick={(e) => onClick(e, index)}
             >
+              {activeSuggestion === index ? hover : <></>}
               <div className="h-[3rem] py-1">
                 <ProfilePic seed={suggestion.ID} heightBased />
               </div>
@@ -224,7 +225,7 @@ function suggestions(
           return (
             <li
               className={
-                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
+                "relative first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
                 className +
                 classNames({
                   " text-xl ": large,
@@ -234,6 +235,7 @@ function suggestions(
               key={suggestion.luogo + index}
               onClick={(e) => onClick(e, index)}
             >
+              {activeSuggestion === index ? hover : <></>}
               {suggestion.luogo}
             </li>
           );

@@ -12,6 +12,24 @@ import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
 import { checkPhoto, Default, Mobile } from "./utils/utils";
 import Button from "./elements/Button";
+import Resizer from "react-image-file-resizer";
+
+const resizeFile = (file, maxDimension, compressionPercent) => {
+  return new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      maxDimension,
+      maxDimension,
+      "JPEG",
+      compressionPercent,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
+};
 
 function blobToBase64(blob) {
   return new Promise((resolve, _) => {
@@ -96,7 +114,7 @@ export default function AddContent({ userUID }) {
   };
 
   // useEffect(() => {
-    // console.log(photos);
+  // console.log(photos);
   // }, [photos]);
 
   const upImage = async (file, id, pk) => {
@@ -180,12 +198,14 @@ export default function AddContent({ userUID }) {
       type: file.name.split(".")[1],
       creationDate: exifReadable.dateTime.date,
       creationTime: exifReadable.dateTime.time,
-      fileFromSource: await compressImage(fileIn, {
-        quality: 0.5,
-      }),
-      smallFileFromSource: await compressImage(fileIn, {
-        quality: 0.1,
-      }),
+      // fileFromSource: await compressImage(fileIn, {
+      //   quality: 0.5,
+      // }),
+      // smallFileFromSource: await compressImage(fileIn, {
+      //   quality: 0.1,
+      // }),
+      fileFromSource: await resizeFile(fileIn, 2000, 60),
+      smallFileFromSource: await resizeFile(fileIn, 500, 40),
     };
     let fileExif = {
       shutterSpeed: exifReadable.cameraSettings.shutterSpeed,
