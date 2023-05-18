@@ -14,6 +14,18 @@ import { checkPhoto, Default, Mobile } from "./utils/utils";
 import Button from "./elements/Button";
 import Resizer from "react-image-file-resizer";
 
+function dataURLtoFile(dataurl, filename) {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[arr.length - 1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
+}
+
 const resizeFile = (file, maxDimension, compressionPercent) => {
   return new Promise((resolve) => {
     Resizer.imageFileResizer(
@@ -157,16 +169,19 @@ export default function AddContent({ userUID }) {
         const uuid = uuidv4(); // Genera un nuovo UUID v4
         if (photosToUpload[pk].hasOwnProperty("progress")) continue;
 
-        let res = await upImage(
+        console.log(
+          dataURLtoFile(photosToUpload[pk].file.fileFromSource, "test.jpg")
+        );
+        let hiResFile = dataURLtoFile(
           photosToUpload[pk].file.fileFromSource,
-          uuid,
-          pk
+          photosToUpload[pk].file.name
         );
-        let resSmall = await upImage(
+        let lowResFile = dataURLtoFile(
           photosToUpload[pk].file.smallFileFromSource,
-          uuid + "_small",
-          pk
+          "small_" + photosToUpload[pk].file.name
         );
+        let res = await upImage(hiResFile, uuid, pk);
+        let resSmall = await upImage(lowResFile, uuid + "_small", pk);
         let resourceName = uuid;
         let url = await getDownloadURL(res.ref);
         let smallUrl = await getDownloadURL(resSmall.ref);
@@ -198,12 +213,6 @@ export default function AddContent({ userUID }) {
       type: file.name.split(".")[1],
       creationDate: exifReadable.dateTime.date,
       creationTime: exifReadable.dateTime.time,
-      // fileFromSource: await compressImage(fileIn, {
-      //   quality: 0.5,
-      // }),
-      // smallFileFromSource: await compressImage(fileIn, {
-      //   quality: 0.1,
-      // }),
       fileFromSource: await resizeFile(fileIn, 2000, 60),
       smallFileFromSource: await resizeFile(fileIn, 500, 40),
     };
