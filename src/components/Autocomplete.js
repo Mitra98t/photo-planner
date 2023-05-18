@@ -137,7 +137,7 @@ export default function Autocomplete({
         ref={inputField}
         autoFocus={autofocus}
         className={
-          "focus:outline-stone-900 dark:focus:outline-stone-50 rounded-lg bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 dark:placeholder:text-dark-500 w-full " +
+          "focus:outline-light-secondary dark:focus:outline-dark-secondary rounded-lg bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text dark:placeholder:text-dark-500 w-full " +
           classNames({
             " text-lg md:text-2xl p-3 ": large,
             " text-base p-2 ": !large,
@@ -192,19 +192,19 @@ function suggestions(
           "  ": !fixed,
           " fixed ": fixed,
         }) +
-        " flex rounded-lg  h-fit lg:max-w-[30vw] md:max-w-[50vw] max-w-[80vw] overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-stone-50  "
+        " flex rounded-lg  h-fit lg:max-w-[30vw] md:max-w-[50vw] max-w-[80vw] overflow-hidden border-2 border-stone-900 dark:border-stone-50 dark:text-dark-text  "
       }
     >
       {filteredSuggestions.map((suggestion, index) => {
-        let className = " bg-stone-50 dark:bg-dark-800 ";
-        if (index === activeSuggestion) {
-          className = " bg-stone-300 dark:bg-dark-700 ";
-        }
+        let className = " bg-light-bg dark:bg-dark-bg ";
+        let hover = (
+          <div className="absolute inset-0 w-full h-full dark:bg-[#ffffff40] bg-[#00000040]"></div>
+        );
         if (isUser)
           return (
             <li
               className={
-                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row items-center justify-start gap-4  " +
+                "relative first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row items-center justify-start gap-4  " +
                 className +
                 classNames({
                   " text-xl ": large,
@@ -214,6 +214,7 @@ function suggestions(
               key={suggestion.username + index}
               onClick={(e) => onClick(e, index)}
             >
+              {activeSuggestion === index ? hover : <></>}
               <div className="h-[3rem] py-1">
                 <ProfilePic seed={suggestion.ID} heightBased />
               </div>
@@ -224,7 +225,7 @@ function suggestions(
           return (
             <li
               className={
-                " first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
+                "relative first:pt-2 last:pb-2 pl-3 pr-5 py-1 flex flex-row gap-2 items-end  " +
                 className +
                 classNames({
                   " text-xl ": large,
@@ -234,6 +235,7 @@ function suggestions(
               key={suggestion.luogo + index}
               onClick={(e) => onClick(e, index)}
             >
+              {activeSuggestion === index ? hover : <></>}
               {suggestion.luogo}
             </li>
           );

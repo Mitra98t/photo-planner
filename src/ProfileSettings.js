@@ -46,7 +46,7 @@ export default function ProfileSettings({ userUID, settings, setSettings }) {
   };
 
   return (
-    <div className="w-full h-full pt-[10vh] px-8 flex flex-row items-start justify-start text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 ">
+    <div className="w-full h-full pt-[10vh] px-8 flex flex-row items-start justify-start test-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         <NavBarGeneric
           close={() => navigate("/")}

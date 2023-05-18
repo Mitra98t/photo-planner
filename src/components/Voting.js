@@ -34,18 +34,18 @@ export default function Voting({
             votesData != null &&
             votesData.upVoters.length !== 0 &&
             votesData.upVoters.indexOf(userUID) !== -1
-              ? " stroke-blue-500 dark:stroke-blue-700 "
+              ? " stroke-light-accent dark:stroke-dark-accent "
               : dark
-              ? " stroke-stone-900 dark:stroke-dark-600 "
-              : " stroke-stone-50 "
+              ? " stroke-light-text dark:stroke-dark-text "
+              : " stroke-dark-text "
           }
         />
       </button>
       <p
         className={
           classNames({
-            " text-stone-50 ": !dark,
-            " text-stone-900 dark:text-dark-600 ": dark,
+            " text-dark-text ": !dark,
+            " text-light-text dark:text-dark-text ": dark,
           }) + " font-semibold text-lg "
         }
       >
@@ -61,10 +61,10 @@ export default function Voting({
             votesData != null &&
             votesData.downVoters.length !== 0 &&
             votesData.downVoters.indexOf(userUID) !== -1
-              ? " stroke-blue-500 dark:stroke-blue-700 "
+              ? " stroke-light-accent dark:stroke-dark-accent "
               : dark
-              ? " stroke-stone-900 dark:stroke-dark-600 "
-              : " stroke-stone-50 "
+              ? " stroke-light-text dark:stroke-dark-text "
+              : " stroke-dark-text "
           }
         />
       </button>

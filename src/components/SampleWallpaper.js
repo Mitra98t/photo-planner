@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { DBManager as db } from "../utils/DBManager";
-import { randomColor } from "../utils/utils";
 
 function shuffle(array) {
   let currentIndex = array.length,
@@ -37,8 +36,8 @@ export default function SampleWallpaper() {
 
   return (
     <>
-      <div className="w-full h-screen bg-stone-900 absolute inset-0"></div>
-      <div className="bg-stone-900 w-full h-screen overflow-hidden blur-[2px] grid grid-flow-col grid-cols-4 gap-2 p-2">
+      <div className="w-full h-screen bg-dark-bg absolute inset-0"></div>
+      <div className="bg-dark-bg w-full h-screen overflow-hidden blur-[2px] grid grid-flow-col grid-cols-4 gap-2 p-2">
         {photos &&
           photos.map((coll, i) => (
             <div
@@ -47,10 +46,7 @@ export default function SampleWallpaper() {
             >
               {coll.map((photo, j) => (
                 <img
-                  style={{
-                    backgroundColor: randomColor(),
-                  }}
-                  className="rounded-xl"
+                  className="rounded-xl bg-dark-secondary"
                   key={`${i}-${j}`}
                   alt={`img${j}col${i}`}
                   src={photo.smallURL}

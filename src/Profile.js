@@ -21,7 +21,7 @@ export default function Profile({ close }) {
   }, []);
 
   return (
-    <div className="w-full h-full pt-[12vh] pb-4 bg-stone-50 dark:bg-dark-800">
+    <div className="w-full h-full pt-[12vh] pb-4 bg-light-bg dark:bg-dark-bg">
       <div className="w-full h-[10vh] absolute z-50 inset-0 bg-transparent">
         <NavBarFilters
           close={close}
@@ -32,7 +32,7 @@ export default function Profile({ close }) {
       {UID ? (
         <Outlet context={[options]} />
       ) : (
-        <p className="text-5xl p-6 text-stone-900 dark:text-stone-50">
+        <p className="text-5xl p-6 text-light-text dark:text-dark-text">
           Missing UserName
         </p>
       )}

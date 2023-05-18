@@ -42,6 +42,7 @@ function App() {
   const [loggedUser, setLoggedUser] = useState(null);
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-vars
     const authChange = onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedUser(user.uid);
@@ -105,7 +106,7 @@ function App() {
           ) : (
             <></>
           )}
-          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-10 bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 p-4 rounded-xl shadow-lg">
+          <div className="absolute top-2 right-2 flex flex-col items-center justify-evenly gap-2 z-10 bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text p-4 rounded-xl shadow-lg">
             <span className="font-semibold text-base">It's a Beta be kind</span>
             <button
               href="https://padlet.com/personalmailfm98/feed-back-y89afrpn4r234gut"
@@ -136,6 +137,7 @@ function App() {
             setOldBounds={setOldBounds}
             triggerMapLoad={triggerMapLoad}
             setTriggerMapLoad={setTriggerMapLoad}
+            searchArea={() => navigate("/home")}
           />
           {location.pathname !== "/" ? (
             <div
@@ -147,7 +149,7 @@ function App() {
           )}
           <div
             className={formatStyle([
-              "absolute bottom-0 left-0 w-full z-20 bg-stone-50 dark:bg-dark-800 rounded-t-3xl shadow-top overflow-hidden duration-300 ",
+              "absolute bottom-0 left-0 w-full z-20 bg-light-bg dark:bg-dark-bg rounded-t-3xl shadow-top overflow-hidden duration-300 ",
               classNames({
                 "h-[90dvh]": location.pathname !== "/",
                 "h-[20dvh] sm:h-[10dvh]": location.pathname === "/",

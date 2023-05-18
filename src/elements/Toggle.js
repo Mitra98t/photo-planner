@@ -2,13 +2,11 @@ import React from "react";
 import { formatStyle } from "../utils/utils";
 
 export default function Toggle({
-  color = "blue-500",
   width = "w-full",
   height = "h-full",
   onClick = () => {},
   toggle = null,
 }) {
-  const colorStyle = formatStyle(["bg-" + color]);
   const dimensions = formatStyle([width, height]);
   return (
     <button
@@ -20,13 +18,13 @@ export default function Toggle({
           : toggle
           ? "justify-end"
           : "justify-start",
-        toggle ? colorStyle : "bg-stone-500 dark:bg-dark-600",
+        toggle ? "bg-light-accent dark:bg-dark-accent" : "bg-light-bg dark:bg-dark-bg",
         dimensions,
       ])}
     >
       <div
         className={formatStyle([
-          "rounded-full h-full w-auto aspect-square scale-105 group-hover:scale-110 duration-100 bg-stone-50 dark:bg-dark-900 ring-2 ring-stone-900 dark:ring-stone-50",
+          "rounded-full h-full w-auto aspect-square scale-105 group-hover:scale-110 duration-100 bg-light-bg dark:bg-dark-900 ring-2 ring-stone-900 dark:ring-stone-50",
         ])}
       ></div>
     </button>

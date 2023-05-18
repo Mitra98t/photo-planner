@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Icons from "./components/Icons";
 
@@ -12,6 +12,36 @@ import { storage } from "./firebase";
 import { DBManager } from "./utils/DBManager";
 import { checkPhoto, Default, Mobile } from "./utils/utils";
 import Button from "./elements/Button";
+import Resizer from "react-image-file-resizer";
+
+function dataURLtoFile(dataurl, filename) {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[arr.length - 1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
+}
+
+const resizeFile = (file, maxDimension, compressionPercent) => {
+  return new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      maxDimension,
+      maxDimension,
+      "JPEG",
+      compressionPercent,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
+};
 
 function blobToBase64(blob) {
   return new Promise((resolve, _) => {
@@ -78,27 +108,6 @@ export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
   const navigate = useNavigate();
 
-  const compressImage = async (file, { quality = 1, type = file.type }) => {
-    // Get as image data
-    const imageBitmap = await createImageBitmap(file);
-
-    // Draw to canvas
-    const canvas = document.createElement("canvas");
-    canvas.width = imageBitmap.width;
-    canvas.height = imageBitmap.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(imageBitmap, 0, 0);
-
-    // Turn into Blob
-    return await new Promise((resolve) =>
-      canvas.toBlob(resolve, type, quality)
-    );
-  };
-
-  // useEffect(() => {
-    // console.log(photos);
-  // }, [photos]);
-
   const upImage = async (file, id, pk) => {
     const name = id;
     const storageRef = ref(storage, name);
@@ -139,16 +148,19 @@ export default function AddContent({ userUID }) {
         const uuid = uuidv4(); // Genera un nuovo UUID v4
         if (photosToUpload[pk].hasOwnProperty("progress")) continue;
 
-        let res = await upImage(
+        console.log(
+          dataURLtoFile(photosToUpload[pk].file.fileFromSource, "test.jpg")
+        );
+        let hiResFile = dataURLtoFile(
           photosToUpload[pk].file.fileFromSource,
-          uuid,
-          pk
+          photosToUpload[pk].file.name
         );
-        let resSmall = await upImage(
+        let lowResFile = dataURLtoFile(
           photosToUpload[pk].file.smallFileFromSource,
-          uuid + "_small",
-          pk
+          "small_" + photosToUpload[pk].file.name
         );
+        let res = await upImage(hiResFile, uuid, pk);
+        let resSmall = await upImage(lowResFile, uuid + "_small", pk);
         let resourceName = uuid;
         let url = await getDownloadURL(res.ref);
         let smallUrl = await getDownloadURL(resSmall.ref);
@@ -180,12 +192,8 @@ export default function AddContent({ userUID }) {
       type: file.name.split(".")[1],
       creationDate: exifReadable.dateTime.date,
       creationTime: exifReadable.dateTime.time,
-      fileFromSource: await compressImage(fileIn, {
-        quality: 0.5,
-      }),
-      smallFileFromSource: await compressImage(fileIn, {
-        quality: 0.1,
-      }),
+      fileFromSource: await resizeFile(fileIn, 2000, 60),
+      smallFileFromSource: await resizeFile(fileIn, 500, 40),
     };
     let fileExif = {
       shutterSpeed: exifReadable.cameraSettings.shutterSpeed,
@@ -211,7 +219,7 @@ export default function AddContent({ userUID }) {
   };
 
   return (
-    <div className="w-full h-full relative bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50 rounded-t-3xl overflow-hidden pt-[10vh] ">
+    <div className="w-full h-full relative bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text rounded-t-3xl overflow-hidden pt-[10vh] ">
       <div className="w-full h-[10vh] absolute inset-0 bg-transparent">
         <NavBarGeneric
           close={() => navigate("/")}
@@ -222,7 +230,7 @@ export default function AddContent({ userUID }) {
       <div className="w-full h-full flex flex-col items-center justify-start gap-10 md:px-8 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 pb-8">
         <form
           onSubmit={handleSubmit}
-          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-stone-50 dark:bg-dark-800 z-[100] p-4"
+          className="w-full h-fit flex justify-between items-center sticky inset-0 bg-light-bg dark:bg-dark-bg z-[100] p-4"
         >
           <div className="w-fit h-full flex flex-col md:flex-row items-center justify-start gap-6">
             <FileUploader
@@ -230,8 +238,8 @@ export default function AddContent({ userUID }) {
               types={fileTypes}
               handleChange={addFileLocal}
             >
-              <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-blue-500 dark-outline-blue-500">
-                <p classname="text-stone-900 dark:text-stone-50">
+              <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-light-primary dark:outline-dark-primary">
+                <p classname="text-light-text dark:text-dark-text">
                   Drag photo or click to upload...
                 </p>
                 <Icons
@@ -256,8 +264,6 @@ export default function AddContent({ userUID }) {
               type="submit"
               width="w-fit"
               height="h-fit"
-              accentColor="blue-600"
-              darkAccentColor="blue-500"
             >
               Upload
             </Button>
@@ -269,7 +275,7 @@ export default function AddContent({ userUID }) {
               key={pk}
               className="w-full h-fit grid grid-cols-1 md:grid-cols-2 relative pt-[7vh] "
             >
-              <div className="absolute inset-0 h-[5vh] w-full bg-stone-50 dark:bg-dark-800 z-[90] flex items-center justify-between px-4">
+              <div className="absolute inset-0 h-[5vh] w-full bg-light-bg dark:bg-dark-bg z-[90] flex items-center justify-between px-4">
                 <div className=" w-full h-full flex flex-row items-center justify-start gap-3">
                   <button
                     onClick={() => {
@@ -366,8 +372,6 @@ export default function AddContent({ userUID }) {
             type="submit"
             width="w-fit"
             height="h-fit"
-            accentColor="blue-600"
-            darkAccentColor="blue-500"
           >
             Upload
           </Button>

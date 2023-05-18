@@ -14,8 +14,8 @@ export default function NavBarFilters({ close, options, setOptions }) {
   }, []);
 
   return (
-    <div className="w-full h-full rounded-t-3xl text-stone-900 dark:text-stone-50 bg-stone-50 dark:bg-dark-800 flex flex-row-reverse items-center justify-between px-3 md:px-12 ">
-      <div className="w-full md:w-fit flex items-center justify-start gap-1 divide-x-2 dark:divide-dark-700">
+    <div className="w-full h-full rounded-t-3xl text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg flex flex-row-reverse items-center justify-between px-3 md:px-12 ">
+      <div className="w-full md:w-fit flex items-center justify-start gap-1 divide-x-2 divide-light-secondary dark:divide-dark-secondary">
         <button
           className="h-[70%]"
           onClick={() =>
@@ -34,7 +34,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
         >
           <Icons
             icon={"filter"}
-            color={" stroke-stone-900 dark:stroke-stone-50"}
+            color={" stroke-light-accent dark:stroke-dark-accent"}
             styling={{
               w: "auto",
               h: "2rem",
@@ -45,7 +45,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
         <div className="flex flex-col items-start justify-between h-full gap-1 cursor-pointer p-2  ">
           <p className="text-title">Weather</p>
           <select
-            className="focus:outline-stone-900 text-paragraph rounded-lg bg-stone-50 dark:bg-dark-800 w-fit max-w-[20vw] py-2 "
+            className="focus:outline-light-secondary dark:focus:outline-dark-secondary text-paragraph rounded-lg bg-light-bg dark:bg-dark-bg w-fit max-w-[20vw] py-2 "
             value={options.weather === "" ? "any" : options.weather}
             onChange={(e) => {
               let oldOptions = { ...options };
@@ -81,7 +81,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
           </p>
           <PopupMenu hidden={wichMenu !== "time"} close={() => setWichMenu("")}>
             <div className="w-full h-fit pr-6">
-              <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
+              <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
                 <p className="">From:</p>
                 <input
                   onChange={(e) => {
@@ -92,11 +92,11 @@ export default function NavBarFilters({ close, options, setOptions }) {
                   type={"time"}
                   value={options.time.from}
                   className={
-                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50  p-3"
+                    "focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text  p-3"
                   }
                 />
               </div>
-              <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
+              <div className=" w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
                 <p className="">To:</p>
                 <input
                   onChange={(e) => {
@@ -107,7 +107,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
                   type={"time"}
                   value={options.time.to}
                   className={
-                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 text-stone-900 dark:text-stone-50  p-3"
+                    "focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text  p-3"
                   }
                 />
               </div>
@@ -128,7 +128,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
             close={() => setWichMenu("")}
           >
             <div className="w-full h-fit ">
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
+              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
                 <p>From:</p>
                 <input
                   onChange={(e) => {
@@ -139,11 +139,11 @@ export default function NavBarFilters({ close, options, setOptions }) {
                   type={"date"}
                   value={options.period.from}
                   className={
-                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 p-3"
+                    "focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg p-3"
                   }
                 />
               </div>
-              <div className="w-full h-fit flex flex-row gap-1 items-center justify-between whitespace-nowrap text-stone-900 dark:text-stone-50">
+              <div className="w-full h-fit flex flex-row gap-1 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
                 <p>To:</p>
                 <input
                   onChange={(e) => {
@@ -154,7 +154,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
                   type={"date"}
                   value={options.period.to}
                   className={
-                    "focus:outline-stone-900 bg-stone-50 dark:bg-dark-800 p-3"
+                    "focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg p-3"
                   }
                 />
               </div>
@@ -166,10 +166,9 @@ export default function NavBarFilters({ close, options, setOptions }) {
         <Default>
           <Button
             onClick={close}
-            accentColor="red-600"
-            darkAccentColor="red-500"
             height="h-[70%]"
             hover="outline-[6px]"
+            buttStyle="secondary"
           >
             Close
           </Button>

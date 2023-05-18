@@ -5,14 +5,13 @@ import ProfilePic from "../ProfilePic";
 
 export default function NavBarGeneric({ close, profileArea, user }) {
   return (
-    <div className="w-full h-full rounded-t-3xl bg-stone-50 dark:bg-dark-800 flex flex-row-reverse md:flex-row items-center justify-between px-4 md:px-12 ">
+    <div className="w-full h-full rounded-t-3xl bg-light-bg dark:bg-dark-bg flex flex-row-reverse md:flex-row items-center justify-between px-4 md:px-12 ">
       <Default>
         <Button
           onClick={close}
-          accentColor="red-600"
-          darkAccentColor="red-500"
           height="h-[70%]"
           width="w-fit"
+          buttStyle="secondary"
         >
           Close
         </Button>
@@ -22,7 +21,7 @@ export default function NavBarGeneric({ close, profileArea, user }) {
           <ProfilePic
             seed={user ? user : ""}
             heightBased
-            border=" border-2 border-stone-900 dark:border-dark-600 "
+            border=" border-2 border-light-secondary dark:border-dark-secondary "
           />
         </button>
       </div>

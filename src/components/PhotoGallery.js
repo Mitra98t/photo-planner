@@ -16,13 +16,13 @@ export default function PhotoGallery({
       {personalProfile ? (
         <li
           key={"addImage--1"}
-          className="flex-grow h-[15vh] md:h-[35vh] min-w-[30vw] max-w-full group bg-stone-100 dark:bg-dark-800 border-4 border-dashed border-stone-500 dark:border-dark-600 flex items-center justify-center rounded-lg md:rounded-2xl hover:bg-stone-300 dark:hover:border-dark-400 duration-100"
+          className="flex-grow h-[15vh] md:h-[35vh] min-w-[30vw] max-w-full group bg-stone-100 dark:bg-dark-bg border-4 border-dashed border-light-secondary dark:border-dark-secondary flex items-center justify-center rounded-lg md:rounded-2xl dark:hover:border-dark-primary hover:border-light-primary duration-100"
           role={"button"}
           onClick={() => navigate("/addContent")}
         >
           <Icons
             icon={"plus"}
-            color=" stroke-stone-500 dark:stroke-dark-600 dark:group-hover:stroke-dark-400 duration-75 stroke-[1.5px] md:stroke-[2px] "
+            color=" stroke-light-secondary group-hover:stroke-light-primary dark:stroke-dark-secondary dark:group-hover:stroke-dark-primary duration-75 stroke-[1.5px] md:stroke-[2px] "
           />
         </li>
       ) : (
@@ -31,10 +31,10 @@ export default function PhotoGallery({
       {photoToShow &&
         photoToShow
           .sort((a, b) => b.votes - a.votes)
-          .map((p,i) => (
+          .map((p, i) => (
             <li
               key={`${p.id}-${i}`}
-              className="h-[15vh] max-w-[40vw] md:max-w-full md:h-[35vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl dark:border-2 dark:border-dark-600"
+              className="h-[15vh] max-w-[40vw] md:max-w-full md:h-[35vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl border-2 dark:border-dark-secondary border-light-secondary"
             >
               <Image
                 userUID={userUID}
