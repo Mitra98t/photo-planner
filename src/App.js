@@ -42,6 +42,7 @@ function App() {
   const [loggedUser, setLoggedUser] = useState(null);
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-vars
     const authChange = onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedUser(user.uid);

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { DBManager as db } from "../utils/DBManager";
-import { randomColor } from "../utils/utils";
 
 function shuffle(array) {
   let currentIndex = array.length,

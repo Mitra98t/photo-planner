@@ -2,7 +2,6 @@ import React from "react";
 import {
   GoogleAuthProvider,
   browserLocalPersistence,
-  inMemoryPersistence,
   setPersistence,
   signInWithPopup,
 } from "firebase/auth";

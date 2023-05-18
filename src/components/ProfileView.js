@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  useLocation,
   useNavigate,
   useOutletContext,
   useParams,
@@ -8,7 +7,6 @@ import {
 import Button from "../elements/Button";
 import { DBManager as db } from "../utils/DBManager";
 import { filterPhoto } from "../utils/utils";
-import Icons from "./Icons";
 import PhotoGallery from "./PhotoGallery";
 import ProfilePic from "./ProfilePic";
 import { signOut } from "firebase/auth";

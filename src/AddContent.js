@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Icons from "./components/Icons";
 
@@ -107,27 +107,6 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
   const navigate = useNavigate();
-
-  const compressImage = async (file, { quality = 1, type = file.type }) => {
-    // Get as image data
-    const imageBitmap = await createImageBitmap(file);
-
-    // Draw to canvas
-    const canvas = document.createElement("canvas");
-    canvas.width = imageBitmap.width;
-    canvas.height = imageBitmap.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(imageBitmap, 0, 0);
-
-    // Turn into Blob
-    return await new Promise((resolve) =>
-      canvas.toBlob(resolve, type, quality)
-    );
-  };
-
-  // useEffect(() => {
-  // console.log(photos);
-  // }, [photos]);
 
   const upImage = async (file, id, pk) => {
     const name = id;
