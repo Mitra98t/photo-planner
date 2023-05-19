@@ -330,17 +330,16 @@ export class DBManager {
 
     // Delete the file
     let deleteImageRes = await deleteObject(imageRef);
-    let deleteImageResSmall = await deleteObject(imageRefSmall);
+    try {
+      let deleteImageResSmall = await deleteObject(imageRefSmall);
+    } catch (e) {
+      console.log("small image not found");
+    }
 
     let deleteDocRes = await deleteDoc(doc(db, "photos", imageID));
     let deleteVotesRes = await deleteDoc(doc(db, "votes", imageID));
 
-    return Promise.resolve({
-      ...deleteDocRes,
-      ...deleteImageRes,
-      ...deleteImageResSmall,
-      ...deleteVotesRes,
-    });
+    return Promise.resolve("deleted");
   }
 
   static async getVotersByPhotoID(photoID) {

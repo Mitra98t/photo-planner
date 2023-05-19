@@ -9,6 +9,7 @@ import Button from "../elements/Button";
 
 export default function PictureView({ picture, close, userUID }) {
   const main = useRef(null);
+  const popupRef = useRef(null);
   const [author, setAuthor] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -19,10 +20,24 @@ export default function PictureView({ picture, close, userUID }) {
     if (
       main.current != null &&
       !main.current.contains(e.target) &&
-      !showConfirmation
-    )
+      popupRef != null &&
+      !popupRef.current.contains(e.target)
+    ) {
+      console.log("test");
       close();
+    }
   };
+
+  // useEffect(() => {
+  //   if (showConfirmation) {
+  //     console.log("removed");
+  //     document.removeEventListener("click", handleClickOutside, true);
+  //   } else {
+  //     console.log("added");
+  //     document.addEventListener("click", handleClickOutside, true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [showConfirmation]);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -34,17 +49,18 @@ export default function PictureView({ picture, close, userUID }) {
 
   return (
     <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-light-text">
-      {deletePopup(
-        // async () => {
-        //   console.log("deleting");
-        //   await db.removeImage(picture.ID);
-        //   close();
-        //   window.location.reload();
-        // },
-        () => console.log("ciao"),
-        showConfirmation,
-        setShowConfirmation
-      )}
+      <div ref={popupRef}>
+        {deletePopup(
+          async () => {
+            console.log("deleting");
+            await db.removeImage(picture.ID);
+            close();
+            window.location.reload();
+          },
+          showConfirmation,
+          setShowConfirmation
+        )}
+      </div>
       <div
         ref={main}
         className="relative w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 overflow-x-hidden"
@@ -197,7 +213,7 @@ function deletePopup(deleteCallBack, show, setShow) {
         <p className="text-3xl font-semibold">Delete image?</p>
         <div className="flex flex-row items-center justify-evenly gap-4 w-full">
           <Button
-            onClick={() => console.log("ciao dentro")}
+            onClick={deleteCallBack}
             height="h-[70%]"
             hover="ring-[6px]"
             paddings="py-3 px-5"
