@@ -65,7 +65,7 @@ export default function Image({
         alt="random img"
         className={"h-full w-full object-cover align-bottom block hover:hidden"}
         onLoad={() => setIsLoaded(true)}
-        loading={lazyLoading ? "lazy" : "eager"}
+        // loading={lazyLoading ? "lazy" : "eager"}
       />
 
       {/* {image.hasOwnProperty("smallURL") && lowQuality ? (
