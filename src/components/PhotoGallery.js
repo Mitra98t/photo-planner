@@ -18,7 +18,10 @@ export default function PhotoGallery({
           key={"addImage--1"}
           className="flex-grow h-[15vh] md:h-[35vh] min-w-[30vw] max-w-full group bg-stone-100 dark:bg-dark-bg border-4 border-dashed border-light-secondary dark:border-dark-secondary flex items-center justify-center rounded-lg md:rounded-2xl dark:hover:border-dark-primary hover:border-light-primary duration-100"
           role={"button"}
-          onClick={() => navigate("/addContent")}
+          onClick={() => {
+            navigate("/addContent");
+            window.location.reload();
+          }}
         >
           <Icons
             icon={"plus"}

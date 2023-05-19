@@ -237,14 +237,15 @@ export default function AddContent({ userUID }) {
               name="file"
               types={fileTypes}
               handleChange={addFileLocal}
+              onClick={() => console.log("Cliccato")}
             >
               <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-light-primary dark:outline-dark-primary">
-                <p classname="text-light-text dark:text-dark-text">
+                <p className="text-light-text dark:text-dark-text">
                   Drag photo or click to upload...
                 </p>
                 <Icons
                   icon="image"
-                  color="stroke-stone-900 dark:stroke-stone-50"
+                  color="stroke-light-text dark:stroke-dark-text"
                   styling={{ w: "auto", h: "2rem", strokeWidth: "1.5px" }}
                 />
               </div>
