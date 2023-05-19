@@ -45,6 +45,7 @@ export default function PhotoGallery({
                 image={p}
                 hideAuthor={hideAuthor}
                 lowQuality
+                lazyLoading
               />
             </li>
           ))}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DBManager as db } from "../utils/DBManager";
 import ProfilePic from "./ProfilePic";
 import Voting from "./Voting";
+import { formatStyle } from "../utils/utils";
 
 export default function Image({
   userUID,
@@ -9,6 +10,7 @@ export default function Image({
   hideAuthor,
   clickCallback,
   lowQuality = false,
+  lazyLoading = false,
 }) {
   const [author, setAuthor] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,8 +48,27 @@ export default function Image({
           <p>Weather: {image.weather.weather}</p>
         </div>
       </div>
+      {image.hasOwnProperty("smallURL") && lowQuality && !isLoaded ? (
+        <img
+          src={image.smallURL}
+          alt="random img"
+          className={formatStyle([
+            "h-full w-full object-cover align-bottom block hover:hidden",
+            isLoaded ? "hidden" : "block",
+          ])}
+        />
+      ) : (
+        <> </>
+      )}
+      <img
+        src={image.URL}
+        alt="random img"
+        className={"h-full w-full object-cover align-bottom block hover:hidden"}
+        onLoad={() => setIsLoaded(true)}
+        loading={lazyLoading ? "lazy" : "eager"}
+      />
 
-      {image.hasOwnProperty("smallURL") && lowQuality ? (
+      {/* {image.hasOwnProperty("smallURL") && lowQuality ? (
         <img
           src={image.smallURL}
           alt="random img"
@@ -70,17 +91,6 @@ export default function Image({
         }}
         className={"h-full w-full object-cover align-bottom"}
         onLoad={() => setIsLoaded(true)}
-      />
-      {/* <img
-        src={image.URL}
-        // src={
-        //   lowQuality && image.hasOwnProperty("smallURL")
-        //     ? image.smallURL
-        //     : image.URL
-        // }
-        alt="random img"
-        // className={" max-h-full min-w-full object-cover align-bottom "}
-        className={" h-full w-full object-cover align-bottom "}
       /> */}
     </>
   );
