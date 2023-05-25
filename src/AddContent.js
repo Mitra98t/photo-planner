@@ -102,7 +102,7 @@ function extractExif(exif) {
   return res;
 }
 
-const fileTypes = ["JPG", "PNG", "GIF"];
+const fileTypes = ["JPG", "PNG", "JPEG"];
 
 export default function AddContent({ userUID }) {
   const [photos, setPhotos] = useState({});
@@ -232,29 +232,28 @@ export default function AddContent({ userUID }) {
           onSubmit={handleSubmit}
           className="w-full h-fit flex justify-between items-center sticky inset-0 bg-light-bg dark:bg-dark-bg z-[100] p-4"
         >
-          <div className="w-fit h-full flex flex-col md:flex-row items-center justify-start gap-6">
-            <FileUploader
-              name="file"
-              types={fileTypes}
-              handleChange={addFileLocal}
-              onClick={() => console.log("Cliccato")}
-            >
-              <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-light-primary dark:outline-dark-primary">
-                <p className="text-light-text dark:text-dark-text">
-                  Drag photo or click to upload...
-                </p>
-                <Icons
-                  icon="image"
-                  color="stroke-light-text dark:stroke-dark-text"
-                  styling={{ w: "auto", h: "2rem", strokeWidth: "1.5px" }}
-                />
-              </div>
-            </FileUploader>
+          {/* <input
+            type="file"
+            accept={fileTypes.join(", ")}
+            onChange={(e) => addFileLocal(e.target.files[0])}
+          /> */}
+          <FileUploader
+            name="file"
+            types={fileTypes}
+            handleChange={addFileLocal}
+          >
+            <div className=" flex flex-row items-center justify-evenly gap-4 w-fit h-fit px-4 py-3 rounded-full focus:outline-4 outline-dashed outline-2 hover:outline-4 outline-light-primary dark:outline-dark-primary">
+              <p className="text-light-text dark:text-dark-text">
+                Drag photo or click to upload...
+              </p>
+              <Icons
+                icon="image"
+                color="stroke-light-text dark:stroke-dark-text"
+                styling={{ w: "auto", h: "2rem", strokeWidth: "1.5px" }}
+              />
+            </div>
+          </FileUploader>
 
-            <p className=" italic font-medium text-sm md:text-base">
-              If the button doesn't work, refresh page {"<"}3
-            </p>
-          </div>
           <Default>
             <Button
               disabled={
@@ -403,7 +402,7 @@ function loadingRender(progress, small = false) {
 
   return (
     <div
-      class={
+      className={
         (small ? " h-5 w-5 border-2 " : " h-8 w-8 border-4 ") +
         " absolute animate-spin rounded-full border-solid border-stone-50 border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
       }

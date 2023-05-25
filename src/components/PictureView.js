@@ -7,7 +7,12 @@ import Voting from "./Voting";
 import { Desktop, Mobile, Tablet } from "../utils/utils";
 import Button from "../elements/Button";
 
-export default function PictureView({ picture, close, userUID }) {
+export default function PictureView({
+  picture,
+  close,
+  userUID,
+  setTriggerUpdatePhoto,
+}) {
   const main = useRef(null);
   const popupRef = useRef(null);
   const [author, setAuthor] = useState(null);
@@ -55,7 +60,7 @@ export default function PictureView({ picture, close, userUID }) {
             console.log("deleting");
             await db.removeImage(picture.ID);
             close();
-            window.location.reload();
+            setTriggerUpdatePhoto(true);
           },
           showConfirmation,
           setShowConfirmation

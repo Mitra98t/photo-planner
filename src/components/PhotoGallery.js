@@ -20,7 +20,6 @@ export default function PhotoGallery({
           role={"button"}
           onClick={() => {
             navigate("/addContent");
-            window.location.reload();
           }}
         >
           <Icons

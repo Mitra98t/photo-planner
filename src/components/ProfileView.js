@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import Button from "../elements/Button";
 import { DBManager as db } from "../utils/DBManager";
 import { filterPhoto } from "../utils/utils";
@@ -12,7 +8,12 @@ import ProfilePic from "./ProfilePic";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
-export default function ProfileView({ userUID, selectPhoto }) {
+export default function ProfileView({
+  triggerUpdatePhoto,
+  setTriggerUpdatePhoto,
+  userUID,
+  selectPhoto,
+}) {
   const navigate = useNavigate();
   const { UID } = useParams();
   const [options] = useOutletContext();
@@ -29,12 +30,24 @@ export default function ProfileView({ userUID, selectPhoto }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    db.getUserInformationByUID(UID).then((v) => setUserInfo(v));
+  const updatePhoto = () => {
     db.getImagesByUID(UID).then((v) => {
       setPhotos(v);
       setPhotoToShow(v);
     });
+  };
+
+  useEffect(() => {
+    if (triggerUpdatePhoto) {
+      setTriggerUpdatePhoto(false);
+      updatePhoto();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggerUpdatePhoto]);
+
+  useEffect(() => {
+    db.getUserInformationByUID(UID).then((v) => setUserInfo(v));
+    updatePhoto();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [UID]);
 
@@ -53,7 +66,7 @@ export default function ProfileView({ userUID, selectPhoto }) {
       setPhotoToShow(pht);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options]);
+  }, [options, photos]);
 
   return (
     <div
