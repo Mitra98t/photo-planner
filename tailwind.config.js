@@ -24,12 +24,12 @@ module.exports = {
         // "dark-secondary": "#153f74",
         // "dark-accent": "#f5e1c7",
         //* Dark purple 2
-        "dark-text": "#e6e5e6",
-        "dark-bg": "#120222",
-        "dark-lighter-bg": "#1a0425",
-        "dark-primary": "#4e33d7",
-        "dark-secondary": "#8766ff",
-        "dark-accent": "#ffc524",
+        // "dark-text": "#e6e5e6",
+        // "dark-bg": "#120222",
+        // "dark-lighter-bg": "#1a0425",
+        // "dark-primary": "#4e33d7",
+        // "dark-secondary": "#8766ff",
+        // "dark-accent": "#ffc524",
         //* Dark purple 1
         // "dark-text": "#fdfafe",
         // "dark-bg": "#1a0425",
@@ -37,6 +37,14 @@ module.exports = {
         // "dark-primary": "#edbe5a",
         // "dark-secondary": "#4f076e",
         // "dark-accent": "#e67341",
+        //* Dark test Scanna
+        "dark-text": "#eeeef2",
+        "dark-bg": "#000000",
+        "dark-lighter-bg": "#1a1a1a",
+        "dark-primary": "#c0fbd1",
+        "dark-secondary": "#066060",
+        "dark-accent": "#0edaf1",
+
         "light-text": "#090807",
         "light-bg": "#f6f6f3",
         "light-primary": "#aa28e6",
