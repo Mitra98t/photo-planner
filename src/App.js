@@ -20,6 +20,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
 function App() {
+  const [triggerUpdatePhoto, setTriggerUpdatePhoto] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
@@ -39,11 +40,11 @@ function App() {
       : JSON.parse(localStorage.getItem("mapLocation"))
   );
 
-  const [loggedUser, setLoggedUser] = useState(null);
+  const [loggedUser, setLoggedUser] = useState("watingUser");
 
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
-    const authChange = onAuthStateChanged(auth, (user) => {
+    setLoggedUser("watingUser");
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedUser(user.uid);
       } else {
@@ -67,7 +68,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (loggedUser == null) return;
+    if (loggedUser == null || loggedUser === "watingUser") return;
     db.getSettingsByUID(loggedUser).then((r) => setSettings(r));
   }, [loggedUser]);
 
@@ -88,7 +89,9 @@ function App() {
 
   return (
     <>
-      {loggedUser == null ? (
+      {loggedUser === "watingUser" ? (
+        <div className="w-full h-screen dark:bg-dark-bg bg-light-bg"></div>
+      ) : loggedUser == null ? (
         <Login setCurrentUser={setLoggedUser} />
       ) : (
         <div
@@ -99,6 +102,7 @@ function App() {
         >
           {selectedPhoto !== null ? (
             <PictureView
+              setTriggerUpdatePhoto={setTriggerUpdatePhoto}
               userUID={loggedUser}
               picture={selectedPhoto}
               close={() => setSelectedPhoto(null)}
@@ -202,6 +206,8 @@ function App() {
                   path=":UID"
                   element={
                     <ProfileView
+                      triggerUpdatePhoto={triggerUpdatePhoto}
+                      setTriggerUpdatePhoto={setTriggerUpdatePhoto}
                       userUID={loggedUser}
                       selectPhoto={setSelectedPhoto}
                     />

@@ -7,7 +7,12 @@ import Voting from "./Voting";
 import { Desktop, Mobile, Tablet } from "../utils/utils";
 import Button from "../elements/Button";
 
-export default function PictureView({ picture, close, userUID }) {
+export default function PictureView({
+  picture,
+  close,
+  userUID,
+  setTriggerUpdatePhoto,
+}) {
   const main = useRef(null);
   const popupRef = useRef(null);
   const [author, setAuthor] = useState(null);
@@ -28,17 +33,6 @@ export default function PictureView({ picture, close, userUID }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (showConfirmation) {
-  //     console.log("removed");
-  //     document.removeEventListener("click", handleClickOutside, true);
-  //   } else {
-  //     console.log("added");
-  //     document.addEventListener("click", handleClickOutside, true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [showConfirmation]);
-
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     db.getUserInformationByUID(picture.authorUID).then((r) => {
@@ -55,7 +49,7 @@ export default function PictureView({ picture, close, userUID }) {
             console.log("deleting");
             await db.removeImage(picture.ID);
             close();
-            window.location.reload();
+            setTriggerUpdatePhoto(true);
           },
           showConfirmation,
           setShowConfirmation
@@ -154,7 +148,7 @@ export default function PictureView({ picture, close, userUID }) {
             onLoad={() => setIsLoaded(true)}
           />
         </div>
-        <div className="flex-grow h-full w-full md:w-auto whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
+        <div className="flex-grow h-full w-full md:w-[25%] whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
           <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-light-bg dark:bg-dark-bg py-4">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
@@ -164,7 +158,7 @@ export default function PictureView({ picture, close, userUID }) {
                 navigate(`/profile/${picture.authorUID}`);
               }}
             >
-              <div className="w-full h-full aspect-square">
+              <div className="w-auto h-full aspect-square">
                 <ProfilePic
                   seed={picture.authorUID}
                   heightBased
@@ -173,7 +167,7 @@ export default function PictureView({ picture, close, userUID }) {
                   }
                 />
               </div>
-              <p className="text-xl font-semibold md:text-3xl md:font-bold">
+              <p className="text-xl font-semibold md:text-3xl md:font-bold whitespace-pre-wrap">
                 {author == null ? "..." : author.userName}
               </p>
             </div>

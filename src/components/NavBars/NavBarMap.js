@@ -98,7 +98,7 @@ export default function NavBarMap({
           <div className=" h-full flex-1 flex items-center justify-end  gap-12">
             <button
               onClick={profileArea}
-              className={"h-full w-12 aspect-square rounded-full"}
+              className={"h-full aspect-square rounded-full"}
             >
               <ProfilePic
                 seed={user ? user : ""}
