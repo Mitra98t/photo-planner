@@ -32,7 +32,7 @@ export default function Button({
           ? "text-dark-text dark:text-dark-text dark:ring-dark-primary dark:bg-dark-lighter-bg ring-light-text bg-light-primary "
           : buttStyle === "secondary"
           ? "text-dark-text dark:text-dark-text dark:ring-dark-secondary dark:bg-dark-lighter-bg ring-light-text bg-light-secondary "
-          : "text-light-text dark:text-dark-text dark:ring-dark-accent dark:bg-dark-lighter-bg ring-light-text bg-light-accent ",
+          : "text-dark-text dark:text-dark-text dark:ring-dark-accent dark:bg-dark-lighter-bg ring-light-text bg-light-accent ",
         general,
         disabled
           ? "cursor-not-allowed"

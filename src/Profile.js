@@ -6,10 +6,7 @@ export default function Profile({ close }) {
   const { UID } = useParams();
   const [options, setOptions] = useState({
     weather: "",
-    period: {
-      from: "",
-      to: "",
-    },
+    period: "",
     time: {
       from: "",
       to: "",

@@ -28,7 +28,6 @@ export default function PictureView({
       popupRef != null &&
       !popupRef.current.contains(e.target)
     ) {
-      console.log("test");
       close();
     }
   };
@@ -42,11 +41,10 @@ export default function PictureView({
   }, []);
 
   return (
-    <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-light-text">
+    <div className="w-full h-screen bg-black dark:bg-white bg-opacity-50 dark:bg-opacity-30 absolute inset-0 z-[300] flex flex-row items-center justify-center text-light-text">
       <div ref={popupRef}>
         {deletePopup(
           async () => {
-            console.log("deleting");
             await db.removeImage(picture.ID);
             close();
             setTriggerUpdatePhoto(true);
@@ -57,7 +55,7 @@ export default function PictureView({
       </div>
       <div
         ref={main}
-        className="relative w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 overflow-x-hidden"
+        className="relative w-full lg:w-[80vw] h-full lg:h-[80vh] z-[51] bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text lg:rounded-3xl flex flex-col lg:flex-row items-center justify-start lg:justify-evenly overflow-hidden shadow-area"
       >
         <Tablet>
           <>
@@ -148,8 +146,8 @@ export default function PictureView({
             onLoad={() => setIsLoaded(true)}
           />
         </div>
-        <div className="flex-grow h-full w-full md:w-[25%] whitespace-nowrap pb-8 md:py-8 px-8 md:px-0 flex flex-col items-start justify-start gap-8 relative ">
-          <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-light-bg dark:bg-dark-bg py-4">
+        <div className="flex-grow h-full w-full md:w-[50%] lg:w-[30%] whitespace-nowrap pb-8 px-8 flex flex-col items-start justify-start gap-8 relative overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-stone-300 dark:scrollbar-thumb-dark-600 " >
+          <div className="w-full h-fit flex items-center justify-start gap-4 sticky top-0 bg-light-bg dark:bg-dark-bg py-4 ">
             <Voting dark userUID={userUID} photoID={picture.ID} />
             <div
               className="flex items-center justify-start gap-2 h-24 cursor-pointer"
@@ -172,7 +170,7 @@ export default function PictureView({
               </p>
             </div>
           </div>
-          <div className="w-full h-full flex flex-col items-start justify-start gap-4 md:gap-8">
+          <div className="w-full h-full pr-4 flex flex-col items-start justify-start gap-4 md:gap-8">
             <div className="whitespace-pre-wrap md:max-w-[25vw] w-full flex flex-col items-start justify-start gap-0.5 text-xl mx-2 px-2 border-l-2 border-light-secondary dark:border-dark-secondary">
               <p>Date: {picture.fileData.creationDate}</p>
               <p>Hour: {picture.fileData.creationTime}</p>

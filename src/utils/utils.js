@@ -130,16 +130,13 @@ export function formatDayIndexToDate(dayIndex) {
 export function getDate(dateString) {
   const [year, month, day] = dateString.split("-").map((x) => +x);
 
-  return new Date(year, month, day);
+  return new Date(year, month-1, day);
 }
 
 /**
  * vechia funzione di filtering
  * @param {*} photo
  * @param {*} options
- * @param {*} timeTags
- * @param {*} periodTags
- * @param {*} weatherTags
  * @returns
  */
 export function filterPhoto(photo, options) {
@@ -148,8 +145,6 @@ export function filterPhoto(photo, options) {
   let timeEnd = formatTimeToMinutes(options.time.to);
 
   let datePhoto = getDate(photo.fileData.creationDate);
-  let dateStart = getDate(options.period.from);
-  let dateEnd = getDate(options.period.to);
 
   let weatherCheck =
     options.weather === "" ||
@@ -161,11 +156,27 @@ export function filterPhoto(photo, options) {
     timeStart > timeEnd ||
     (timePhoto >= timeStart && timePhoto <= timeEnd);
 
-  let periodCheck =
-    options.period.from === "" ||
-    options.period.to === "" ||
-    dateStart > dateEnd ||
-    (datePhoto >= dateStart && datePhoto <= dateEnd);
+  let periodCheck = false;
+
+  switch (options.period) {
+    case "winter":
+      periodCheck = [0,1].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 11 && datePhoto.getDate() >= 22) || (datePhoto.getMonth() === 2 && datePhoto.getDate() <= 20);
+      break;
+    case "spring":
+      periodCheck = [3, 4].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 2 && datePhoto.getDate() >= 21) || (datePhoto.getMonth() === 5 && datePhoto.getDate() <= 20);
+      break;
+    case "summer":
+      periodCheck = [6, 7].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 5 && datePhoto.getDate() >= 21) || (datePhoto.getMonth() === 8 && datePhoto.getDate() <= 23);
+      break;
+    case "autumn":
+      periodCheck = [9, 10].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 8 && datePhoto.getDate() >= 24) || (datePhoto.getMonth() === 11 && datePhoto.getDate() <= 21);
+      break;
+    case "any":
+      periodCheck = true;
+      break;
+    default:
+      periodCheck = true;
+  }
 
   return weatherCheck && timeCheck && periodCheck;
 }

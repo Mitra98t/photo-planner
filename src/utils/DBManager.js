@@ -110,6 +110,25 @@ export class DBManager {
     return Promise.resolve(res);
   }
 
+  static async getLatesPhotos() {
+    let timeLimit = Date.now() - 1000 * 60 * 60 * 24 * 7;
+    let res = [];
+    const latestQuery = query(
+      collection(db, "photos"),
+      where("uploadDate", ">=", timeLimit)
+    );
+    // const latestQuery = query(collection(db, "photos"));
+
+    const querySnapshot = await getDocs(latestQuery);
+
+    querySnapshot.forEach((doc) => {
+      res.push({ ID: doc.id, ...doc.data() });
+    });
+
+
+    return Promise.resolve(res);
+  }
+
   /**
    * 	@async
    * 	@function getWeatherByTimeAndLoc
@@ -142,6 +161,8 @@ export class DBManager {
     querySnapshot.forEach((doc) => {
       res.push({ ID: doc.id, ...doc.data() });
     });
+
+    res.sort((a, b) => (a.uploadDate && b.uploadDate) ? b.uploadDate - a.uploadDate : 0);
 
     return Promise.resolve(res);
   }
@@ -255,6 +276,8 @@ export class DBManager {
    * @returns {Promise} a promise that resolve with result of the setDoc operation.
    */
   static async addPhoto(photo, photoName) {
+    let now = new Date();
+    let nowDate = now.getTime();
     return Promise.resolve(
       setDoc(doc(db, "photos", photoName), {
         URL: photo.URL,
@@ -286,6 +309,7 @@ export class DBManager {
         lat: photo.location.lat,
         lng: photo.location.lng,
         placeID: photo.location.placeID,
+        uploadDate: nowDate,
       })
     );
   }
@@ -329,15 +353,15 @@ export class DBManager {
     const imageRefSmall = ref(storage, imageID + "_small");
 
     // Delete the file
-    let deleteImageRes = await deleteObject(imageRef);
+    await deleteObject(imageRef);
     try {
-      let deleteImageResSmall = await deleteObject(imageRefSmall);
+      await deleteObject(imageRefSmall);
     } catch (e) {
       console.log("small image not found");
     }
 
-    let deleteDocRes = await deleteDoc(doc(db, "photos", imageID));
-    let deleteVotesRes = await deleteDoc(doc(db, "votes", imageID));
+    await deleteDoc(doc(db, "photos", imageID));
+    await deleteDoc(doc(db, "votes", imageID));
 
     return Promise.resolve("deleted");
   }

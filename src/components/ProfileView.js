@@ -61,7 +61,6 @@ export default function ProfileView({
   useEffect(() => {
     if (photos != null) {
       let pht = [...photos];
-
       pht = pht.filter((p) => filterPhoto(p, options));
       setPhotoToShow(pht);
     }

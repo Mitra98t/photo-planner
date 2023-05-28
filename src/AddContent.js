@@ -148,9 +148,6 @@ export default function AddContent({ userUID }) {
         const uuid = uuidv4(); // Genera un nuovo UUID v4
         if (photosToUpload[pk].hasOwnProperty("progress")) continue;
 
-        console.log(
-          dataURLtoFile(photosToUpload[pk].file.fileFromSource, "test.jpg")
-        );
         let hiResFile = dataURLtoFile(
           photosToUpload[pk].file.fileFromSource,
           photosToUpload[pk].file.name
@@ -304,7 +301,7 @@ export default function AddContent({ userUID }) {
                         src={photos[pk].URL}
                         alt={"added" + i}
                         className={
-                          "h-[6rem] overflow-hidden object-cover border rounded-sm border-stone-900 dark:border-dark-600 dark:border-2"
+                          "h-[6rem] overflow-hidden object-cover border rounded-sm dark:border-dark-secondary border-light-secondary dark:border-2"
                         }
                       />
                     </div>
@@ -343,7 +340,7 @@ export default function AddContent({ userUID }) {
                       src={photos[pk].URL}
                       alt={"added" + i}
                       className={
-                        "h-fit md:h-[44vh] object-scale-down overflow-hidden md:object-cover  border-4 rounded-md border-stone-900 dark:border-dark-600"
+                        "h-fit md:h-[44vh] object-scale-down overflow-hidden md:object-cover  border-4 rounded-md dark:border-dark-secondary border-light-secondary"
                       }
                     />
                   </div>

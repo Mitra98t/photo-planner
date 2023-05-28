@@ -21,10 +21,7 @@ export default function NavBarFilters({ close, options, setOptions }) {
           onClick={() =>
             setOptions({
               weather: "",
-              period: {
-                from: "",
-                to: "",
-              },
+              period: "",
               time: {
                 from: "",
                 to: "",
@@ -118,46 +115,32 @@ export default function NavBarFilters({ close, options, setOptions }) {
           className="flex flex-col items-start justify-between h-full gap-1 cursor-pointer relative p-2"
           onClick={() => setWichMenu(() => "period")}
         >
-          <p className="text-title">Period</p>
+          <p className="text-title">Season</p>
           <p className="text-paragraph">
-            From {options.period.from === "" ? "any" : options.period.from} to{" "}
-            {options.period.to === "" ? "any" : options.period.to}
+            {options.period === "" ? "any" : options.period}
           </p>
           <PopupMenu
             hidden={wichMenu !== "period"}
             close={() => setWichMenu("")}
           >
-            <div className="w-full h-fit ">
-              <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
-                <p>From:</p>
-                <input
-                  onChange={(e) => {
-                    let oldOpt = { ...options };
-                    oldOpt.period.from = e.target.value;
-                    setOptions(oldOpt);
-                  }}
-                  type={"date"}
-                  value={options.period.from}
-                  className={
-                    "focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg p-3"
-                  }
-                />
-              </div>
-              <div className="w-full h-fit flex flex-row gap-1 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
-                <p>To:</p>
-                <input
-                  onChange={(e) => {
-                    let oldOpt = { ...options };
-                    oldOpt.period.to = e.target.value;
-                    setOptions(oldOpt);
-                  }}
-                  type={"date"}
-                  value={options.period.to}
-                  className={
-                    "focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg p-3"
-                  }
-                />
-              </div>
+            <div className="w-full h-fit flex flex-row gap-3 items-center justify-between whitespace-nowrap text-light-text dark:text-dark-text">
+              <p>Season:</p>
+              <select
+                defaultChecked="any"
+                value={options.period}
+                onChange={(e) => {
+                  let oldOpt = { ...options };
+                  oldOpt.period = e.target.value;
+                  setOptions(oldOpt);
+                }}
+                className="focus:outline-light-secondary dark:focus:outline-dark-secondary bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text p-3"
+              >
+                <option value="any">Any</option>
+                <option value="winter">Winter</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+                <option value="autumn">Autumn</option>
+              </select>
             </div>
           </PopupMenu>
         </div>
