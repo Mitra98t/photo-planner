@@ -28,7 +28,6 @@ export default function PictureView({
       popupRef != null &&
       !popupRef.current.contains(e.target)
     ) {
-      console.log("test");
       close();
     }
   };
@@ -42,11 +41,10 @@ export default function PictureView({
   }, []);
 
   return (
-    <div className="w-full h-screen bg-black bg-opacity-50 absolute inset-0 z-[300] flex flex-row items-center justify-center text-light-text">
+    <div className="w-full h-screen bg-black dark:bg-white bg-opacity-50 dark:bg-opacity-30 absolute inset-0 z-[300] flex flex-row items-center justify-center text-light-text">
       <div ref={popupRef}>
         {deletePopup(
           async () => {
-            console.log("deleting");
             await db.removeImage(picture.ID);
             close();
             setTriggerUpdatePhoto(true);

@@ -5,7 +5,7 @@ import { formatStyle } from "../utils/utils";
 export default function ProfilePic({ seed, heightBased = false, border }) {
   return (
     <img
-      src={`https://api.dicebear.com/5.x/bottts-neutral/svg?seed=${seed}`}
+      src={`https://api.dicebear.com/5.x/thumbs/svg?seed=${seed}`}
       alt="avatar"
       className={formatStyle([
         " rounded-full object-cover ",

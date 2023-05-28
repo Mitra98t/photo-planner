@@ -18,8 +18,10 @@ import ChangeLog from "./ChangeLog";
 import { useMediaQuery } from "react-responsive";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import addNotification from "react-push-notification";
 
 function App() {
+  const [notified, setNotified] = useState(false);
   const [triggerUpdatePhoto, setTriggerUpdatePhoto] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -86,6 +88,44 @@ function App() {
       html.classList.remove("dark");
     }
   }, [settings]);
+
+  const sendNewPhotoNotification = () => {
+    addNotification({
+      title: "New Photos!",
+      subtitle: "Check them out!",
+      message: "There are new photos in your area!",
+      theme: "darkblue",
+      duration: 5000,
+      native: true, // when using native, your OS will handle theming.
+    });
+  };
+
+  useEffect(() => {
+    async function sendLatestNotification() {
+      let latestPhotos = await db.getLatesPhotos();
+      if (latestPhotos.length <= 0) return;
+
+      let photoInArea = latestPhotos.filter((photo) => {
+        return (
+          bounds.ne &&
+          bounds.sw &&
+          bounds.ne.length > 0 &&
+          bounds.sw.length > 0 &&
+          photo.lat < bounds.ne[0] &&
+          photo.lat > bounds.sw[0] &&
+          photo.lng < bounds.ne[1] &&
+          photo.lng > bounds.sw[1]
+        );
+      });
+      if (photoInArea.length > 0) {
+        sendNewPhotoNotification();
+      }
+      setNotified(true);
+    }
+
+    if (!notified && bounds !== {}) sendLatestNotification();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bounds]);
 
   return (
     <>

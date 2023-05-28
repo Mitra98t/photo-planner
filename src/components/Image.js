@@ -19,8 +19,7 @@ export default function Image({
     db.getUserInformationByUID(image.authorUID).then((r) => {
       setAuthor({ UID: image.authorUID, ...r });
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [image]);
 
   return (
     <>

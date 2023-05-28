@@ -10,10 +10,7 @@ export default function HomePhoto({ close, bounds, selectPhoto, userUID }) {
   const [photoToShow, setPhotoToShow] = useState(null);
   const [options, setOptions] = useState({
     weather: "",
-    period: {
-      from: "",
-      to: "",
-    },
+    period: "",
     time: {
       from: "",
       to: "",
