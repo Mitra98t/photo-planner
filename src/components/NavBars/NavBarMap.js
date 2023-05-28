@@ -52,7 +52,7 @@ export default function NavBarMap({
       </div>
       <div className="flex-1 h-[70%] w-full flex flex-row gap-4">
         <div
-          className={formatStyle([notify ? "basis-2/4" : "basis-3/4 w-full", "h-full"])}
+          className={formatStyle([notify ? "basis-3/4 lg:basis-2/4" : " basis-full lg:basis-3/4 w-full", "h-full"])}
         >
           <Button
             onClick={searchArea}
