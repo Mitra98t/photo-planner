@@ -37,7 +37,7 @@ export default function Login({ setCurrentUser }) {
   };
   return (
     <>
-      <SampleWallpaper></SampleWallpaper>
+      <SampleWallpaper />
       <div className="absolute inset-0 w-full h-screen bg-transparent  flex items-center justify-center">
         <div className="w-fit h-fit p-8 rounded-xl shadow-lg flex flex-col items-start justify-evenly gap-4 bg-dark-bg">
           <p className="text-3xl font-bold text-dark-text">Login</p>
