@@ -84,11 +84,22 @@ function generateWeather() {
 }
 
 export class DBManager {
+  /**
+   *  returns weather codes
+   */
   static async getWeatherCodes() {
-    await delay(700);
+    // Symulated delay
+    // await delay(700);
     return Promise.resolve(weatherCodes);
   }
 
+  /**
+   * returns photos taken between the given map boundry
+   * @param {*} ne north east boundry
+   * @param {*} sw south west boundry
+   * @returns photos taken between the given map boundry
+   * @throws error if ne or sw are not defined
+   */
   static async getImgsAtCoords(ne, sw) {
     if (!ne || !sw) return Promise.reject("missing coords");
 
@@ -106,10 +117,21 @@ export class DBManager {
       (r) =>
         r.lat >= sw[0] && r.lng >= sw[1] && r.lat <= ne[0] && r.lng <= ne[1]
     );
+    res.sort((a, b) =>
+      a.hasOwnProperty("smallURL") && b.hasOwnProperty("smallURL")
+        ? 0
+        : a.hasOwnProperty("smallURL")
+        ? -1
+        : 1
+    );
 
     return Promise.resolve(res);
   }
 
+  /**
+   * Get photos published in the last week
+   * @returns photos published in the last week
+   */
   static async getLatesPhotos() {
     let timeLimit = Date.now() - 1000 * 60 * 60 * 24 * 7;
     let res = [];
@@ -125,14 +147,15 @@ export class DBManager {
       res.push({ ID: doc.id, ...doc.data() });
     });
 
-
     return Promise.resolve(res);
   }
 
   /**
+   * @deprecated
    * 	@async
    * 	@function getWeatherByTimeAndLoc
    * 	@description Retrieve the weather based on date, time, and location coordinates.
+   *  This function symulates the wanted weather
    * 	@param {Date} date - The date to retrieve the weather for.
    * 	@param {Time} time - The time to retrieve the weather for.
    * 	@param {Object} {lat, lng} - The location coordinates to retrieve the weather for.
@@ -162,11 +185,16 @@ export class DBManager {
       res.push({ ID: doc.id, ...doc.data() });
     });
 
-    res.sort((a, b) => (a.uploadDate && b.uploadDate) ? b.uploadDate - a.uploadDate : 0);
+    res.sort((a, b) =>
+      a.uploadDate && b.uploadDate ? b.uploadDate - a.uploadDate : 0
+    );
 
     return Promise.resolve(res);
   }
 
+  /**
+   * retrive a list of compressed image ready to be shown as placeholder
+   */
   static async getImageSample(imgCount) {
     if (!imgCount) Promise.reject("missing image count");
 

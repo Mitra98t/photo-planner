@@ -229,11 +229,6 @@ export default function AddContent({ userUID }) {
           onSubmit={handleSubmit}
           className="w-full h-fit flex justify-between items-center sticky inset-0 bg-light-bg dark:bg-dark-bg z-[100] p-4"
         >
-          {/* <input
-            type="file"
-            accept={fileTypes.join(", ")}
-            onChange={(e) => addFileLocal(e.target.files[0])}
-          /> */}
           <FileUploader
             name="file"
             types={fileTypes}
@@ -406,14 +401,4 @@ function loadingRender(progress, small = false) {
       role="status"
     ></div>
   );
-
-  // return (
-  //   <div
-  //     className={
-  //       " w-full h-full bg-transparent absolute inset-0 flex items-center justify-center z-[100]"
-  //     }
-  //   >
-  //     <div class="w-8 h-8 border-4 border-t-4 border-gray-200 rounded-full animate-spin"></div>
-  //   </div>
-  // );
 }

@@ -21,17 +21,19 @@ import { auth } from "./firebase";
 import addNotification from "react-push-notification";
 
 function App() {
-  const [notified, setNotified] = useState(false);
-  const [triggerUpdatePhoto, setTriggerUpdatePhoto] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
 
+  const [loggedUser, setLoggedUser] = useState("watingUser");
+  const [notified, setNotified] = useState(false);
+  const [triggerUpdatePhoto, setTriggerUpdatePhoto] = useState(false);
   const [bounds, setBounds] = useState({});
   const [oldBounds, setOldBounds] = useState([]);
-
-  const [triggerMapLoad, setTriggerMapLoad] = useState(false);
-
+  const [triggerMapLoad, setTriggerMapLoad] = useState(false);  
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [lastChangeLog, setLastChangeLog] = useState(null);
   const [mapLocation, setMapLocation] = useState(
     !localStorage.getItem("mapLocation")
       ? {
@@ -41,8 +43,11 @@ function App() {
         }
       : JSON.parse(localStorage.getItem("mapLocation"))
   );
-
-  const [loggedUser, setLoggedUser] = useState("watingUser");
+  const [settings, setSettings] = useState(
+    localStorage.getItem("profileSettingsCache") === null
+      ? null
+      : JSON.parse(localStorage.getItem("profileSettingsCache"))
+  );
 
   useEffect(() => {
     setLoggedUser("watingUser");
@@ -54,16 +59,6 @@ function App() {
       }
     });
   }, []);
-
-  const [settings, setSettings] = useState(
-    localStorage.getItem("profileSettingsCache") === null
-      ? null
-      : JSON.parse(localStorage.getItem("profileSettingsCache"))
-  );
-
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-
-  const [lastChangeLog, setLastChangeLog] = useState(null);
 
   useEffect(() => {
     db.getLastChangelog().then((r) => setLastChangeLog(r));
@@ -81,7 +76,6 @@ function App() {
     localStorage.setItem("profileSettingsCache", JSON.stringify(settings));
 
     const html = document.querySelector("html");
-    //add or remove class dark in html elem according to theme in localstorage.
     if (settings.theme === "dark") {
       html.classList.add("dark");
     } else {
@@ -94,9 +88,8 @@ function App() {
       title: "New Photos!",
       subtitle: "Check them out!",
       message: "There are new photos in your area!",
-      theme: "darkblue",
       duration: 5000,
-      native: true, // when using native, your OS will handle theming.
+      native: true,
     });
   };
 

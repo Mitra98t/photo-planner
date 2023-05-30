@@ -87,6 +87,12 @@ export function formatMinutesToTime(minutes) {
     .toString()
     .padStart(2, "0")}`;
 }
+
+/**
+ *
+ * @param {*} time hh:mm
+ * @returns Minutes ellapsed from midnight
+ */
 export function formatTimeToMinutes(time) {
   const [hours, minutes] = time.split(":");
   return hours * 60 + minutes;
@@ -127,17 +133,21 @@ export function formatDayIndexToDate(dayIndex) {
   return `${month} ${dayOfWeek} ${dayOfMonth}`;
 }
 
+/**
+ * A partire da una data nel formato yyyy-mm-dd restituisce un oggetto Date
+ * @param {*} dateString yyyy-mm-dd
+ * @returns Date
+ */
 export function getDate(dateString) {
   const [year, month, day] = dateString.split("-").map((x) => +x);
 
-  return new Date(year, month-1, day);
+  return new Date(year, month - 1, day);
 }
 
 /**
- * vechia funzione di filtering
- * @param {*} photo
- * @param {*} options
- * @returns
+ * @param {*} photo array di foto da filtrare
+ * @param {*} options opzioni di filtraggio
+ * @returns array di foto filtrate
  */
 export function filterPhoto(photo, options) {
   let timePhoto = formatTimeToMinutes(photo.fileData.creationTime);
@@ -160,16 +170,28 @@ export function filterPhoto(photo, options) {
 
   switch (options.period) {
     case "winter":
-      periodCheck = [0,1].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 11 && datePhoto.getDate() >= 22) || (datePhoto.getMonth() === 2 && datePhoto.getDate() <= 20);
+      periodCheck =
+        [0, 1].includes(datePhoto.getMonth()) ||
+        (datePhoto.getMonth() === 11 && datePhoto.getDate() >= 22) ||
+        (datePhoto.getMonth() === 2 && datePhoto.getDate() <= 20);
       break;
     case "spring":
-      periodCheck = [3, 4].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 2 && datePhoto.getDate() >= 21) || (datePhoto.getMonth() === 5 && datePhoto.getDate() <= 20);
+      periodCheck =
+        [3, 4].includes(datePhoto.getMonth()) ||
+        (datePhoto.getMonth() === 2 && datePhoto.getDate() >= 21) ||
+        (datePhoto.getMonth() === 5 && datePhoto.getDate() <= 20);
       break;
     case "summer":
-      periodCheck = [6, 7].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 5 && datePhoto.getDate() >= 21) || (datePhoto.getMonth() === 8 && datePhoto.getDate() <= 23);
+      periodCheck =
+        [6, 7].includes(datePhoto.getMonth()) ||
+        (datePhoto.getMonth() === 5 && datePhoto.getDate() >= 21) ||
+        (datePhoto.getMonth() === 8 && datePhoto.getDate() <= 23);
       break;
     case "autumn":
-      periodCheck = [9, 10].includes(datePhoto.getMonth()) || (datePhoto.getMonth() === 8 && datePhoto.getDate() >= 24) || (datePhoto.getMonth() === 11 && datePhoto.getDate() <= 21);
+      periodCheck =
+        [9, 10].includes(datePhoto.getMonth()) ||
+        (datePhoto.getMonth() === 8 && datePhoto.getDate() >= 24) ||
+        (datePhoto.getMonth() === 11 && datePhoto.getDate() <= 21);
       break;
     case "any":
       periodCheck = true;
@@ -181,6 +203,13 @@ export function filterPhoto(photo, options) {
   return weatherCheck && timeCheck && periodCheck;
 }
 
+/**
+ * A partire da un codice meteo restituisce la descrizione
+ * @param {*} code codice meteo
+ * @param {*} weatherCodes codici meteo
+ * @returns descrizione meteo
+ * @returns null se il codice non è presente
+ */
 export function getWeatherByCode(code, weatherCodes) {
   for (const section in weatherCodes) {
     for (const key in weatherCodes[section]) {
@@ -190,10 +219,22 @@ export function getWeatherByCode(code, weatherCodes) {
   return null;
 }
 
+/**
+ * Controlla se una stringa è vuota
+ * @param {*} str stringa da controllare
+ * @returns true se la stringa non è vuota
+ * @returns false se la stringa è vuota
+ */
 function isNonEmptyString(str) {
   return typeof str === "string" && str.trim().length > 0;
 }
 
+/**
+ * Controlla se una foto è valida
+ * @param {*} photo foto da controllare
+ * @returns true se la foto è valida
+ * @returns false se la foto non è valida
+ */
 export function checkPhoto(photo) {
   let infoCheck =
     isNonEmptyString(photo.URL) && isNonEmptyString(photo.authorUID);
@@ -261,7 +302,11 @@ export const Default = ({ children }) => {
   return isNotMobile ? children : null;
 };
 
-//function that given a string in camel notation returns a string of different words separated by spaces with only the first letter of the first word capitalized
+/**
+ * Converte una stringa da camelCase a normal case
+ * @param {*} str sitring to convert
+ * @returns stringa convertita
+ */
 export function camelToNormal(str) {
   let result = str.replace(/([A-Z])/g, " $1");
   result = result.split(" ");
@@ -271,6 +316,10 @@ export function camelToNormal(str) {
   return result.join(" ");
 }
 
+/**
+ * Genera una hex randomico
+ * @returns hex randomico
+ */
 export function randomColor() {
   let color = "#";
   for (let i = 0; i < 6; i++) {
