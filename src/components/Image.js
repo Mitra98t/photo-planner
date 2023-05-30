@@ -47,7 +47,18 @@ export default function Image({
           <p>Weather: {image.weather.weather}</p>
         </div>
       </div>
-      {image.hasOwnProperty("smallURL") && lowQuality && !isLoaded ? (
+      <img
+        src={
+          image.hasOwnProperty("smallURL") && lowQuality
+            ? image.smallURL
+            : image.URL
+        }
+        alt="random img"
+        className={formatStyle([
+          "h-full w-full object-cover align-bottom block hover:hidden",
+        ])}
+      />
+      {/* {image.hasOwnProperty("smallURL") && lowQuality && !isLoaded ? (
         <img
           src={image.smallURL}
           alt="random img"
@@ -65,31 +76,6 @@ export default function Image({
         className={"h-full w-full object-cover align-bottom block hover:hidden"}
         onLoad={() => setIsLoaded(true)}
         // loading={lazyLoading ? "lazy" : "eager"}
-      />
-
-      {/* {image.hasOwnProperty("smallURL") && lowQuality ? (
-        <img
-          src={image.smallURL}
-          alt="random img"
-          style={{
-            filter: "drop-shadow(-5px 5px 10px #00000080)",
-            display: !isLoaded ? "block" : "none",
-          }}
-          className={"h-full w-full object-cover align-bottom"}
-        />
-      ) : (
-        <> </>
-      )}
-      <img
-        // style={this.state.loaded ? {} : { display: "none" }}
-        src={image.URL}
-        alt="random img"
-        style={{
-          filter: "drop-shadow(-5px 5px 10px #00000080)",
-          display: isLoaded ? "block" : "none",
-        }}
-        className={"h-full w-full object-cover align-bottom"}
-        onLoad={() => setIsLoaded(true)}
       /> */}
     </>
   );

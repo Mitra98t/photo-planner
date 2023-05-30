@@ -117,6 +117,13 @@ export class DBManager {
       (r) =>
         r.lat >= sw[0] && r.lng >= sw[1] && r.lat <= ne[0] && r.lng <= ne[1]
     );
+    res.sort((a, b) =>
+      a.hasOwnProperty("smallURL") && b.hasOwnProperty("smallURL")
+        ? 0
+        : a.hasOwnProperty("smallURL")
+        ? -1
+        : 1
+    );
 
     return Promise.resolve(res);
   }

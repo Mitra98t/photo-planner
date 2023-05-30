@@ -16,7 +16,7 @@ export default function PhotoGallery({
       {personalProfile ? (
         <li
           key={"addImage--1"}
-          className="flex-grow h-[15vh] md:h-[35vh] min-w-[30vw] max-w-full group bg-stone-100 dark:bg-dark-bg border-4 border-dashed border-light-secondary dark:border-dark-secondary flex items-center justify-center rounded-lg md:rounded-2xl dark:hover:border-dark-primary hover:border-light-primary duration-100"
+          className="flex-grow h-[15vh] md:h-[27vh] min-w-[30vw] max-w-full group bg-stone-100 dark:bg-dark-bg border-4 border-dashed border-light-secondary dark:border-dark-secondary flex items-center justify-center rounded-lg md:rounded-2xl dark:hover:border-dark-primary hover:border-light-primary duration-100"
           role={"button"}
           onClick={() => {
             navigate("/addContent");
@@ -37,7 +37,7 @@ export default function PhotoGallery({
           .map((p, i) => (
             <li
               key={`${p.id}-${i}`}
-              className="h-[15vh] max-w-[40vw] md:max-w-full md:h-[35vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl border-2 dark:border-dark-secondary border-light-secondary"
+              className="h-[15vh] max-w-[40vw] md:max-w-[50vw] md:h-[27vh] flex-grow overflow-hidden group relative rounded-lg md:rounded-2xl border-2 dark:border-dark-secondary border-light-secondary"
             >
               <Image
                 userUID={userUID}
